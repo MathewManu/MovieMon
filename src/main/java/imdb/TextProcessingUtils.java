@@ -17,7 +17,7 @@ public class TextProcessingUtils {
 	}
 	
 	// testfun to get filename
-	private String getFileNameWithOutExt(String fileName) {
+	public static String getFileNameWithOutExt(String fileName) {
 		String arr[] = fileName.split("\\.");
 		return arr[0];
 

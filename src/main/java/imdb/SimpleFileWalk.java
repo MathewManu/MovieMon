@@ -10,6 +10,7 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 	private Set<String> uniqueFilesTest = new HashSet<String>();
 	private Set<String> possibleDuplicates = new HashSet<String>();
 	private TextProcessingUtils textProcessor = new TextProcessingUtils();
+	private List<MovieObject> allMovieObjs = new ArrayList<MovieObject>();
 	
 	private DirectoryOperations dirUtils = new DirectoryOperations();
 
@@ -34,14 +35,17 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 				possibleDuplicates.add(fileName);
 				System.out.println("duplicate file ..." +fileName);
 			} else {
-				//System.out.println(fileName);
+				//System.out.println(fileName); // what to do incase of duplicate files ?
+				MovieObject movieObj = new MovieObject(fileName, file.toString());
+				allMovieObjs.add(movieObj);
 			}
 			
 			//add a fileProcessor class which does all these directory creation link creation/copy etc.
 			Path newDirPath = textProcessor.getNewDirectoryPath(fileName);
-			dirUtils.createDirectory(newDirPath);
+	
+			//		dirUtils.createDirectory(newDirPath);
 			//dirUtils.copyFile(file, newDirPath);
-			dirUtils.createLinks(newDirPath ,file);
+		//	dirUtils.createLinks(newDirPath ,file);
 			//dirUtils.createLink(file, newDirPath);
 			//Files.createDirectory(newDirPath);
 			//Files.copy(file, newDirPath.resolve(file.getFileName()));
@@ -67,6 +71,14 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 	public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
 		// System.out.format("Directory: %s%n", dir);
 		return FileVisitResult.CONTINUE;
+	}
+
+	public List<MovieObject> getAllMovieObjs() {
+		return allMovieObjs;
+	}
+
+	public void setAllMovieObjs(List<MovieObject> allMovieObjs) {
+		this.allMovieObjs = allMovieObjs;
 	}
 
 
