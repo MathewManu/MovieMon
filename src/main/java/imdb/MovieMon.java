@@ -6,27 +6,22 @@ import java.util.*;
 
 public class MovieMon {
 
-	//should be from properties file or userinput 
 	public static final String SRC_DIR = "C:\\manu\\testDir\\movie_test";
 	
-	public static Set<String> fileNames = null;
-
 	private static List<MovieObject> allMovieObjects;
-
 	
+	private static BaseApiConnector apiConnector = new OmdbApiConnector();
 	
 	public static void process() {
 		
-		//check with anushya, where should we do the new of this one
-		//this config has to come from the user
-		BaseApiConnector apiConnector = new OmdbApiConnector();
+		if(false == updateMovieNamesFromRootDir(SRC_DIR)) {
+			System.out.println("Could not find any movies at path : "+SRC_DIR);
+		}
 		
-		updateMovieNamesFromRootDir();
 		updateMovieObjectsWithCorrectNames(); 
-		//method name ? should return correct movie names only !!!
-		 //while generating correct name, 2 names can become same
+		//method name ? 
 		// gladiatorDVDrip.avi & gladiator.avi
-		//need to handle this case as well
+		//do a search for "angry" in omdb 
 
 		 apiConnector.updateMovieObjectsWithApiData(allMovieObjects);
 		 System.out.println(allMovieObjects.size());
@@ -38,19 +33,21 @@ public class MovieMon {
 	}
 	
 	
-	private static void updateMovieNamesFromRootDir() {
+	public static boolean updateMovieNamesFromRootDir(String srcDirectory) {
 
-		Path startingDir = Paths.get(SRC_DIR);
-		SimpleFileWalk pf = new SimpleFileWalk();
+		Path srcDir = Paths.get(srcDirectory);
+		SimpleFileWalk dirWalk = new SimpleFileWalk();
 
+		System.out.println("Scanning the mentioned directory : "+srcDirectory + "for Movies, Please wait...");
+		
 		try {
-			Files.walkFileTree(startingDir, pf);
+			Files.walkFileTree(srcDir, dirWalk);
 		} catch (IOException e) {
 			System.out.println("walkFileTree exception : " + e.getMessage());
 		}
-		fileNames = pf.getUniqueFiles();
-		allMovieObjects = pf.getAllMovieObjs();
-
+		
+		allMovieObjects = dirWalk.getAllMovieObjs();
+		return allMovieObjects.isEmpty() ? false : true; //Boolean class required ?
 	}
 
 }

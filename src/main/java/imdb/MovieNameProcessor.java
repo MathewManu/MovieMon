@@ -12,5 +12,9 @@ public class MovieNameProcessor {
 			}
 			
 	}
+	public static String updateCorrectMovieName(String movieName) {
+		return (TextProcessingUtils.getFileNameWithOutExt(movieName));
+		
+	}
 
 }
