@@ -5,5 +5,5 @@ import java.util.*;
 public interface BaseApiConnector {
 	void connect();
 
-	void updateMovieObjectsWithApiData(List<MovieObject> allMovieObjects);
+	void updateMovieObjectsWithApiData(MovieObject allMovieObjects);
 }

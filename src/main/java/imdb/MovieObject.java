@@ -10,13 +10,43 @@ package imdb;
 public class MovieObject {
 	
 	private String movieName;
-	private String correctMovieName;
+	private String updatedfileName;
 	private String movieAbsPath;
 	private Movie movieObjFromApi;
+
+	private int year;	
+	private String imdbId;
+
+
+
+	public String getUpdatedfileName() {
+		return updatedfileName;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public String getImdbId() {
+		return imdbId;
+	}
+
+	public void setUpdatedfileName(String updatedfileName) {
+		this.updatedfileName = updatedfileName;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public void setImdbId(String imdbId) {
+		this.imdbId = imdbId;
+	}
 
 	public MovieObject(String fileName, String absPath) {
 		this.movieName = fileName;
 		this.movieAbsPath = absPath;
+		this.year = 9999;
 	}
 
 	public String getMovieName() {
@@ -43,12 +73,5 @@ public class MovieObject {
 		this.movieObjFromApi = movieObjFromApi;
 	}
 
-	public String getCorrectMovieName() {
-		return correctMovieName;
-	}
-
-	public void setCorrectMovieName(String correctMovieName) {
-		this.correctMovieName = correctMovieName;
-	}
 
 }

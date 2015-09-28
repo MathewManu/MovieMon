@@ -38,7 +38,7 @@ public class InstallMovieMon {
 		}		
 
 		//TODO : copy the files into bin and lib folders respectively 
-		FileUtils.copyDirectory(new File(Prop), destDir);
+		//-----------------------FileUtils.copyDirectory(new File(Prop), destDir);
 		//create db tables;
 		//TODO : need to add more tables in tables.sql file.
 		System.out.println("Creating db tables....");

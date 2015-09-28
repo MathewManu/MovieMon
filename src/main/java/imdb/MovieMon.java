@@ -6,11 +6,12 @@ import java.util.*;
 
 public class MovieMon {
 
-	public static final String SRC_DIR = "C:\\manu\\testDir\\movie_test";
+	//public static final String SRC_DIR = "C:\\manu\\testDir\\movie_test";
+	public static final String SRC_DIR = "F:\\mnu\\Films\\Misc\\fromsree\\4 u Asha";
 	
 	private static List<MovieObject> allMovieObjects;
 	
-	private static BaseApiConnector apiConnector = new OmdbApiConnector();
+	//private static BaseApiConnector apiConnector = new OmdbApiConnector();
 	
 	public static void process() {
 		
@@ -18,20 +19,8 @@ public class MovieMon {
 			System.out.println("Could not find any movies at path : "+SRC_DIR);
 		}
 		
-		updateMovieObjectsWithCorrectNames(); 
-		//method name ? 
-		// gladiatorDVDrip.avi & gladiator.avi
-		//do a search for "angry" in omdb 
-
-		 apiConnector.updateMovieObjectsWithApiData(allMovieObjects);
-		 System.out.println(allMovieObjects.size());
-		
+		System.out.println("--------Finished Processing----------");
 	}
-	private static void updateMovieObjectsWithCorrectNames() {
-		(new MovieNameProcessor()).updateMovieObjectsWithCorrectNames(allMovieObjects);
-		
-	}
-	
 	
 	public static boolean updateMovieNamesFromRootDir(String srcDirectory) {
 
@@ -46,8 +35,9 @@ public class MovieMon {
 			System.out.println("walkFileTree exception : " + e.getMessage());
 		}
 		
+		//need this ??? no 
 		allMovieObjects = dirWalk.getAllMovieObjs();
-		return allMovieObjects.isEmpty() ? false : true; //Boolean class required ?
+		return allMovieObjects.isEmpty() ? false : true;
 	}
 
 }

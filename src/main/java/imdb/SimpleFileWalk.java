@@ -12,7 +12,9 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 	private TextProcessingUtils textProcessor = new TextProcessingUtils();
 	private List<MovieObject> allMovieObjs = new ArrayList<MovieObject>();
 	
-	private DirectoryOperations dirUtils = new DirectoryOperations();
+	//private DirectoryOperations dirUtils = new DirectoryOperations();
+	private MovieNameResolver nameResolver = new MovieNameResolver();
+	private static BaseApiConnector apiConnector = new OmdbApiConnector();
 
 	public Set<String> getUniqueFiles() {
 		return uniqueFilesTest;
@@ -28,15 +30,26 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 			//this has to be separated out, 
 			//need to verify that file is a movie file 
 			//minSize ..
-			//Directory creation should happen after 
-			//removing all unnecessary keywords, ie, after name processing
+			
+			// else case does the logic, refactor later//
 			
 			if( false == uniqueFilesTest.add(fileName)) {
 				possibleDuplicates.add(fileName);
 				System.out.println("duplicate file ..." +fileName);
 			} else {
-				//System.out.println(fileName); // what to do incase of duplicate files ?
+				
 				MovieObject movieObj = new MovieObject(fileName, file.toString());
+				
+				if (nameResolver.process(movieObj)) {
+					System.out.println("------true-----");
+					
+					// now we can query omdb for the movie object.
+					apiConnector.updateMovieObjectsWithApiData(movieObj);
+					System.out.println("===End===");
+
+				}
+				
+				//TODO:should remove this add
 				allMovieObjs.add(movieObj);
 			}
 			
@@ -45,9 +58,6 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 	
 			//		dirUtils.createDirectory(newDirPath);
 			//dirUtils.copyFile(file, newDirPath);
-		//	dirUtils.createLinks(newDirPath ,file);
-			//dirUtils.createLink(file, newDirPath);
-			//Files.createDirectory(newDirPath);
 			//Files.copy(file, newDirPath.resolve(file.getFileName()));
 
 		}
@@ -80,8 +90,5 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 	public void setAllMovieObjs(List<MovieObject> allMovieObjs) {
 		this.allMovieObjs = allMovieObjs;
 	}
-
-
-
 
 }

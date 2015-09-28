@@ -10,8 +10,8 @@ public class TestApp {
 
 	public static void main(String[] args) throws IOException {
 		
-		System.out.println("arg :" + args[0]);
-		if (args[0].equals("--install")) {
+		//	System.out.println("arg :" + args[0]);
+		if (args.length != 0 && args[0].equals("--install")) {
 			InstallMovieMon.install();
 			System.exit(0);
 		}
