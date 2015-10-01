@@ -24,18 +24,7 @@ public class InstallMovieMon {
 	public static void install() {
 		System.out.println("Loading properties.....");
 		//initialize config.properties.
-		new PropertyFileParser().load();
-
-		System.out.println("Creating installation Directories....");
-		//create a parent folder for installation
-		try {
-			Files.createDirectory(Paths.get(PropertyFileParser.INSTALL_LOCATION_WINDOWS));			
-			//create DB folders
-			Files.createDirectories(Paths.get(PropertyFileParser.HSQL_DB_FILE_LOCATION));
-		} catch (Exception e1) {
-			System.out.println("Exception while creating installation directories.. exiting .." +e1);
-			System.exit(-1);
-		}		
+		new PropertyFileParser().load();		
 
 		//TODO : copy the files into bin and lib folders respectively 
 		//-----------------------FileUtils.copyDirectory(new File(Prop), destDir);

@@ -33,3 +33,18 @@ uploadArchives {
        }
     }
 }
+
+task myDist(type: Zip){
+  def baseDir = { archiveName - ".zip" }
+  into(baseDir){
+    from(project.file("src/dist"))
+    into("lib") {
+        from(jar)
+        from(project.configurations.runtime)
+    }
+    
+    into(".") {
+    	from("src/main/resources/mybat.bat")
+    }
+  }
+}
