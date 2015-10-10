@@ -17,7 +17,7 @@ public class MovieNameResolver {
 	}
 	
 	private void init() {
-
+		//TODO: should get updated dynamically 
 		String arr[] = new String[] { "DvdRip", "aXXo", "xVid", "YIFY",
 				"torrent", "BRRip", "AAC", "HQ", "720p", "x264", "bluray" };
 
@@ -31,13 +31,17 @@ public class MovieNameResolver {
 		String orgFileName = movieObj.getMovieName();
 		movieObj.setUpdatedfileName(getFileNameWithOutExt(orgFileName));
 		
-		//update movie year instance variable.
-		//and replace the movie year from the fileName.
-		processMovieYear(movieObj);
+		/*
+		 * Replace non word characters from movie name, Possible junk words [ need to add logic to update this list ]
+		 * Try to extract movie year.
+		 * set the processed movie name to the movieObj
+		 */
+		
 		replaceNonWordChars(movieObj);
 		replaceJunkWords(movieObj);
+		processMovieYear(movieObj);
 		
-		System.out.println("searching ... " +movieObj.getUpdatedfileName() +" "+movieObj.getYear());
+		System.out.println("searching Online... " +movieObj.getUpdatedfileName() +" "+movieObj.getYear());
 		
 		String imdbId ="";
 		if (movieObj.getYear() != 9999) {
@@ -69,16 +73,16 @@ public class MovieNameResolver {
 		// replace mulitple occurances of spaces with single one
 		movieName = movieName.replaceAll("\\s+", " ");
 		movieObj.setUpdatedfileName(movieName);
-	//	System.out.println("$$$$$$$$$$$$$$ : " + movieName);
+
 	}
 
 	/*
 	 * update movie year in movie object
 	 */
 	private void processMovieYear(MovieObject movieObj) {
-		// multiple years ?
-		// numbers like 12222, movie names like 2012 2012DvDrip how to handle ?
-		String yearPattern = "\\d{4}";
+		
+		//considering movies from 1900 to 2999
+		String yearPattern = "[12][09][0-9][0-9]";
 
 		Pattern p = Pattern.compile(yearPattern);
 		Matcher m = p.matcher(movieObj.getUpdatedfileName());
@@ -86,10 +90,17 @@ public class MovieNameResolver {
 		if (m.find()) {
 			int possibleYear = Integer.parseInt(m.group());
 
-			if (1900 < possibleYear) {
-				movieObj.setYear(possibleYear);
-				movieObj.setUpdatedfileName(m.replaceFirst(" "));
+			movieObj.setYear(possibleYear);
+			
+			if(m.replaceFirst("").isEmpty()) {
+				//handling movienames like 2012DvDrip.avi
+				System.out.println("------ Not replacing year in movie : "+movieObj.getUpdatedfileName());
 			}
+			else {
+				//remove year from the filename
+				movieObj.setUpdatedfileName(m.replaceFirst(""));
+			}
+			
 
 		}
 	}
@@ -122,9 +133,7 @@ public class MovieNameResolver {
 			fileNameWithoutExt = fileName.substring(0, indexOfPeriod);
 			ext = fileName.substring(indexOfPeriod + 1);
 			
-		} else {
-			// handle this case//
-		}
+		} 
 
 		return fileNameWithoutExt;
 

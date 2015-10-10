@@ -25,42 +25,46 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 			throws IOException {
 
 		String fileName = file.getFileName().toString();
-		
+
 		if (attr.isRegularFile()) {
-			//this has to be separated out, 
-			//need to verify that file is a movie file 
-			//minSize ..
-			
-			// else case does the logic, refactor later//
-			
-			if( false == uniqueFilesTest.add(fileName)) {
+
+			int lastIndexOfDot = fileName.lastIndexOf(".");
+			if (lastIndexOfDot == -1
+					|| !MovieFormat.isValidFormat(fileName.substring(lastIndexOfDot + 1))) {
+				System.out.println("====Skiping the file : " + fileName);
+				return FileVisitResult.CONTINUE;
+
+			}
+			//TODO: this duplicate thing should be changed !
+			if (false == uniqueFilesTest.add(fileName)) {
 				possibleDuplicates.add(fileName);
-				System.out.println("duplicate file ..." +fileName);
+				System.out.println("duplicate file ..." + fileName);
 			} else {
-				
+
 				MovieObject movieObj = new MovieObject(fileName, file.toString());
-				
+
 				if (nameResolver.process(movieObj)) {
 					System.out.println("------true-----");
-					
+
 					// now we can query omdb for the movie object.
 					apiConnector.updateMovieObjectsWithApiData(movieObj);
+					
+					//download thumbnail for the movie
+					
+					// TODO:should remove this add
+					allMovieObjs.add(movieObj);
+				
 					System.out.println("===End===");
 
 				}
-				
-				//TODO:should remove this add
-				allMovieObjs.add(movieObj);
+
 			}
-			
-			//add a fileProcessor class which does all these directory creation link creation/copy etc.
-			Path newDirPath = textProcessor.getNewDirectoryPath(fileName);
-	
-			//		dirUtils.createDirectory(newDirPath);
-			//dirUtils.copyFile(file, newDirPath);
-			//Files.copy(file, newDirPath.resolve(file.getFileName()));
+
+			// add a fileProcessor class which does all these directory
+			//Path newDirPath = textProcessor.getNewDirectoryPath(fileName);
 
 		}
+
 		return FileVisitResult.CONTINUE;
 	}
 

@@ -22,7 +22,7 @@ public class TestApp {
 				// etc..
 				// if i call init here and set the data, can i get it in some other class ?
 				// call movimon.process() from here,, and hard code the value as of now.
-				
+
 				MovieMon.process();
 			/*	Path startingDir = Paths.get("C:\\manu\\testDir");
 				SimpleFileWalk pf = new SimpleFileWalk();

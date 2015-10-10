@@ -6,12 +6,9 @@ import java.util.*;
 
 public class MovieMon {
 
-	//public static final String SRC_DIR = "C:\\manu\\testDir\\movie_test";
-	public static final String SRC_DIR = "F:\\mnu\\Films\\Misc\\fromsree\\4 u Asha";
-	
+	public static final String SRC_DIR = "C:\\manu\\testDir\\movie_test";
+//	public static final String SRC_DIR = "F:\\mnu\\Films\\Misc\\fromsree\\4 u Asha";
 	private static List<MovieObject> allMovieObjects;
-	
-	//private static BaseApiConnector apiConnector = new OmdbApiConnector();
 	
 	public static void process() {
 		
