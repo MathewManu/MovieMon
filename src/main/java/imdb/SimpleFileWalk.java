@@ -1,5 +1,7 @@
 package imdb;
 
+import imdb.utils.*;
+
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
@@ -47,7 +49,9 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 					// now we can query omdb for the movie object.
 					apiConnector.updateMovieObjectsWithApiData(movieObj);
 					
-					//download thumbnail for the movie
+					// download thumbnail for the movie
+					MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(), 
+							movieObj.getMovieObjFromApi().getPoster());
 					
 					// TODO:should remove this add
 					allMovieObjs.add(movieObj);

@@ -8,6 +8,10 @@ mkdir %APP_HOME%
 set DB_HOME=%APP_HOME%\db
 mkdir %DB_HOME%
 
+@rem Thumbnail folder
+set TN_HOME=%APP_HOME%\Thumbnails
+mkdir %TN_HOME%
+
 set LIB_HOME=%APP_HOME%\lib
 mkdir %LIB_HOME%
 

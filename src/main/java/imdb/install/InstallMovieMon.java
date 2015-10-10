@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.jdbc.ScriptRunner;
 
-import imdb.database.dao.MovieMonDAO;
+import imdb.database.dao.*;
 import imdb.utils.PropertyFileParser;
 
 /**
@@ -31,7 +31,7 @@ public class InstallMovieMon {
 		//create db tables;
 		//TODO : need to add more tables in tables.sql file.
 		System.out.println("Creating db tables....");
-		ScriptRunner runner = new ScriptRunner(new MovieMonDAO().createConnection());
+		ScriptRunner runner = new ScriptRunner(new MovieDAOImpl().createConnection());
 		try (InputStreamReader reader = new InputStreamReader(InstallMovieMon.class.getResourceAsStream("/tables.sql"))) {
 			runner.runScript(reader);
 		} catch (IOException e) {

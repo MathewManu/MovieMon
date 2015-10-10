@@ -1,6 +1,7 @@
 package imdb.utils;
 
 import java.io.*;
+import java.net.*;
 import java.nio.file.*;
 
 public class MovieMonUtils {
@@ -29,6 +30,31 @@ public class MovieMonUtils {
 			System.out.println("Copy file has failed :  " + e.getMessage());
 		}
 
+	}
+	public static void downloadPoster(String movieTitle, String posterUrl) throws IOException {
+		
+		/*
+		 * append posterUrl extention (jpg) with movieTitle to form the thumbnail name
+		 * gladiator+"."+"jpg"
+		 */
+		final String TN_DIR = "C:\\manu\\testDir\\Thumbnails\\"; 
+		//final String TN_DIR = PropertyFileParser.THUMB_NAIL_DIR;
+		String outputFileName = TN_DIR+movieTitle+"."+posterUrl.substring(posterUrl.lastIndexOf(".")+1);
+		
+		URL url = new URL(posterUrl);
+		
+		try (InputStream is = url.openStream();
+				OutputStream os = new FileOutputStream(outputFileName);) {
+			
+			byte[] b = new byte[2048];
+			int length;
+			while ((length = is.read(b)) != -1) {
+				os.write(b, 0, length);
+			}
+		}
+		catch(IOException e) {
+			System.out.println("Exception while downloading Thumbnail for movie : "+movieTitle +" Exception : "+e.getMessage());
+		}
 	}
 	
 

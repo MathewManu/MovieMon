@@ -2,6 +2,7 @@ package imdb.utils;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.*;
 import java.util.Properties;
 
 /**
@@ -13,6 +14,7 @@ import java.util.Properties;
 public class PropertyFileParser {
 
 	public static String INSTALL_LOCATION_WINDOWS = "C://Program Files//MovieMon"; // In case properties file is corrupted, this will be the default location
+	public static String THUMB_NAIL_DIR = "C://Program Files//MovieMon//Thumbnails//";
 	public static String HSQL_DB_DRIVER = "";
 	public static String HSQL_DB_URL = "";
 	public static String HSQL_DB_FILE_LOCATION = "";
@@ -57,6 +59,7 @@ public class PropertyFileParser {
 	 * @return
 	 */
 	public boolean parseConfigFile() {		
+		
 		try (InputStream in = getClass().getResourceAsStream(CONFIG_FILE)) {
 			defaultProps = new Properties();
 			defaultProps.load(in);			
