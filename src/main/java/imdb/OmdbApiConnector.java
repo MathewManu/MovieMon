@@ -8,16 +8,14 @@ import com.google.gson.*;
 
 public class OmdbApiConnector implements BaseApiConnector {
 
-	//need to find out what should be the value for user_agent, as of now keeping as "Mozilla/5.0"
+	//TODO: need to find out what should be the value for user_agent, as of now keeping as "Mozilla/5.0"
 	private static final String USER_AGENT = "Mozilla/5.0";
 	private static final String OMDB_PATH = "http://www.omdbapi.com/?";
 	
 	public void updateMovieObjectsWithApiData(MovieObject movieObject) {
 
 		try {
-				String iURL = String.format("%s%s%s", OMDB_PATH, "i=",
-						movieObject.getImdbId());
-
+				String iURL = String.format("%s%s%s", OMDB_PATH, "i=", movieObject.getImdbId());
 				URL url = new URL(iURL);
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -35,10 +33,8 @@ public class OmdbApiConnector implements BaseApiConnector {
 					// error handling
 					// no data or unknown data ..
 					Movie movie = new Movie();
-					movie = gson.fromJson(new InputStreamReader(
-							(InputStream) conn.getContent()), Movie.class);
+					movie = gson.fromJson(new InputStreamReader((InputStream) conn.getContent()), Movie.class);
 					movieObject.setMovieObjFromApi(movie);
-
 				}
 
 		} catch (IOException e) {

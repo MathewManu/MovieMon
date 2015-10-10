@@ -1,11 +1,13 @@
 package imdb;
 
-//This class represents a movie object completely
-//it includes the fileName that we are reading from a directory 
-//And that movie's abs Path
-//Then the movie object that is from Omdb api
-//This will be the obj that we ll serialize and save in db.
-//Add required attributes in this class.
+/*
+ *This class represents a movie object completely
+ *it includes the fileName & movie's abs path that we are reading from a directory 
+ *Then the movie object that is from Omdb api [ eg: http://www.omdbapi.com/?i=tt0332452 ]
+ *imdb id will be the unique key
+ *This will be the obj that we ll serialize and save in db.
+ *Add required attributes in this class.
+ */
 
 public class MovieObject {
 	

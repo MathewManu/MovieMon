@@ -1,7 +1,11 @@
 package imdb;
 
 import com.google.gson.annotations.*;
-
+/*
+ * This Movie POJO class represents the data that is from omdb [eg: http://www.omdbapi.com/?i=tt0332452]
+ * Json data that we get is converted to this class. Gson is used for convversion.
+ * See OmdbApiConnector.java to see the mapping
+ */
 public class Movie {
 
 	@SerializedName("Title")

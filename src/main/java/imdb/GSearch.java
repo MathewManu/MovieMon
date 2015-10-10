@@ -6,7 +6,16 @@ import java.util.regex.*;
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
-
+/*
+ * This GSearch class is basically used for searching a movie name online.
+ * Google search query is formed like https://www.google.co.in/search?q=gladiator+imdb
+ * From the search results imdb Id is parsed. 
+ * This imdb id is used for getting data from omdb.[ eg: http://www.omdbapi.com/?i=tt0332452 ]
+ * "tt0332452" is obtained from google search results.
+ * Jsoup is a simple java HTML parser.
+ * Refer http://stackoverflow.com/questions/3727662/how-can-you-search-google-programmatically-java-api
+ * for more details.
+ */
 public class GSearch {
 
 	public static String findId(String getupdatedfileName, int year) {
@@ -36,7 +45,7 @@ public class GSearch {
 			// if (connection.response().statusCode() == 200) {
 			doc = connection.get();
 			// System.out.println("Title : " + doc.title());
-			// understand the css sytle search//
+			//TODO: understand the css sytle search//
 			Elements links = doc.select("li.g>h3>a");
 			for (Element link : links) {
 				// System.out.println("link : " + link.attr("href"));

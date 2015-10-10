@@ -9,10 +9,8 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 	
 	private Set<String> uniqueFilesTest = new HashSet<String>();
 	private Set<String> possibleDuplicates = new HashSet<String>();
-	private TextProcessingUtils textProcessor = new TextProcessingUtils();
 	private List<MovieObject> allMovieObjs = new ArrayList<MovieObject>();
 	
-	//private DirectoryOperations dirUtils = new DirectoryOperations();
 	private MovieNameResolver nameResolver = new MovieNameResolver();
 	private static BaseApiConnector apiConnector = new OmdbApiConnector();
 
@@ -59,9 +57,6 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 				}
 
 			}
-
-			// add a fileProcessor class which does all these directory
-			//Path newDirPath = textProcessor.getNewDirectoryPath(fileName);
 
 		}
 
