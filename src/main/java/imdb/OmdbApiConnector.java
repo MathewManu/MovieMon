@@ -25,7 +25,7 @@ public class OmdbApiConnector implements BaseApiConnector {
 				int responseCode = conn.getResponseCode();
 
 				System.out.println("\nSending GET request to url : " + url);
-				System.out.println("Response code : " + responseCode);
+				//System.out.println("Response code : " + responseCode);
 
 				if (200 == responseCode) {
 					conn.connect();

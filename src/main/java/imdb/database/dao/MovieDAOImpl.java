@@ -12,13 +12,34 @@ import java.util.List;
 
 public class MovieDAOImpl implements MovieMonDAO {
 
-
-
 	@Override
 	public List<MovieDBResult> getMovieWithName(String name) {
 		createConnection();
 		return null;
 	}
+	
+	@Override
+	public boolean insert(MovieDBResult movieDto) {
+		//need to refactor this fn//
+
+		String INSERT_INTO = "INSERT INTO MOVIE "
+				+ "(FILENAME, FILELOCATION, TITLE, YEAR, "
+				+ "IMDBRATING, IMDBID, GENRE)" + " VALUES ( ";
+
+		String insertStmt = String.format(
+				"%s '%s','%s','%s','%s','%s','%s','%s' %s",
+				INSERT_INTO, movieDto.getFileName(),
+				movieDto.getMovieAbsPath(), movieDto.getTitle(),
+				movieDto.getYear(), movieDto.getImdbRating(),
+				movieDto.getImdbID(), movieDto.getGenre(), ");");
+		
+		if(update(insertStmt)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 
 	@Override
 	public boolean insert(List<MovieDBResult> movieList) {
@@ -40,15 +61,24 @@ public class MovieDAOImpl implements MovieMonDAO {
 
 	@Override
 	public Connection createConnection() {
-
+		
+		/*
+		 * The db files will be stored in the HSQL_DB_FILE_LOCATION.
+		 *  username ..Should this be read from properties ?
+		 *  move this connection as an instance variable which is created only once ?
+		 *  somethig like getConnection() ?
+		 *  Now, for every movie object conn is opened & closed !!! 
+		 */
 		try {
 			Class.forName(PropertyFileParser.HSQL_DB_DRIVER);
 			return DriverManager.getConnection(PropertyFileParser.HSQL_DB_URL
-					+ PropertyFileParser.HSQL_DB_FILE_LOCATION,    // The db files will be stored in the HSQL_DB_FILE_LOCATION.
-					"sa",                     // username ..Should this be read from properties file? 
-					"");   					 // default password
+					+ PropertyFileParser.HSQL_DB_FILE_LOCATION
+					+ ";shutdown=true",	"SA", ""); // default password
+			
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("Exception while registering DB driver : " + e.getMessage());
+			System.out.println("Exception while registering DB driver : "
+					+ e.getMessage());
+
 		}
 
 		return null;
@@ -57,7 +87,9 @@ public class MovieDAOImpl implements MovieMonDAO {
 
 	@Override
 	public boolean update(String query) {
-		performQuery(createConnection() , query);
+		if(performQuery(createConnection() , query)) {
+			return true;
+		}
 		return false;
 	}
 
@@ -78,10 +110,10 @@ public class MovieDAOImpl implements MovieMonDAO {
 			}
 			conn.close();
 		} catch (SQLException e) {
-			System.out.println("Exception while running query" + query);
+			System.out.println("Exception while running query" + query +" Exception : " +e.getMessage());
 			return false;
 		}
 		return  true;
 	}
-
+	
 }

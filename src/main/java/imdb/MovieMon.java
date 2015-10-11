@@ -7,7 +7,7 @@ import java.util.*;
 public class MovieMon {
 
 	public static final String SRC_DIR = "C:\\manu\\testDir\\movie_test";
-//	public static final String SRC_DIR = "F:\\mnu\\Films\\Misc\\fromsree\\4 u Asha";
+	//public static final String SRC_DIR = "F:\\mnu\\Films\\English";
 	private static List<MovieObject> allMovieObjects;
 	
 	public static void process() {

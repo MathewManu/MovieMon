@@ -19,7 +19,7 @@ public class MovieNameResolver {
 	private void init() {
 		//TODO: should get updated dynamically 
 		String arr[] = new String[] { "DvdRip", "aXXo", "xVid", "YIFY",
-				"torrent", "BRRip", "AAC", "HQ", "720p", "x264", "bluray" };
+				"torrent", "BRRip", "AAC", "HQ", "720p", "h264", "bluray", "x264", "1080p","480p" };
 
 		for (String word : arr) {
 			rxs.add(Pattern.compile(word, Pattern.CASE_INSENSITIVE));
@@ -41,7 +41,7 @@ public class MovieNameResolver {
 		replaceJunkWords(movieObj);
 		processMovieYear(movieObj);
 		
-		System.out.println("searching Online... " +movieObj.getUpdatedfileName() +" "+movieObj.getYear());
+		System.out.println("searching Online...: \" " +movieObj.getUpdatedfileName() +"\" Year : "+movieObj.getYear());
 		
 		String imdbId ="";
 		if (movieObj.getYear() != 9999) {

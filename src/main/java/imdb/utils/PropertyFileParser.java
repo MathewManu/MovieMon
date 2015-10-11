@@ -44,6 +44,7 @@ public class PropertyFileParser {
 			HSQL_DB_DRIVER = defaultProps.getProperty("hsql.db.driver");
 			HSQL_DB_URL = defaultProps.getProperty("hsql.db.url");
 			HSQL_DB_FILE_LOCATION = defaultProps.getProperty("hsql.db.file");
+			THUMB_NAIL_DIR = defaultProps.getProperty("thumbnail.directory");
 		}		
 		
 		//print the variables --> log.debug msgs

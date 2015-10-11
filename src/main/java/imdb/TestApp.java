@@ -1,6 +1,7 @@
 package imdb;
 
 import imdb.install.InstallMovieMon;
+import imdb.utils.*;
 
 import java.io.*;
 import java.nio.file.*;
@@ -15,7 +16,7 @@ public class TestApp {
 			System.exit(0);
 		}
 		try {
-
+			new PropertyFileParser().load();	
 			MovieMon.process();
 
 		} catch (Exception ex) {

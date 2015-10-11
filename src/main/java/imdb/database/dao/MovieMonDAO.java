@@ -14,6 +14,8 @@ public interface MovieMonDAO {
 	
 	public boolean insert(List<MovieDBResult> movieList);
 	
+	public boolean insert(MovieDBResult movieList);
+	
 	public boolean delete(List<MovieDBResult> movieList);
 	
 	public MovieDBResult getDistinctMovie(MovieDBResult movie);

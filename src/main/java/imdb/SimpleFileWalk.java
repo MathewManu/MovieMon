@@ -1,5 +1,7 @@
 package imdb;
 
+import imdb.database.dao.*;
+import imdb.database.model.*;
 import imdb.utils.*;
 
 import java.io.*;
@@ -12,9 +14,12 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 	private Set<String> uniqueFilesTest = new HashSet<String>();
 	private Set<String> possibleDuplicates = new HashSet<String>();
 	private List<MovieObject> allMovieObjs = new ArrayList<MovieObject>();
+	private List<MovieObject> failedMovieObjs = new ArrayList<MovieObject>();
 	
 	private MovieNameResolver nameResolver = new MovieNameResolver();
 	private static BaseApiConnector apiConnector = new OmdbApiConnector();
+	
+	private static MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl();
 
 	public Set<String> getUniqueFiles() {
 		return uniqueFilesTest;
@@ -44,7 +49,7 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 				MovieObject movieObj = new MovieObject(fileName, file.toString());
 
 				if (nameResolver.process(movieObj)) {
-					System.out.println("------true-----");
+					//System.out.println("------true-----");
 
 					// now we can query omdb for the movie object.
 					apiConnector.updateMovieObjectsWithApiData(movieObj);
@@ -53,11 +58,23 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 					MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(), 
 							movieObj.getMovieObjFromApi().getPoster());
 					
+					//update to hsql db --> shold change to proper place !
+					if(movieDAO.insert(getMovieDto(movieObj))) {
+						System.out.println("Insert success for movie : "+movieObj.getMovieName());
+					}
+					else {
+						System.out.println("ERROR: insert error");
+					}
+					
 					// TODO:should remove this add
 					allMovieObjs.add(movieObj);
 				
 					System.out.println("===End===");
 
+				}
+				else {
+					failedMovieObjs.add(movieObj);
+					System.out.println("===End===");
 				}
 
 			}
@@ -65,6 +82,22 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 		}
 
 		return FileVisitResult.CONTINUE;
+	}
+
+	private MovieDBResult getMovieDto(MovieObject movieObj) {
+		MovieDBResult movieDto = new MovieDBResult();
+		
+		movieDto.setFileName(movieObj.getMovieName());
+		movieDto.setMovieAbsPath(movieObj.getMovieAbsPath());
+		
+		movieDto.setTitle(movieObj.getMovieObjFromApi().getTitle());
+		movieDto.setImdbID(movieObj.getMovieObjFromApi().getImdbID());
+		movieDto.setYear(movieObj.getMovieObjFromApi().getYear());
+		movieDto.setGenre(movieObj.getMovieObjFromApi().getGenre());
+		movieDto.setImdbRating(movieObj.getMovieObjFromApi().getImdbRating());
+		
+		return movieDto;
+		
 	}
 
 	@Override
@@ -90,8 +123,5 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 		return allMovieObjs;
 	}
 
-	public void setAllMovieObjs(List<MovieObject> allMovieObjs) {
-		this.allMovieObjs = allMovieObjs;
-	}
 
 }
