@@ -40,7 +40,7 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 				return FileVisitResult.CONTINUE;
 
 			}
-			//TODO: this duplicate thing should be changed !
+			//TODO: this duplicate thing should be removed as new table is added !
 			if (false == uniqueFilesTest.add(fileName)) {
 				possibleDuplicates.add(fileName);
 				System.out.println("duplicate file ..." + fileName);
@@ -73,7 +73,11 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 
 				}
 				else {
-					failedMovieObjs.add(movieObj);
+					//If we failed to get details of a movie online
+					//add to the failed_movie table
+					//Need to process later / display to the user
+					movieDAO.insertFailedMovie(file.toString());
+					failedMovieObjs.add(movieObj); // need to remove this line !
 					System.out.println("===End===");
 				}
 

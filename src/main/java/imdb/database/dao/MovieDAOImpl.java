@@ -3,10 +3,7 @@ package imdb.database.dao;
 import imdb.database.model.MovieDBResult;
 import imdb.utils.PropertyFileParser;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,7 +77,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 					+ e.getMessage());
 
 		}
-
+		System.out.println("Couldn't return connection. Missed closing connection ? ! Returning Null");
 		return null;
 	}
 
@@ -114,6 +111,68 @@ public class MovieDAOImpl implements MovieMonDAO {
 			return false;
 		}
 		return  true;
+	}
+
+	public boolean updateDupMovies() {
+		
+		System.out.println();
+		System.out.println("---------------Begin updating dup movie table-----------------------");
+		/*
+		 * Try to find entries with same imdbid from table MOVIE. Those entries
+		 * will be dup movies. It's id & location are inserted to dup_movie
+		 * table. Later user can pick the one he wants
+		 */
+		String query = "SELECT ID,IMDBID, FILELOCATION FROM MOVIE "
+				+ "WHERE IMDBID IN "
+				+ "( SELECT IMDBID FROM MOVIE "
+				+ "GROUP BY IMDBID"
+				+ " HAVING (COUNT(*) > 1))";
+		Connection conn = createConnection();
+		try {
+
+			ResultSet rs = conn.createStatement().executeQuery(query);
+			conn.close();
+			while (rs.next()) {
+				int id = rs.getInt("ID");
+				String imdbId = rs.getString("IMDBID");
+				String fileLoc = rs.getString("FILELOCATION");
+
+				if (false == insertDupMovie(id, imdbId, fileLoc)) {
+					System.out.println("Error while inserting duplicate movie into the table : " + fileLoc);
+				}
+			}
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("Exception while running query" + query
+					+ " Exception : " + e.getMessage());
+			return false;
+		}
+		System.out.println("---------------End updating dup movie table-----------------------");
+		return true;
+		
+	}
+
+	private boolean insertDupMovie(int id, String imdbId, String fileLoc) {
+
+		String INSERT_INTO = "INSERT INTO DUP_MOVIES "
+				+ "(MOVIE_ID, FILELOCATION, IMDBID)" + " VALUES ( ";
+
+		String insertStmt = String.format("%s '%s', '%s','%s' %s", INSERT_INTO,
+				id, fileLoc, imdbId, ");");
+		System.out.println("Trying to update .. " +insertStmt);
+		return update(insertStmt);
+
+	}
+	
+	public boolean insertFailedMovie(String fileLoc) {
+		
+		String INSERT_INTO = "INSERT INTO FAILED_MOVIES "
+				+ "(FILELOCATION)" + " VALUES ( ";
+
+		String insertStmt = String.format("%s '%s' %s", INSERT_INTO, fileLoc, ");");
+		System.out.println("Trying to insert failed movie : " +insertStmt);
+		return update(insertStmt);
+		
 	}
 	
 }

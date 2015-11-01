@@ -1,20 +1,23 @@
 package imdb;
 
+import imdb.database.dao.*;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
 public class MovieMon {
 
-	public static final String SRC_DIR = "C:\\manu\\testDir\\movie_test";
-	//public static final String SRC_DIR = "F:\\mnu\\Films\\English";
+	private static String srcDirectory;
 	private static List<MovieObject> allMovieObjects;
 	
 	public static void process() {
 		
-		if(false == updateMovieNamesFromRootDir(SRC_DIR)) {
-			System.out.println("Could not find any movies at path : "+SRC_DIR);
+		if(false == updateMovieNamesFromRootDir(srcDirectory)) {
+			System.out.println("Could not find any movies at path : "+srcDirectory);
 		}
+		//process dup movies here ?
+		MovieMonDaoFactory.getMovieDAOImpl().updateDupMovies();
 		
 		System.out.println("--------Finished Processing----------");
 	}
@@ -24,7 +27,7 @@ public class MovieMon {
 		Path srcDir = Paths.get(srcDirectory);
 		SimpleFileWalk dirWalk = new SimpleFileWalk();
 
-		System.out.println("Scanning the mentioned directory : "+srcDirectory + "for Movies, Please wait...");
+		System.out.println("Scanning the mentioned directory : "+srcDirectory + " for Movies, Please wait...");
 		
 		try {
 			Files.walkFileTree(srcDir, dirWalk);
@@ -36,5 +39,15 @@ public class MovieMon {
 		allMovieObjects = dirWalk.getAllMovieObjs();
 		return allMovieObjects.isEmpty() ? false : true;
 	}
+
+	public static String getSrcDirectory() {
+		return srcDirectory;
+	}
+
+	public static void setSrcDirectory(String srcDirectory) {
+		MovieMon.srcDirectory = srcDirectory;
+	}
+
+
 
 }
