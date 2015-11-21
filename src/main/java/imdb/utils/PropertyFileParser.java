@@ -15,9 +15,9 @@ public class PropertyFileParser {
 
 	public static String INSTALL_LOCATION_WINDOWS = "C://Program Files//MovieMon"; // In case properties file is corrupted, this will be the default location
 	public static String THUMB_NAIL_DIR = "C://Program Files//MovieMon//Thumbnails//";
-	public static String HSQL_DB_DRIVER = "";
-	public static String HSQL_DB_URL = "";
-	public static String HSQL_DB_FILE_LOCATION = "";
+	public static String HSQL_DB_DRIVER = "org.hsqldb.jdbcDriver";
+	public static String HSQL_DB_URL = "jdbc:hsqldb:file:";
+	public static String HSQL_DB_FILE_LOCATION = "C://Program Files//MovieMon//db//MovieMonDb";
 
 	private static String CONFIG_FILE = "/config.properties";
 

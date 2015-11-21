@@ -1,5 +1,8 @@
 package imdb.database.model;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement
 public class MovieDBResult {
 	
 	private String fileName;

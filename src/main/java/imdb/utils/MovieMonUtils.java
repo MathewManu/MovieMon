@@ -51,6 +51,7 @@ public class MovieMonUtils {
 			while ((length = is.read(b)) != -1) {
 				os.write(b, 0, length);
 			}
+			System.out.println("Downloaded Thumbnail for movie : "+movieTitle );
 		}
 		catch(IOException e) {
 			System.out.println("Exception while downloading Thumbnail for movie : "+movieTitle +" Exception : "+e.getMessage());
