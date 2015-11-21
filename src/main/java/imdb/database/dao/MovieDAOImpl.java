@@ -173,10 +173,34 @@ public class MovieDAOImpl implements MovieMonDAO {
 		return update(insertStmt);
 		
 	}
-	public List<MovieDBResult> getAll() {
+	public List<MovieDBResult> getAll(String rating, String year) {
 		List<MovieDBResult> movieList = new ArrayList<MovieDBResult>();
-		String query = "SELECT * FROM MOVIE;";
+		ArrayList<String> queryParamList = new ArrayList<String>();
+		
+		String query_default = "SELECT * FROM MOVIE";
+		StringBuilder querySb = new StringBuilder();
+		querySb.append(query_default);
+		
+		if(!rating.isEmpty()) {
+			queryParamList.add(getQueryConditionWithRating(rating));
+		}
+		if(!year.isEmpty()) {
+			queryParamList.add(getQueryConditionWithYear(year));
+		}
+		for(int i = 0; i < queryParamList.size(); i++) {
+			if (i == 0) {
+				querySb.append(" WHERE");
+			}
+			else {
+				querySb.append(" AND");
+			}
+			querySb.append(queryParamList.get(i));
+			
+		}
+		
+		String query = querySb.toString();
 		Connection conn = createConnection();
+		
 		try {
 
 			ResultSet rs = conn.createStatement().executeQuery(query);
@@ -191,6 +215,57 @@ public class MovieDAOImpl implements MovieMonDAO {
 		}
 		return movieList;		
 	}
+
+	private String getQueryConditionWithYear(String year) {
+		String query = "";
+		int index = year.indexOf("-");
+
+		if (index == -1) {
+			query = String.format("%s%s%s", " YEAR = '", year, "'");
+		} else {
+			String minYear = year.substring(0, index);
+			String maxYear = year.substring(index + 1);
+
+			if (maxYear.isEmpty()) {
+				query = String.format("%s%s%s", " YEAR >= '", minYear, "'");
+			} else {
+				query = String.format("%s%s%s%s%s", " YEAR BETWEEN '", minYear, "' AND '", maxYear, "'");
+			}
+		}
+
+		return query;
+	}
+
+	private String getQueryConditionWithRating(String rating) {
+		String query = "";
+		
+		int index = rating.indexOf("-");
+		
+		if (index == -1) {
+			query = String.format("%s%s%s", " IMDBRATING <= '", rating, "'");
+		} else {
+			String minRating = rating.substring(0, index);
+			String maxRating = rating.substring(index + 1);
+
+			if (maxRating.isEmpty()) {
+				query = String.format("%s%s%s", " IMDBRATING >= '", minRating, "'");
+			} else {
+				query = String.format("%s%s%s%s%s", " IMDBRATING BETWEEN '", minRating, "' AND '",
+						maxRating, "'");
+			}
+		}
+		
+		return query;
+	}
+
+/*	private boolean isNumeric(String rating) {
+		for(char c : rating.toCharArray()) {
+			if(!Character.isDigit(c) && c != '-' ) {
+				return false;
+			}
+		}
+		return true;
+	}*/
 
 	public List<MovieDBResult> search(String searchQuery) {
 		List<MovieDBResult> movieList = new ArrayList<MovieDBResult>();
