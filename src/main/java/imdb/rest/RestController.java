@@ -9,11 +9,9 @@ import imdb.database.dao.*;
 import imdb.database.model.*;
 
 
-@Path("/Movies")
+@Path("/movies")
 public class RestController {
-	private static MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl();
-	
-/*	@GET
+	/*	@GET
 	@Produces("text/plain")
 	public String getMessage() {
 		return "Rest Never Sleeps";
@@ -21,17 +19,17 @@ public class RestController {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<MovieDBResult> getAll(
+	public List<MovieDBResult> getMovies(
 			@DefaultValue("") @QueryParam("rating") String rating, 
 			@DefaultValue("") @QueryParam("year") String year ) {
-		
-		return movieDAO.getAll(rating, year);
+		return RestRequestProcessor.getMovies(rating, year);
 	}
 	
-	@GET @Path("{searchQuery}")
+	@GET
+	@Path("{searchQuery}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<MovieDBResult> search(@PathParam("searchQuery") String searchQuery) {
-		return movieDAO.search(searchQuery);
+	public List<MovieDBResult> searchMovie(@PathParam("searchQuery") String searchQuery) {
+		return RestRequestProcessor.searchMovie(searchQuery);
 	}
 	
 

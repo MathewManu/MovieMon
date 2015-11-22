@@ -23,6 +23,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MovieMon</servlet-name>
-		<url-pattern>/resources/*</url-pattern>
+		<url-pattern>/*</url-pattern>
+		<!-- <url-pattern>/resources/*</url-pattern> --> 
 	</servlet-mapping>
 </web-app>
