@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'war'
 apply plugin: 'eclipse'
+apply plugin: 'jetty'
 
 mainClassName = "imdb.TestApp"
 
@@ -12,6 +13,10 @@ war {
         attributes 'Implementation-Title': 'Movie Mon',
                    'Implementation-Version': version
     }
+}
+
+jettyRun {
+    httpPort = 8080
 }
 
 repositories {
@@ -52,3 +57,5 @@ task myDist(type: Zip){
     }
   }
 }
+
+jettyRun.contextPath = ''
