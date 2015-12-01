@@ -7,6 +7,7 @@ mkdir %APP_HOME%
 @rem Db folder
 set DB_HOME=%APP_HOME%\db
 mkdir %DB_HOME%
+icacls %DB_HOME% /grant Everyone:M
 
 @rem Thumbnail folder
 set TN_HOME=%APP_HOME%\Thumbnails

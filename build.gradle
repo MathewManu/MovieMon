@@ -55,6 +55,10 @@ task myDist(type: Zip){
     into(".") {
     	from("src/main/resources/mybat.bat")
     }
+    
+    into(".") {
+    	from("build/libs/MovieMon-1.0.war")
+    }
   }
 }
 
