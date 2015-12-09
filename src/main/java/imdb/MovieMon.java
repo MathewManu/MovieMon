@@ -13,7 +13,7 @@ public class MovieMon {
 	
 	public static void process() {
 		
-		if(false == updateMovieNamesFromRootDir(srcDirectory)) {
+		if (false == updateMovieNamesFromRootDir(srcDirectory)) {
 			System.out.println("Could not find any movies at path : "+srcDirectory);
 		}
 		//process dup movies here ?

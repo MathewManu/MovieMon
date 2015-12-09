@@ -37,9 +37,13 @@ public class MovieMonUtils {
 		 * append posterUrl extention (jpg) with movieTitle to form the thumbnail name
 		 * gladiator+"."+"jpg"
 		 */
-		//final String TN_DIR = "C:\\manu\\testDir\\Thumbnails\\"; 
-		final String TN_DIR = PropertyFileParser.THUMB_NAIL_DIR+"\\";
-		String outputFileName = TN_DIR+movieTitle+"."+posterUrl.substring(posterUrl.lastIndexOf(".")+1);
+		try {
+			Files.createDirectories(Paths.get(PropertyFileParser.IMAGES_FOLDER)) ;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String outputFileName = PropertyFileParser.IMAGES_FOLDER + "/" + movieTitle+ "." + posterUrl.substring(posterUrl.lastIndexOf(".")+1);
 		
 		URL url = new URL(posterUrl);
 		
