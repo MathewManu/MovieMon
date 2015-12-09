@@ -1,14 +1,107 @@
-<!DOCTYPE <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
-	
-	<title>My First Bootstrap application</title>
-	
-</head>
-<body>
-<h1>Hello World !</h1>
-<h2>Jump out !!!</h2>
+
+  <head>
+  <meta name="description" content="A responsive movie db">
+  <title>MovieMon !</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="css/main.css">   
+  <script src="js/main.js"></script>
+
+  
+  </head>
+
+  <body>
+  <nav class="navbar-test navbar">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand" href="#"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a class="page-scroll" href="#poster" id="searchAll">Home</a></li>
+        <li class = "dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Genre<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Rating</a></li>
+            <li><a href="#">Year</a></li>
+            <li><a href="#">Default</a></li>
+          </ul> 
+        </li>
+        <li class = "dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sort<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Rating</a></li>
+            <li><a href="#">Year</a></li>
+            <li><a href="#">Default</a></li>
+          </ul> 
+          </li>
+      <!-- <li><a class="page-scroll" href="#poster" id="searchAll">All Movies</a></li>  -->
+	  <li><a href="#">Scan</a></li>  
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
 
 
-</body>
+<header class="intro">
+
+<div class="intro-body">
+   
+       
+      <div class = "row">
+        <div class = "col-md-12 text-center">
+         <h1>MovieMon</h1>
+         <p>You seem to be running for the first time.</p>
+		 <p>In order to update offline database with all the movie details, Please click scan now </p>
+         <br>
+         <br>
+         <a class="btn btn-lg btn-default" href="#">Scan now !</a>
+        </div>
+        
+      </div>
+
+     </div>
+
+   
+	</div>
+    </header>
+
+<div class="container">
+ 
+   <section id="fetch">
+    <!--  <button id="searchAll">All Movies</button> -->
+      <br>
+    <!--  <input type="text" placeholder="Enter a movie title" id="searchTitle" /> 
+      <button id="search">Search</button> -->
+   </section>
+
+   <div class="row">
+   <section id="poster">
+   </section> 
+   </div>
+
+
+   <footer>
+
+   </footer>
+
+</div>
+
+  </body>
+
 </html>
