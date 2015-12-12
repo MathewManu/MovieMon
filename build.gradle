@@ -3,10 +3,12 @@ apply plugin: 'application'
 apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'jetty'
+//apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
 
 mainClassName = "imdb.TestApp"
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 version = '1.0'
 war {
     manifest {
@@ -15,9 +17,10 @@ war {
     }
 }
 
-jettyRun {
-    httpPort = 8080
-}
+
+//gretty {
+  //servletContainer = 'jetty9'
+//}
 
 repositories {
     mavenCentral()
@@ -32,6 +35,9 @@ dependencies {
     compile 'org.jsoup:jsoup:1.8.2'
     compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.14'
     compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.14'
+    compile 'javax.servlet:javax.servlet-api:3.0.1'
+    runtime 'org.glassfish.jersey.containers:jersey-container-servlet:2.14'
+    
     
 }
 

@@ -3,6 +3,8 @@ package imdb.utils;
 import java.io.*;
 import java.net.*;
 import java.nio.file.*;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MovieMonUtils {
 
@@ -60,6 +62,11 @@ public class MovieMonUtils {
 		catch(IOException e) {
 			System.out.println("Exception while downloading Thumbnail for movie : "+movieTitle +" Exception : "+e.getMessage());
 		}
+	}
+	
+	public static String GetLocalizedString(String Message) {
+		ResourceBundle bundle = ResourceBundle.getBundle("MessageBundle", Locale.US); 
+		return bundle.getString(Message);
 	}
 	
 
