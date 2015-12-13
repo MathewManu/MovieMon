@@ -18,6 +18,7 @@ public class MovieMon {
 		
 		if (false == updateMovieNamesFromRootDir(srcDirectory)) {
 			System.out.println("Could not find any movies at path : "+srcDirectory);
+			return;
 		}
 		//process dup movies here ?
 		MovieMonDaoFactory.getMovieDAOImpl().updateDupMovies();
