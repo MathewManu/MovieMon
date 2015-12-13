@@ -12,12 +12,53 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="css/main.css">   
-  <script src="js/main.js"></script>
+  <script src="js/main.js"> </script>
+  <script src="js/restcalls.js"></script>
+  
 
   
   </head>
 
   <body>
+  <script>
+  function postforscan () {
+  
+	postAjaxCall("http://localhost:8080/moviemon/movies", "C:\\Anushya\\movies_manu", "demo");
+  
+    //listening to SSE events here ---- 
+  
+  /* This seems to be not working . need to debug further. Until then I am going with the stone-age way of polling the server 
+  
+  if(typeof(EventSource) !== "undefined") {
+    var source = new EventSource("http://localhost:8080/moviemon/movies/scanstatus");
+    source.onmessage = function(event) {
+        document.getElementById("result").innerHTML = event.data;
+    };
+} else {
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support server-sent events...";
+} */
+
+	pollSeverForStatus();
+}
+
+ function pollSeverForStatus() {
+ 
+    $.get('http://localhost:8080/moviemon/movies/scan/status', function(data) {
+        
+		if (data == 'SUCCESS' || data == 'FAILED') { //need to handle success and failure in an appropriate way.
+		    displayScanProgressMessage(data);
+			exit;
+		}
+        setTimeout(pollSeverForStatus,5000);
+    });
+}
+ 
+  function displayScanProgressMessage(message) {
+	$("#demo").text(message + "...");
+  }
+  
+  </script>
+  </script>
   <nav class="navbar-test navbar">
   <div class="container">
     <div class="navbar-header">
@@ -46,7 +87,9 @@
           </ul> 
           </li>
       <!-- <li><a class="page-scroll" href="#poster" id="searchAll">All Movies</a></li>  -->
-	  <li><a href="#">Scan</a></li>  
+	  <li><a  id="scanfromnavbar" onclick="postforscan()">Scan</a></li>  
+	  <p id="demo"></p>
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-search"></span> Search</a></li>

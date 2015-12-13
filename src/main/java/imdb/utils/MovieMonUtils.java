@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 
 public class MovieMonUtils {
 
+	private static ScanStatusEnum SCAN_STATUS ;
+	
 	public static <E extends Enum<E>> boolean checkIfValuePresent(Class<E> enumClass, String format) {
 		
 		for(E e : enumClass.getEnumConstants()) {
@@ -67,6 +69,16 @@ public class MovieMonUtils {
 	public static String GetLocalizedString(String Message) {
 		ResourceBundle bundle = ResourceBundle.getBundle("MessageBundle", Locale.US); 
 		return bundle.getString(Message);
+	}
+	
+	public static void setScanStatus(ScanStatusEnum b) {
+		SCAN_STATUS = b;
+		
+	}
+	
+	public static ScanStatusEnum getScanStatus() {
+		return SCAN_STATUS;
+		
 	}
 	
 

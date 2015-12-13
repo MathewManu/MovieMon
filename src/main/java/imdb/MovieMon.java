@@ -1,6 +1,8 @@
 package imdb;
 
 import imdb.database.dao.*;
+import imdb.utils.MovieMonUtils;
+import imdb.utils.ScanStatusEnum;
 
 import java.io.*;
 import java.nio.file.*;
@@ -11,15 +13,16 @@ public class MovieMon {
 	private static String srcDirectory;
 	private static List<MovieObject> allMovieObjects;
 	
-	public static void process() {
-		
+	public static synchronized void process() {
+		MovieMonUtils.setScanStatus(ScanStatusEnum.INPROGRES);
 		if (false == updateMovieNamesFromRootDir(srcDirectory)) {
 			System.out.println("Could not find any movies at path : "+srcDirectory);
+			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
 			return;
 		}
 		//process dup movies here ?
 		MovieMonDaoFactory.getMovieDAOImpl().updateDupMovies();
-		
+		MovieMonUtils.setScanStatus(ScanStatusEnum.SUCCESS);
 		System.out.println("--------Finished Processing----------");
 	}
 	
