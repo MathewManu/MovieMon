@@ -23,13 +23,14 @@ public class TestApp {
 		}
 		if (args[0].equals("--install")) {
 			InstallMovieMon.install();
+			System.out.println("Installation finished");
 			System.exit(0);
 		}
 		else {		
 			
 			try {
 				new PropertyFileParser().load();
-				MovieMon.setSrcDirectory(args[0]);//loc of movies, not verifying the loc
+				MovieMon.setSrcDirectory(args[0]);
 				MovieMon.process();
 
 			} catch (Exception ex) {

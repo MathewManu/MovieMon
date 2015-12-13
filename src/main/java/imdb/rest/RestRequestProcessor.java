@@ -53,7 +53,7 @@ public class RestRequestProcessor {
 
 			System.out.println("Exception while processing resultSet : " + e.getMessage());
 		}
-
+		movieDAO.closeConnection();
 		return movieList;
 	}
 
@@ -79,6 +79,7 @@ public class RestRequestProcessor {
 			System.out.println(
 					"Exception while processing resultSet, query = " + searchQuery + " exception : " + e.getMessage());
 		}
+		movieDAO.closeConnection();
 		return movieList;
 	}
 

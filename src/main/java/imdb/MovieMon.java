@@ -13,8 +13,12 @@ public class MovieMon {
 	private static String srcDirectory;
 	private static List<MovieObject> allMovieObjects;
 	
-	public static synchronized void process() {
+/*	@Inject
+	private MovieMonDaoFactory fact; */
+	
+	public synchronized static void process() {
 		MovieMonUtils.setScanStatus(ScanStatusEnum.INPROGRES);
+
 		if (false == updateMovieNamesFromRootDir(srcDirectory)) {
 			System.out.println("Could not find any movies at path : "+srcDirectory);
 			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
@@ -23,6 +27,8 @@ public class MovieMon {
 		//process dup movies here ?
 		MovieMonDaoFactory.getMovieDAOImpl().updateDupMovies();
 		MovieMonUtils.setScanStatus(ScanStatusEnum.SUCCESS);
+		MovieMonDaoFactory.getMovieDAOImpl().closeConnection();
+		
 		System.out.println("--------Finished Processing----------");
 	}
 	

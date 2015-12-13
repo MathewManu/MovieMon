@@ -54,9 +54,15 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 					// now we can query omdb for the movie object.
 					apiConnector.updateMovieObjectsWithApiData(movieObj);
 					
-					// download thumbnail for the movie
-					MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(), 
-							movieObj.getMovieObjFromApi().getPoster());
+					// download thumbnail for the movie 
+					// Found that for some movies "NA" is present as thumbnail address
+					String posterLoc = movieObj.getMovieObjFromApi().getPoster();
+					
+					if(posterLoc != null && posterLoc != "NA" ) {
+						MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(), 
+								movieObj.getMovieObjFromApi().getPoster());
+							
+					}
 					
 					//update to hsql db --> shold change to proper place !
 					if(movieDAO.insert(getMovieDto(movieObj))) {
