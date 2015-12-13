@@ -21,8 +21,9 @@ public class MovieMon {
 			return;
 		}
 		//process dup movies here ?
-		MovieMonDaoFactory.getMovieDAOImpl().updateDupMovies();
-		MovieMonDaoFactory.getMovieDAOImpl().closeConnection();
+		MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl();
+		movieDAO.updateDupMovies();
+		movieDAO.closeConnection();
 		
 		System.out.println("--------Finished Processing----------");
 	}
