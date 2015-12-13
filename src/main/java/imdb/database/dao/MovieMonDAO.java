@@ -2,13 +2,15 @@ package imdb.database.dao;
 
 import imdb.database.model.MovieDBResult;
 
-import java.sql.Connection;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 
 public interface MovieMonDAO {
 
 	public Connection createConnection();
+	
+	public boolean closeConnection();
 	
 	public List<MovieDBResult> getMovieWithName(String name);
 	
@@ -20,7 +22,7 @@ public interface MovieMonDAO {
 	
 	public MovieDBResult getDistinctMovie(MovieDBResult movie);
 	
-	public boolean update(String query);
+	public boolean update(PreparedStatement pst);
 
 	boolean createTable(String tableName, HashMap<String, String> columnNames);
 }

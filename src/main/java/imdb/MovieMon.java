@@ -11,6 +11,9 @@ public class MovieMon {
 	private static String srcDirectory;
 	private static List<MovieObject> allMovieObjects;
 	
+/*	@Inject
+	private MovieMonDaoFactory fact; */
+	
 	public static void process() {
 		
 		if (false == updateMovieNamesFromRootDir(srcDirectory)) {
@@ -18,6 +21,7 @@ public class MovieMon {
 		}
 		//process dup movies here ?
 		MovieMonDaoFactory.getMovieDAOImpl().updateDupMovies();
+		MovieMonDaoFactory.getMovieDAOImpl().closeConnection();
 		
 		System.out.println("--------Finished Processing----------");
 	}
