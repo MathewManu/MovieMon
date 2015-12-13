@@ -27,11 +27,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 	private static String SELECT_STMNT_DUP_MOVIE_ENTRIES = "SELECT ID,IMDBID, FILELOCATION FROM MOVIE " + "WHERE IMDBID IN "
 			+ "( SELECT IMDBID FROM MOVIE " + "GROUP BY IMDBID" + " HAVING (COUNT(*) > 1));";
 
-	@Override
-	public List<MovieDBResult> getMovieWithName(String name) {
-		createConnection();
-		return null;
-	}
 	
 	@Override
 	public boolean insert(MovieDBResult movieDto) {
@@ -77,17 +72,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 		return false;
 	}
 
-	@Override
-	public boolean delete(List<MovieDBResult> movieList) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public MovieDBResult getDistinctMovie(MovieDBResult movie) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Connection createConnection() {
@@ -120,6 +104,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 		if (conn != null) {
 			try {
 				conn.close();
+				conn = null;
 			} catch (SQLException e) {
 				System.out.println("Exception while closing the connection : " + e.getMessage());
 				return false;
@@ -128,15 +113,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 		}
 
 		return true;
-	}
-
-
-	@Override
-	public boolean update(PreparedStatement pst) {
-		if(performQuery( pst)) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -223,7 +199,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 		ResultSet rs = null;
 		try {
 			rs = conn.createStatement().executeQuery(query);
-			conn.close();
+			//conn.close();
 
 		} catch (Exception e) {
 			System.out.println("Exception while running query" + query + " Exception : " + e.getMessage());
