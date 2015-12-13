@@ -10,6 +10,8 @@ public class RestRequestProcessor {
 
 	private static MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl();
 	
+	private static String SELECT_ALL = "SELECT * FROM MOVIE";
+	
 	/*
 	 * this fun processes the query params & form sql query. call impl &
 	 * processes the resultSet. can process rating, year query params now.
@@ -18,19 +20,41 @@ public class RestRequestProcessor {
 	 */
 	public static List<MovieDBResult> getMovies(String rating, String year) {
 
-		List<MovieDBResult> movieList = new ArrayList<MovieDBResult>();
 		ArrayList<String> queryParamList = new ArrayList<String>();
-
-		String query_default = "SELECT * FROM MOVIE";
-		StringBuilder querySb = new StringBuilder();
-		querySb.append(query_default);
-
+		StringBuilder querySb = new StringBuilder(SELECT_ALL);
+		
 		if (!rating.isEmpty()) {
 			queryParamList.add(getQueryConditionWithRating(rating));
 		}
 		if (!year.isEmpty()) {
 			queryParamList.add(getQueryConditionWithYear(year));
 		}
+		
+		String query = updateSelectStmntWithConditions(querySb, queryParamList).toString();
+	
+		return processResultSet(movieDAO.getResultSetForQuery(query));
+
+	}
+
+	private static List<MovieDBResult> processResultSet(ResultSet rs) {
+		
+		List<MovieDBResult> movieList = new ArrayList<MovieDBResult>();
+		try {
+			while (rs.next()) {
+				movieList.add(processRow(rs));
+			}
+			rs.close();
+		} catch (Exception e) {
+
+			System.out.println("Exception while processing resultSet : " + e.getMessage());
+		}
+		movieDAO.closeConnection();
+		return movieList;
+	}
+
+	private static StringBuilder updateSelectStmntWithConditions(StringBuilder querySb,
+			ArrayList<String> queryParamList) {
+
 		for (int i = 0; i < queryParamList.size(); i++) {
 			if (i == 0) {
 				querySb.append(" WHERE");
@@ -38,23 +62,8 @@ public class RestRequestProcessor {
 				querySb.append(" AND");
 			}
 			querySb.append(queryParamList.get(i));
-
 		}
-		String query = querySb.toString();
-
-		ResultSet rs = movieDAO.getResultSetForQuery(query);
-
-		try {
-			while (rs.next()) {
-				movieList.add(processRow(rs));
-			}
-			rs.close();
-		} catch (SQLException e) {
-
-			System.out.println("Exception while processing resultSet : " + e.getMessage());
-		}
-		movieDAO.closeConnection();
-		return movieList;
+		return querySb;
 	}
 
 	/*
@@ -65,22 +74,10 @@ public class RestRequestProcessor {
 	// TODO: title is case sensitive now. Need to fix
 	public static List<MovieDBResult> searchMovie(String searchQuery) {
 
-		List<MovieDBResult> movieList = new ArrayList<MovieDBResult>();
 		String query = String.format("%s%s%s", "SELECT * FROM MOVIE WHERE TITLE = '", searchQuery, "';");
+		
+		return processResultSet(movieDAO.getResultSetForQuery(query));
 
-		ResultSet rs = movieDAO.getResultSetForQuery(query);
-
-		try {
-			while (rs.next()) {
-				movieList.add(processRow(rs));
-			}
-			rs.close();
-		} catch (Exception e) {
-			System.out.println(
-					"Exception while processing resultSet, query = " + searchQuery + " exception : " + e.getMessage());
-		}
-		movieDAO.closeConnection();
-		return movieList;
 	}
 
 	private static String getQueryConditionWithYear(String year) {
