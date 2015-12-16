@@ -20,7 +20,6 @@ public class PropertyFileParser {
 	public static String HSQL_DB_FILE_LOCATION = "C://Program Files//MovieMon//db//MovieMonDb";
 
 	private static String CONFIG_FILE = "/config.properties";
-	public static String IMAGES_FOLDER = "images";
 
 	Properties defaultProps = null;
 
@@ -46,7 +45,6 @@ public class PropertyFileParser {
 			HSQL_DB_URL = defaultProps.getProperty("hsql.db.url");
 			HSQL_DB_FILE_LOCATION = defaultProps.getProperty("hsql.db.file");
 			THUMB_NAIL_DIR = defaultProps.getProperty("thumbnail.directory");
-			IMAGES_FOLDER = defaultProps.getProperty("images.foldername");
 		}		
 		
 		//print the variables --> log.debug msgs

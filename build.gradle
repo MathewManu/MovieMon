@@ -6,6 +6,12 @@ apply plugin: 'jetty'
 //apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 
+// need to move this to some other file ?
+String tomcatHome = "C:/Users/mmanu/workspace/tomcat8"
+String tomcatWebappsLocation = tomcatHome + "/webapps/"
+String tomcatConf = tomcatHome + "/conf/Catalina/localhost"
+String tomcatBin = tomcatHome + "/bin/"
+
 mainClassName = "imdb.TestApp"
 
 sourceCompatibility = 1.8
@@ -69,6 +75,31 @@ task myDist(type: Zip){
     }
   }
 }
+task tomCopy (dependsOn: war){
+    copy {
+        from "build/libs/MovieMon-1.0.war"
+        into tomcatWebappsLocation
+        rename ("MovieMon-1.0.war", "ROOT.war")
+    }
+    if (!file(tomcatConf+"/"+"moviemon#posters.xml").exists())
+    copy {
+        from "src/main/resources/moviemon#posters.xml"
+        into tomcatConf
+    }    
+}
+
+task tomWar(type:Exec) {
+        println "copying the war file ..."
+        
+        tasks.tomCopy.execute()
+        
+        println "Starting tomcat server..."
+        
+        workingDir tomcatBin
+        commandLine 'cmd', '/C', 'startup.bat'
+}
+
+
 
 jettyRun.contextPath = ''
 

@@ -6,7 +6,7 @@ var getAllMovies = function() {
 			if(json.length) {
 				$.each(json, function(index, el) {
 					var textToInsert = '';
-					textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ><img src="images/' + el.title + '.jpg" class="thumbnail" width="300" height="426">';
+					textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ><img src="posters/' + el.title + '.jpg" class="thumbnail" width="300" height="426">';
 					textToInsert += '<p>' + el.title + " Rating : " + el.imdbRating + '</p>';
 					textToInsert += '<button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#' +el.title +'">More</button>';
 					textToInsert += '<div id="' +el.title + '" class="collapse">';

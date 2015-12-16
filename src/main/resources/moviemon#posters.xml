@@ -1,0 +1,2 @@
+<!-- this file has to be present at tomcat/conf/Catalina/localhost -->
+<Context path="/moviemon/posters" docBase="C:\Program Files\MovieMon\Thumbnails"/>

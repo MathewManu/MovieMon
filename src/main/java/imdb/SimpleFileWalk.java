@@ -12,7 +12,7 @@ import java.util.*;
 public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 	
 	private Set<String> uniqueFilesTest = new HashSet<String>();
-	private Set<String> possibleDuplicates = new HashSet<String>();
+	
 	private List<MovieObject> allMovieObjs = new ArrayList<MovieObject>();
 	private List<MovieObject> failedMovieObjs = new ArrayList<MovieObject>();
 	
@@ -40,53 +40,44 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 				return FileVisitResult.CONTINUE;
 
 			}
-			//TODO: this duplicate thing should be removed as new table is added !
-			if (false == uniqueFilesTest.add(fileName)) {
-				possibleDuplicates.add(fileName);
-				System.out.println("duplicate file ..." + fileName);
-			} else {
+		
+			MovieObject movieObj = new MovieObject(fileName, file.toString());
 
-				MovieObject movieObj = new MovieObject(fileName, file.toString());
-
-				if (nameResolver.process(movieObj)) {
-					//System.out.println("------true-----");
-
-					// now we can query omdb for the movie object.
-					apiConnector.updateMovieObjectsWithApiData(movieObj);
-					
-					// download thumbnail for the movie 
-					// Found that for some movies "NA" is present as thumbnail address
-					String posterLoc = movieObj.getMovieObjFromApi().getPoster();
-					
-					if(posterLoc != null && posterLoc != "NA" ) {
-						MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(), 
-								movieObj.getMovieObjFromApi().getPoster());
-							
-					}
-					
-					//update to hsql db --> shold change to proper place !
-					if(movieDAO.insert(getMovieDto(movieObj))) {
-						System.out.println("Insert success for movie : "+movieObj.getMovieName());
-					}
-					else {
-						System.out.println("ERROR: insert error");
-					}
-					
-					// TODO:should remove this add
-					allMovieObjs.add(movieObj);
+			if (nameResolver.process(movieObj)) {
 				
-					System.out.println("===End===");
+				// now we can query omdb for the movie object.
+				apiConnector.updateMovieObjectsWithApiData(movieObj);
+
+				// download thumbnail for the movie
+				// Found that for some movies "NA" is present as thumbnail
+				// address
+				String posterLoc = movieObj.getMovieObjFromApi().getPoster();
+
+				if (posterLoc != null && posterLoc != "NA") {
+					MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(),
+							movieObj.getMovieObjFromApi().getPoster());
 
 				}
-				else {
-					//If we failed to get details of a movie online
-					//add to the failed_movie table
-					//Need to process later / display to the user
-					movieDAO.insertFailedMovie(file.toString());
-					failedMovieObjs.add(movieObj); // need to remove this line !
-					System.out.println("===End===");
+
+				// update to hsql db --> shold change to proper place !
+				if (movieDAO.insert(getMovieDto(movieObj))) {
+					System.out.println("Insert success for movie : " + movieObj.getMovieName());
+				} else {
+					System.out.println("ERROR: insert error");
 				}
 
+				// TODO:should remove this add
+				allMovieObjs.add(movieObj);
+
+				System.out.println("===End===");
+
+			} else {
+				// If we failed to get details of a movie online
+				// add to the failed_movie table
+				// Need to process later / display to the user
+				movieDAO.insertFailedMovie(file.toString());
+				failedMovieObjs.add(movieObj); // need to remove this line !
+				System.out.println("===End===");
 			}
 
 		}
