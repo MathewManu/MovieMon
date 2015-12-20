@@ -55,4 +55,9 @@
 # z-index: 1;
 }
 
-
+.modal-header, h4, .close {
+      background-color: #00C5CD;
+      color:white !important;
+      text-align: center;
+      font-size: 30px;
+}
