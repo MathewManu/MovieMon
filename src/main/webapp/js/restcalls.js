@@ -18,7 +18,7 @@ function postAjaxCall(url, requestParam, idToBeUpdated) {
   data:requestParam,
   contentType: "text/plain",
   success: function(result){
-	  document.getElementById(idToBeUpdated).innerHTML = result;
+	openScanDirectoryErrorPopup(result);
     return result;
   }
 });

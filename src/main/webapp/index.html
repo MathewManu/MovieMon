@@ -50,7 +50,7 @@
           </li>
       <!-- <li><a class="page-scroll" href="#poster" id="searchAll">All Movies</a></li>  -->
 	  <li><a  id="scanfromnavbar" >Scan</a></li>  
-	  <p id="demo"></p>
+	  <!--p id="demo"></p-->
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -109,31 +109,52 @@
 
 <!-- scan inout alert box -->
  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
     
       <!-- Modal content-->
       <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close">&times;</button>
+        <div id="modalHeader" class="modal-header">
+          <!--button type="button" class="close">&times;</button-->
           <h4 class="modal-title"><span class="glyphicon glyphicon-film"></span>      Movies Directory</h4>
 		  <h4 class="modal-title"></h4>
         </div>
-        <div class="modal-body">
-		  
-          <form method="POST" class="form-horizontal" onsubmit="return false">
-		  <p>  Enter the directory to be scanned : 
-           <input id="id_name" maxlength="250" name="name" type="text">
-		   </p>
+        <div id="modalbody" class="modal-body">
+		    <form role="form">
+            <div class="form-group">
+			<label for="usr">Directory to be scanned :</label>
+			<input type="text" class="form-control" id="dirUserInputId">
+            </div>
        </form>
         </div>
-        <div class="modal-footer">
-          <button id="save-button" class="btn-info btn-lg" data-backdrop="true" ><span class="glyphicon glyphicon-search"></span> Scan</button>
+        <div id="modalfooter" class="modal-footer">
+          <button id="scan-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon-search"></span>SCAN</button>
         </div>
       </div>
 	  </div>
   </div>
 <!-- end scan alert input-->
 
+<!-- Error  box Empty. Dnamically Add error message when and where needed !-->
+<!-- Added as subsequent hide and show of modals were having an issue : https://github.com/twbs/bootstrap/issues/3902-->
+ <div class="modal fade" id="errorMsgmodel" role="dialog">
+    <div class="modal-dialog" id="errorMsgModal">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div id="errorMsgModalHeader" class="modal-header">
+          <!--button type="button" class="close">&times;</button-->
+          <h4 class="modal-title"><span class="glyphicon glyphicon-info-sign"> </span> SCAN STATUS :  </h4>
+		  <h4 class="modal-title"></h4>
+        </div>
+        <div id="errorMsgModalBody" class="modal-body">
+        </div>
+        <div id="errorMsg" class="modal-footer">
+          <button id="ok-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon-info-sign"></span>OK</button>
+        </div>
+      </div>
+	  </div>
+  </div>
+<!--alert ends-->
   </body>
 
 </html>

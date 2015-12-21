@@ -47,23 +47,27 @@ public class RestController {
 	public  String doScan(final String requString) {		
 
 		if (requString == null ||  requString.isEmpty()) {
+			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
 			return MovieMonUtils.GetLocalizedString("noinputdirectoryname");
 		}
 
 		File file = new File(requString);
 		if (! file.exists() || ! file.isDirectory()) {
+			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
 			return MovieMonUtils.GetLocalizedString("invaiddirectory");
 		}
 
-		if (file.list().length == 0){			
+		if (file.list().length == 0) {
+			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
 			return MovieMonUtils.GetLocalizedString("emptydirectory");				
 		}
-
+		
+		MovieMonUtils.setScanStatus(ScanStatusEnum.INPROGRES);
 		new Thread( () -> {
 			MovieMon.setSrcDirectory(requString);
 			MovieMon.process();
 		}).start(); 
-		MovieMonUtils.setScanStatus(ScanStatusEnum.INPROGRES);
+		
 		return MovieMonUtils.GetLocalizedString("scaninprogress");
 
 
