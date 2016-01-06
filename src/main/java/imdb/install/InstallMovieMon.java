@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.jdbc.ScriptRunner;
 
 import imdb.database.dao.*;
+import imdb.utils.DBUtils;
 import imdb.utils.PropertyFileParser;
 
 /**
@@ -28,17 +29,7 @@ public class InstallMovieMon {
 		new PropertyFileParser().load();		
 
 		System.out.println("Creating db tables....");
-		MovieDAOImpl DaoImpl = new MovieDAOImpl();
-		ScriptRunner runner = new ScriptRunner(DaoImpl.createConnection());
-		try (InputStreamReader reader = new InputStreamReader(InstallMovieMon.class.getResourceAsStream("/tables.sql"))) {
-			runner.runScript(reader);
-		} catch (Exception e) {
-			System.out.println("Error while running the script : " +e.getMessage());
-		} finally {
-			DaoImpl.closeConnection();
-			runner.closeConnection();
-			
-		}
+		DBUtils.executeMysqlScript("tables.sql");
 
 
 	}

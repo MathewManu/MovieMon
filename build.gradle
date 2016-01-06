@@ -3,11 +3,13 @@ apply plugin: 'application'
 apply plugin: 'war'
 apply plugin: 'eclipse'
 apply plugin: 'jetty'
+apply plugin: 'application'
+
 //apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 
 // need to move this to some other file ?
-String tomcatHome = "C:/Users/mmanu/workspace/tomcat8"
+String tomcatHome = "C:/Anushya/Softwares/apache-tomcat-9.0.0.M1"
 String tomcatWebappsLocation = tomcatHome + "/webapps/"
 String tomcatConf = tomcatHome + "/conf/Catalina/localhost"
 String tomcatBin = tomcatHome + "/bin/"
@@ -99,6 +101,10 @@ task tomWar(type:Exec) {
         commandLine 'cmd', '/C', 'startup.bat'
 }
 
+task dbr(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'imdb.install.DBReset'
+}
 
 
 jettyRun.contextPath = ''
