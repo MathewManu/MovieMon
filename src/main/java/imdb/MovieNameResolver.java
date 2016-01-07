@@ -3,7 +3,11 @@ package imdb;
 import java.util.*;
 import java.util.regex.*;
 
+import org.apache.log4j.*;
+
 public class MovieNameResolver {
+	
+	final static Logger log = Logger.getLogger(MovieNameResolver.class);
 	
 	public MovieNameResolver() {
 		init();
@@ -41,7 +45,7 @@ public class MovieNameResolver {
 		replaceJunkWords(movieObj);
 		processMovieYear(movieObj);
 		
-		System.out.println("searching Online...: \" " +movieObj.getUpdatedfileName() +"\" Year : "+movieObj.getYear());
+		log.debug("searching Online...: \" " +movieObj.getUpdatedfileName() +"\" Year : "+movieObj.getYear());
 		
 		String imdbId ="";
 		if (movieObj.getYear() != 9999) {
@@ -57,7 +61,7 @@ public class MovieNameResolver {
 		}
 			
 		//check for error cases later
-		System.out.println("Coulnd not find imdb id for movie : " +movieObj.getMovieName());
+		log.error("Coulnd not find imdb id for movie : " +movieObj.getMovieName());
 		return false;
 		
 	}
@@ -94,7 +98,7 @@ public class MovieNameResolver {
 			
 			if(m.replaceFirst("").isEmpty()) {
 				//handling movienames like 2012DvDrip.avi
-				System.out.println("------ Not replacing year in movie : "+movieObj.getUpdatedfileName());
+				log.error("------ Not replacing year in movie : "+movieObj.getUpdatedfileName());
 			}
 			else {
 				//remove year from the filename

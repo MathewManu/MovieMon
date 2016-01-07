@@ -8,10 +8,14 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+import org.apache.log4j.*;
+
 public class MovieMon {
 
 	private static String srcDirectory;
 	private static List<MovieObject> allMovieObjects;
+	
+	final static Logger log = Logger.getLogger(MovieMon.class);
 	
 /*	@Inject
 	private MovieMonDaoFactory fact; */
@@ -20,7 +24,7 @@ public class MovieMon {
 		MovieMonUtils.setScanStatus(ScanStatusEnum.INPROGRES);
 
 		if (false == updateMovieNamesFromRootDir(srcDirectory)) {
-			System.out.println("Could not find any movies at path : "+srcDirectory);
+			log.error("Could not find any movies at path : "+srcDirectory);
 			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
 			return;
 		}
@@ -30,7 +34,7 @@ public class MovieMon {
 		movieDAO.updateDupMovies();
 		movieDAO.closeConnection();
 		
-		System.out.println("--------Finished Processing----------");
+		log.debug("--------Finished Processing----------");
 	}
 	
 	public static boolean updateMovieNamesFromRootDir(String srcDirectory) {
@@ -38,12 +42,12 @@ public class MovieMon {
 		Path srcDir = Paths.get(srcDirectory);
 		SimpleFileWalk dirWalk = new SimpleFileWalk();
 
-		System.out.println("Scanning the mentioned directory : "+srcDirectory + " for Movies, Please wait...");
+		log.debug("Scanning the mentioned directory : "+srcDirectory + " for Movies, Please wait...");
 		
 		try {
 			Files.walkFileTree(srcDir, dirWalk);
 		} catch (IOException e) {
-			System.out.println("walkFileTree exception : " + e.getMessage());
+			log.error("walkFileTree exception : " + e.getMessage());
 		}
 		
 		//need this ??? no 

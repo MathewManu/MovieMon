@@ -9,7 +9,11 @@ import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.*;
 
+import org.apache.log4j.*;
+
 public class SimpleFileWalk extends SimpleFileVisitor<Path>{
+	
+	final static Logger log = Logger.getLogger(SimpleFileWalk.class);
 	
 	private Set<String> uniqueFilesTest = new HashSet<String>();
 	
@@ -36,7 +40,7 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 			int lastIndexOfDot = fileName.lastIndexOf(".");
 			if (lastIndexOfDot == -1
 					|| !MovieFormat.isValidFormat(fileName.substring(lastIndexOfDot + 1))) {
-				System.out.println("====Skiping the file : " + fileName);
+				log.debug("====Skiping the file : " + fileName);
 				return FileVisitResult.CONTINUE;
 
 			}
@@ -61,15 +65,17 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 
 				// update to hsql db --> shold change to proper place !
 				if (movieDAO.insert(getMovieDto(movieObj))) {
-					System.out.println("Insert success for movie : " + movieObj.getMovieName());
+					log.debug("Insert success for movie : " + movieObj.getMovieName() +" -- Path : "+movieObj.getMovieAbsPath());
+					
 				} else {
-					System.out.println("ERROR: insert error");
+					log.error("ERROR: insert error");
 				}
 
 				// TODO:should remove this add
 				allMovieObjs.add(movieObj);
 
 				System.out.println("===End===");
+				log.debug("===End===\n\n");
 
 			} else {
 				// If we failed to get details of a movie online
@@ -77,7 +83,7 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 				// Need to process later / display to the user
 				movieDAO.insertFailedMovie(file.toString());
 				failedMovieObjs.add(movieObj); // need to remove this line !
-				System.out.println("===End===");
+				log.debug("===End==\n\n");
 			}
 
 		}

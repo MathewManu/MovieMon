@@ -12,6 +12,12 @@ icacls %DB_HOME% /grant Everyone:M
 @rem Thumbnail folder
 set TN_HOME=%APP_HOME%\Thumbnails
 mkdir %TN_HOME%
+icacls %TN_HOME% /grant Everyone:M
+
+@rem Log folder
+set LOG_HOME=%APP_HOME%\Logs
+mkdir %LOG_HOME%
+icacls %LOG_HOME% /grant Everyone:M
 
 set LIB_HOME=%APP_HOME%\lib
 mkdir %LIB_HOME%

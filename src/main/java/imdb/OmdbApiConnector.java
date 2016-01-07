@@ -4,9 +4,13 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.apache.log4j.*;
+
 import com.google.gson.*;
 
 public class OmdbApiConnector implements BaseApiConnector {
+	
+	final static Logger log = Logger.getLogger(OmdbApiConnector.class);
 
 	//TODO: need to find out what should be the value for user_agent, as of now keeping as "Mozilla/5.0"
 	private static final String USER_AGENT = "Mozilla/5.0";
@@ -24,9 +28,8 @@ public class OmdbApiConnector implements BaseApiConnector {
 
 				int responseCode = conn.getResponseCode();
 
-				System.out.println("\nSending GET request to url : " + url);
-				//System.out.println("Response code : " + responseCode);
-
+				log.debug("\nSending GET request to url : " + url);
+			
 				if (200 == responseCode) {
 					conn.connect();
 					Gson gson = new Gson();
@@ -38,7 +41,7 @@ public class OmdbApiConnector implements BaseApiConnector {
 				}
 
 		} catch (IOException e) {
-			System.out.println(" omdbApiConnector error..  " + e.getMessage());
+			log.error(" omdbApiConnector error..  " + e.getMessage());
 		}
 
 	}

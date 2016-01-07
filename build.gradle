@@ -10,6 +10,7 @@ apply plugin: 'application'
 
 // need to move this to some other file ?
 String tomcatHome = "C:/Anushya/Softwares/apache-tomcat-9.0.0.M1"
+//String tomcatHome = "C:/Users/mmanu/workspace/tomcat8"
 String tomcatWebappsLocation = tomcatHome + "/webapps/"
 String tomcatConf = tomcatHome + "/conf/Catalina/localhost"
 String tomcatBin = tomcatHome + "/bin/"
@@ -44,7 +45,8 @@ dependencies {
     compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.22'
     compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.22'
     compile 'org.glassfish.jersey.media:jersey-media-sse:2.22'
-     
+    compile 'log4j:log4j:1.2.17'
+         
     compile 'javax.servlet:javax.servlet-api:3.0.1'
     runtime 'org.glassfish.jersey.containers:jersey-container-servlet:2.22'
     
@@ -90,7 +92,7 @@ task tomCopy (dependsOn: war){
     }    
 }
 
-task tomWar(type:Exec) {
+task deploy(type:Exec) {
         println "copying the war file ..."
         
         tasks.tomCopy.execute()
@@ -108,7 +110,3 @@ task dbr(type: JavaExec) {
 
 
 jettyRun.contextPath = ''
-
-//gretty {
-  //contextPath = ''
-//}

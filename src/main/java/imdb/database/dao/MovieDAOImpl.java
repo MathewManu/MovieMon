@@ -1,5 +1,6 @@
 package imdb.database.dao;
 
+import imdb.*;
 import imdb.database.model.MovieDBResult;
 import imdb.utils.PropertyFileParser;
 
@@ -8,8 +9,11 @@ import java.util.*;
 
 import javax.inject.*;
 
+import org.apache.log4j.*;
+
 public class MovieDAOImpl implements MovieMonDAO {
 	
+	final static Logger log = Logger.getLogger(OmdbApiConnector.class);
 	//@Inject
 	//private Connection conn;
 	private static Connection conn;
@@ -60,7 +64,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error while preparing prepared statement.. " + args.toString() + e.getMessage());
+			log.error("Error while preparing prepared statement.. " + args.toString() + e.getMessage());
 		}
 		return pstmt;
 
@@ -89,7 +93,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 				conn = localConn;
 
 			} catch (Exception e) {
-				System.out.println("Exception while getting the DB connection : " + e.getMessage());
+				log.error("Exception while getting the DB connection : " + e.getMessage());
 				closeConnection();
 				return null;
 
@@ -106,7 +110,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 				conn.close();
 				conn = null;
 			} catch (SQLException e) {
-				System.out.println("Exception while closing the connection : " + e.getMessage());
+				log.error("Exception while closing the connection : " + e.getMessage());
 				return false;
 			}
 
@@ -128,11 +132,11 @@ public class MovieDAOImpl implements MovieMonDAO {
 			result = pstmt.executeUpdate();
 
 			if (result == -1) {
-				System.out.println("db error : " + pstmt.toString());
+				log.error("db error : " + pstmt.toString());
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Exception while running query" + pstmt.toString() + " Exception : " + e.getMessage());
+			log.error("Exception while running query" + pstmt.toString() + " Exception : " + e.getMessage());
 			return false;
 		}
 		
@@ -142,7 +146,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 	public boolean updateDupMovies() {
 		
 		System.out.println();
-		System.out.println("---------------Begin updating dup movie table-----------------------");
+		log.info("---------------Begin updating dup movie table-----------------------");
 		/*
 		 * Try to find entries with same imdbid from table MOVIE. Those entries
 		 * will be dup movies. It's id & location are inserted to dup_movie
@@ -160,15 +164,15 @@ public class MovieDAOImpl implements MovieMonDAO {
 				String fileLoc = rs.getString("FILELOCATION");
 
 				if (false == insertDupMovie(id, imdbId, fileLoc)) {
-					System.out.println("Error while inserting duplicate movie into the table : " + fileLoc);
+					log.error("Error while inserting duplicate movie into the table : " + fileLoc);
 				}
 			}
 			rs.close();
 		} catch (Exception e) {
-			System.out.println("Exception while running query updateDupMovies() Exception : " + e.getMessage());
+			log.error("Exception while running query updateDupMovies() Exception : " + e.getMessage());
 			return false;
 		}
-		System.out.println("---------------End updating dup movie table-----------------------");
+		log.info("---------------End updating dup movie table-----------------------");
 		return true;
 		
 	}
@@ -188,7 +192,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 		List<? extends Object> hsqlArgs = Arrays.asList(fileLoc);
 		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_FAILED_DETAILS, hsqlArgs);
 		
-		System.out.println("Trying to insert failed movie : " +fileLoc);
+		log.info("Trying to insert failed movie : " +fileLoc);
 		return performQuery(pst);
 		
 	}
@@ -202,7 +206,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 			//conn.close();
 
 		} catch (Exception e) {
-			System.out.println("Exception while running query" + query + " Exception : " + e.getMessage());
+			log.error("Exception while running query" + query + " Exception : " + e.getMessage());
 		}
 		return rs;
 
