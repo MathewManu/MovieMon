@@ -1,3 +1,4 @@
+
 function postCall(url, requestParam) {
         $.post(
         url,
@@ -22,4 +23,15 @@ function postAjaxCall(url, requestParam, idToBeUpdated) {
     return result;
   }
 });
+}
+
+function deleteAjaXCall(url, requestparam, idToBeUpdated) {
+$.ajax({
+    url: url,
+    type: 'DELETE',
+    success: function(result) {
+        // What to do? Nothing for now 
     }
+});
+
+}

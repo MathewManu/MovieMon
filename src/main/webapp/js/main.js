@@ -31,7 +31,7 @@ var showScanButton = function () {
 	msg += '<h1>MovieMon</h1>';
 	msg += '<p>You seem to be running for the first time.</p>';
 	msg += '<p>In order to update offline database with all the movie details, Please click scan now </p>';
-	msg += '<br><br><a class="btn btn-lg btn-default" href="#">Scan now !</a>';
+	msg += '<br><br><a class="btn btn-lg btn-default" id="mainScanButton" >Scan now !</a>';
         
 	$('#firstTimeMsg').append(msg);
 }

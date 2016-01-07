@@ -49,7 +49,8 @@
           </ul> 
           </li>
       <!-- <li><a class="page-scroll" href="#poster" id="searchAll">All Movies</a></li>  -->
-	  <li><a  id="scanfromnavbar" >Scan</a></li>  
+	  <li><a  id="scanfromnavbar" >Scan</a></li> 
+	  <li><a  id="deleteAll" >Delete All</a></li>
 	  <!--p id="demo"></p-->
 
       </ul>
@@ -155,6 +156,29 @@
 	  </div>
   </div>
 <!--alert ends-->
+
+<!-- Confirmation dialogue-->
+ <div class="modal fade" id="confirmationMsgmodel" role="dialog">
+    <div class="modal-dialog" id="errorMsgModal">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div id="confirmationMsgModalHeader" class="modal-header">
+          <!--button type="button" class="close">&times;</button-->
+          <h4 class="modal-title"><span class="glyphicon glyphicon-info-sign"> </span> Confirm :  </h4>
+		  <h4 class="modal-title"></h4>
+        </div>
+        <div id="confirmationMsgModalBody" class="modal-body">
+        </div>
+        <div id="confirmationMsg" class="modal-footer">
+          <button id="confirm-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon glyphicon-ok"></span></button>
+		  <button id="cancel-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon  glyphicon-remove"></span></button>
+        </div>
+      </div>
+	  </div>
+  </div>
+  
+  <!-- Confirmation dialogue ends-->
   </body>
 
 </html>

@@ -2,6 +2,7 @@
 /*Defining button actions */
 $(document).ready(function(){
 	
+	var deleteUrl = "http://localhost:8080/moviemon/movies";
 	//scan from navigation bar button action
     $("#scanfromnavbar").click(function(){
         openScanDirectoryPopup();
@@ -16,7 +17,25 @@ $(document).ready(function(){
 		}			
     });	
 	
+	//DeleteAll button
+	$("#deleteAll").click(function(){
+		openConfimrationMsgPopup("Deleting scan data will remove all your favorites and wishlist movies. Do you want to proceed?");        		
+    });		
 	
+	//mainScanButton button
+	$("#mainScanButton").click(function(){
+        openScanDirectoryPopup();	
+    });	
+	
+	//ok button from the confirm pop up 
+	$("#confirm-button").click(function(){
+        	deleteAjaXCall(deleteUrl, null, null);		
+    });
+	
+	//cancel button in the confirm pop up 
+	$("#cancel-button").click(function(){
+        	$("#confirmationMsgmodel").modal("hide");		
+    });
 });
 
 
@@ -33,6 +52,11 @@ $(document).ready(function(){
 	  $("#errorMsgmodel").modal("show");	
   }
   
+ //open a confirmation popup.
+  function openConfimrationMsgPopup(confirmationMsg) {
+	  $("#confirmationMsgModalBody").text(confirmationMsg);	
+	  $("#confirmationMsgmodel").modal("show");	
+  }
   function getScanDirectory() {
 	return $("#dirUserInputId").val();
   }

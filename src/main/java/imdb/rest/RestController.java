@@ -2,6 +2,8 @@ package imdb.rest;
 
 import imdb.MovieMon;
 import imdb.database.model.MovieDBResult;
+import imdb.install.DBReset;
+import imdb.utils.DBUtils;
 import imdb.utils.MovieMonUtils;
 import imdb.utils.ScanStatusEnum;
 
@@ -11,6 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,6 +23,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.ibatis.annotations.Delete;
 import org.glassfish.jersey.media.sse.*;
 
 
@@ -109,6 +113,11 @@ public class RestController {
 	public String getScanStatusForPolling() {
 		return MovieMonUtils.getScanStatus() == null ? ScanStatusEnum.INPROGRES.name() : MovieMonUtils.getScanStatus().name();
 		
+	}
+	
+	@DELETE
+	public void deleteAllMovies() {
+		DBReset.cleanDBAndMetaData();
 	}
 	
 
