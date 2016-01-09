@@ -1,15 +1,13 @@
 package imdb.database.dao;
 
-import imdb.*;
-import imdb.database.model.MovieDBResult;
-import imdb.utils.PropertyFileParser;
-
 import java.sql.*;
 import java.util.*;
 
-import javax.inject.*;
-
 import org.apache.log4j.*;
+
+import imdb.*;
+import imdb.database.model.*;
+import imdb.utils.*;
 
 public class MovieDAOImpl implements MovieMonDAO {
 	
@@ -20,9 +18,9 @@ public class MovieDAOImpl implements MovieMonDAO {
 	
 	
 	private static String INSERT_STMNT = "INSERT INTO MOVIE " + "(FILENAME, FILELOCATION, TITLE, YEAR, "
-			+ "IMDBRATING, IMDBID, GENRE)" + " VALUES (?, ?, ?, ?, ?, ?, ?);";
+			+ "IMDBRATING, IMDBID, GENRE, POSTER, LANGUAGE, PLOT, RUNTIME, DIRECTOR, ACTORS)"
+			+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	
-
 	private static String INSERT_INTO_DUPMOVIE_DETAILS = "INSERT INTO DUP_MOVIES " + "(MOVIE_ID, IMDBID, FILELOCATION)"
 			+ " VALUES (?, ?, ?);";
 	
@@ -37,7 +35,8 @@ public class MovieDAOImpl implements MovieMonDAO {
 
 		List<? extends Object> hsql_args = Arrays.asList(movieDto.getFileName(), movieDto.getMovieAbsPath(),
 				movieDto.getTitle(), movieDto.getYear(), movieDto.getImdbRating(), movieDto.getImdbID(),
-				movieDto.getGenre());
+				movieDto.getGenre(), movieDto.getPoster(), movieDto.getLanguage(), movieDto.getPlot(),
+				movieDto.getRunTime(), movieDto.getDirector(), movieDto.getActors());
 
 		PreparedStatement pst = prepareStatementFromArgs(INSERT_STMNT, hsql_args);
 

@@ -52,21 +52,22 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 				// now we can query omdb for the movie object.
 				apiConnector.updateMovieObjectsWithApiData(movieObj);
 
-				// download thumbnail for the movie
-				// Found that for some movies "NA" is present as thumbnail
-				// address
-				String posterLoc = movieObj.getMovieObjFromApi().getPoster();
-
-				if (posterLoc != null && posterLoc != "NA") {
-					MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(),
-							movieObj.getMovieObjFromApi().getPoster());
-
-				}
 
 				// update to hsql db --> shold change to proper place !
 				if (movieDAO.insert(getMovieDto(movieObj))) {
 					log.debug("Insert success for movie : " + movieObj.getMovieName() +" -- Path : "+movieObj.getMovieAbsPath());
 					
+					// download thumbnail for the movie
+					// Found that for some movies "NA" is present as thumbnail address
+					String posterLoc = movieObj.getMovieObjFromApi().getPoster();
+					if (posterLoc != null && posterLoc != "NA") {
+						MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(),
+								movieObj.getMovieObjFromApi().getPoster());
+
+					}
+					//Insert into recent movies table also.
+					
+									
 				} else {
 					log.error("ERROR: insert error");
 				}
@@ -102,6 +103,22 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 		movieDto.setYear(movieObj.getMovieObjFromApi().getYear());
 		movieDto.setGenre(movieObj.getMovieObjFromApi().getGenre());
 		movieDto.setImdbRating(movieObj.getMovieObjFromApi().getImdbRating());
+		
+		movieDto.setPlot(movieObj.getMovieObjFromApi().getPlot());
+		movieDto.setRunTime(movieObj.getMovieObjFromApi().getRunTime());
+		movieDto.setLanguage(movieObj.getMovieObjFromApi().getLanguage());
+		
+		String posterUrl = movieObj.getMovieObjFromApi().getPoster();
+		if (posterUrl != null && posterUrl != "NA") {
+			movieDto.setPoster(posterUrl.substring(posterUrl.lastIndexOf("/")+1));
+		}
+		else {
+			movieDto.setPoster("no_thumbnail.jpg");
+		}
+		
+		
+		movieDto.setDirector(movieObj.getMovieObjFromApi().getDirector());
+		movieDto.setActors(movieObj.getMovieObjFromApi().getActors());
 		
 		return movieDto;
 		

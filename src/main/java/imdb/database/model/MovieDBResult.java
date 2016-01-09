@@ -13,12 +13,12 @@ public class MovieDBResult {
 	private String imdbRating;
 	private String imdbID;	
 	private String genre;
-		
-	//private String updatedfileName;
-	//private String runTime;
-	//private String director;
-	//private String plot;	
-	//private String language;
+	private String runTime;
+	private String director;
+	private String actors;
+	private String plot;	
+	private String language;
+	private String poster;
 	
 	public String getFileName() {
 		return fileName;
@@ -61,6 +61,42 @@ public class MovieDBResult {
 	}
 	public void setGenre(String genre) {
 		this.genre = genre;
+	}
+	public String getRunTime() {
+		return runTime;
+	}
+	public String getPlot() {
+		return plot;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setRunTime(String runTime) {
+		this.runTime = runTime;
+	}
+	public void setPlot(String plot) {
+		this.plot = plot;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	public String getPoster() {
+		return poster;
+	}
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
+	public String getDirector() {
+		return director;
+	}
+	public String getActors() {
+		return actors;
+	}
+	public void setDirector(String director) {
+		this.director = director;
+	}
+	public void setActors(String actors) {
+		this.actors = actors;
 	}
 
 

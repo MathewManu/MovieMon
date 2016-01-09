@@ -7,7 +7,7 @@ var showPosters = function() {
 
 				$.each(allMovies, function(index, el) {
 					var textToInsert = '';
-					textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="thumbnail"><img src="moviemon/posters/' + el.title + '.jpg"  width="300" height="426">';
+					textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="thumbnail"><img src="moviemon/posters/' + el.poster + '"  width="300" height="426">';
 					textToInsert += '<div class="caption">';
 				
 

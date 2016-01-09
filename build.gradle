@@ -5,10 +5,6 @@ apply plugin: 'eclipse'
 apply plugin: 'jetty'
 apply plugin: 'application'
 
-//apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
-
-
-// need to move this to some other file ?
 String tomcatHome = "C:/Anushya/Softwares/apache-tomcat-9.0.0.M1"
 //String tomcatHome = "C:/Users/mmanu/workspace/tomcat8"
 String tomcatWebappsLocation = tomcatHome + "/webapps/"
@@ -25,11 +21,6 @@ war {
                    'Implementation-Version': version
     }
 }
-
-
-//gretty {
-  //servletContainer = 'jetty9'
-//}
 
 repositories {
     mavenCentral()

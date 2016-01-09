@@ -126,6 +126,7 @@ public class RestRequestProcessor {
 	 */
 	private static MovieDBResult processRow(ResultSet rs) throws SQLException {
 		MovieDBResult movie = new MovieDBResult();
+		
 		movie.setFileName(rs.getString("FILENAME"));
 		movie.setMovieAbsPath(rs.getString("FILELOCATION"));
 		movie.setTitle(rs.getString("TITLE"));
@@ -133,6 +134,13 @@ public class RestRequestProcessor {
 		movie.setYear(rs.getInt("YEAR"));
 		movie.setGenre(rs.getString("GENRE"));
 		movie.setImdbRating(rs.getString("IMDBRATING"));
+		movie.setPoster(rs.getString("POSTER"));
+		movie.setPlot(rs.getString("PLOT"));
+		movie.setDirector(rs.getString("DIRECTOR"));
+		movie.setActors(rs.getString("ACTORS"));
+		movie.setRunTime(rs.getString("RUNTIME"));
+		movie.setLanguage(rs.getString("LANGUAGE"));
+		
 		return movie;
 	}
 

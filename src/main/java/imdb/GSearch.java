@@ -3,6 +3,7 @@ package imdb;
 import java.net.*;
 import java.util.regex.*;
 
+import org.apache.log4j.*;
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
@@ -17,6 +18,8 @@ import org.jsoup.select.*;
  * for more details.
  */
 public class GSearch {
+	
+	final static Logger log = Logger.getLogger(GSearch.class);
 
 	public static String findId(String getupdatedfileName, int year) {
 		return searchID(getupdatedfileName + " " + String.valueOf(year));
@@ -46,7 +49,18 @@ public class GSearch {
 			doc = connection.get();
 			// System.out.println("Title : " + doc.title());
 			//TODO: understand the css sytle search//
-			Elements links = doc.select("li.g>h3>a");
+			//Elements links = doc.select("li.g>h3>a");
+			
+			//TODO: finding imdb id using google search.. If some changes happen in the way
+			//google displays the results.. Complete application breaks.. :( :( :(
+			//changed from li.g>h3>a to h3>a Worked now !
+			
+			Elements links = doc.select("h3>a");
+			log.debug("Inside GSearch Class.. links size" + links.size());
+			if(links.size() == 0) {
+				log.error("\n\t**************ERROR*************\n");
+				log.error("\t\tcould not find links from google search results.. \n\n");
+			}
 			for (Element link : links) {
 				// System.out.println("link : " + link.attr("href"));
 				// System.out.println("------" + link.absUrl("href"));

@@ -42,8 +42,7 @@ public class MovieMonUtils {
 		 * gladiator+"."+"jpg"
 		 */
 	
-		String outputFileName = PropertyFileParser.THUMB_NAIL_DIR + "/" + movieTitle+ "." + posterUrl.substring(posterUrl.lastIndexOf(".")+1);
-		
+		String outputFileName = PropertyFileParser.THUMB_NAIL_DIR + "/" + posterUrl.substring(posterUrl.lastIndexOf("/")+1);
 		URL url = new URL(posterUrl);
 		
 		try (InputStream is = url.openStream();
