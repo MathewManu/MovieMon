@@ -117,7 +117,7 @@ public class RestController {
 	
 	@DELETE
 	public void deleteAllMovies() {
-		DBReset.cleanDBAndMetaData();
+		DBReset.deleteAndConstructDb();
 	}
 	
 

@@ -99,5 +99,9 @@ task dbr(type: JavaExec) {
   main = 'imdb.install.DBReset'
 }
 
+task dbc(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = 'imdb.install.DBClean'
+}
 
 jettyRun.contextPath = ''
