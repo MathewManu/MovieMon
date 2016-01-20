@@ -29,6 +29,9 @@ public class MovieDAOImpl implements MovieMonDAO {
 	private static String SELECT_STMNT_DUP_MOVIE_ENTRIES = "SELECT ID,IMDBID, FILELOCATION FROM MOVIE " + "WHERE IMDBID IN "
 			+ "( SELECT IMDBID FROM MOVIE " + "GROUP BY IMDBID" + " HAVING (COUNT(*) > 1));";
 
+	private static String LAST_INSERT_MOVIE_ID = "SELECT ID FROM MOVIE WHERE IMDBID = ? AND FILELOCATION = ?";
+	
+	private static String INSERT_INTO_USER_MOVIES = "INSERT INTO USER_MOVIES (USERID, MOVIE_ID) VALUES (?, ?);";
 	
 	@Override
 	public boolean insert(MovieDBResult movieDto) {
@@ -45,6 +48,22 @@ public class MovieDAOImpl implements MovieMonDAO {
 		}
 
 		return false;
+	}
+	
+	public int getLastInsertMovieID(String imdbID, String fileLoc) {
+		
+		int movie_id = 0;
+		PreparedStatement pst = prepareStatementFromArgs(LAST_INSERT_MOVIE_ID, Arrays.asList(imdbID, fileLoc));
+		ResultSet rs = getResultSetForPst(pst);
+		try {
+			if(rs.next()) {
+				movie_id = rs.getInt("ID");
+			}
+		} catch (SQLException e) {
+			log.error("Execption : " + e.getMessage());
+		}
+		return movie_id;
+	
 	}
 
 	private PreparedStatement prepareStatementFromArgs(String statement, List<? extends Object> args) {
@@ -132,6 +151,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 
 			if (result == -1) {
 				log.error("db error : " + pstmt.toString());
+				return false;
 			}
 
 		} catch (SQLException e) {
@@ -210,7 +230,27 @@ public class MovieDAOImpl implements MovieMonDAO {
 		return rs;
 
 	}
+	public ResultSet getResultSetForPst(PreparedStatement pst) {
+	
+		ResultSet rs = null;
+		try {
+			rs = pst.executeQuery();
+			//conn.close();
 
+		} catch (Exception e) {
+			log.error("Exception : " + e.getMessage());
+		}
+		return rs;
 
+	}
+
+	public boolean insertUserMovies(int userID, int movieID) {
+		
+		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_USER_MOVIES, Arrays.asList(userID, movieID));
+		log.info("inserting into user_movies table.. userid : " +userID + " movieID : " +movieID);
+		//System.out.println("Trying to update .. " +insertStmt);
+		return performQuery(pst);
+		
+	}
 	
 }

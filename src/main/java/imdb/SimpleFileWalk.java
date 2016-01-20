@@ -49,43 +49,11 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 
 			if (nameResolver.process(movieObj)) {
 				
-				// now we can query omdb for the movie object.
-				apiConnector.updateMovieObjectsWithApiData(movieObj);
-
-
-				// update to hsql db --> shold change to proper place !
-				if (movieDAO.insert(getMovieDto(movieObj))) {
-					log.debug("Insert success for movie : " + movieObj.getMovieName() +" -- Path : "+movieObj.getMovieAbsPath());
-					
-					// download thumbnail for the movie
-					// Found that for some movies "NA" is present as thumbnail address
-					String posterLoc = movieObj.getMovieObjFromApi().getPoster();
-					if (posterLoc != null && posterLoc != "NA") {
-						MovieMonUtils.downloadPoster(movieObj.getMovieObjFromApi().getTitle(),
-								movieObj.getMovieObjFromApi().getPoster());
-
-					}
-					//Insert into recent movies table also.
-					
-									
-				} else {
-					log.error("ERROR: insert error");
-				}
-
-				// TODO:should remove this add
 				allMovieObjs.add(movieObj);
 
-				System.out.println("===End===");
-				log.debug("===End===\n\n");
+				log.info("Added movie to after name process : " + fileName );
 
-			} else {
-				// If we failed to get details of a movie online
-				// add to the failed_movie table
-				// Need to process later / display to the user
-				movieDAO.insertFailedMovie(file.toString());
-				failedMovieObjs.add(movieObj); // need to remove this line !
-				log.debug("===End==\n\n");
-			}
+			} 
 
 		}
 

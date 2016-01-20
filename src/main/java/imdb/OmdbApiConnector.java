@@ -35,6 +35,7 @@ public class OmdbApiConnector implements BaseApiConnector {
 					Gson gson = new Gson();
 					// error handling
 					// no data or unknown data ..
+					log.debug("\nCreating movie object from json data received");
 					Movie movie = new Movie();
 					movie = gson.fromJson(new InputStreamReader((InputStream) conn.getContent()), Movie.class);
 					movieObject.setMovieObjFromApi(movie);

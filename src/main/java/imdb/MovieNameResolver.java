@@ -45,24 +45,7 @@ public class MovieNameResolver {
 		replaceJunkWords(movieObj);
 		processMovieYear(movieObj);
 		
-		log.debug("searching Online...: \" " +movieObj.getUpdatedfileName() +"\" Year : "+movieObj.getYear());
-		
-		String imdbId ="";
-		if (movieObj.getYear() != 9999) {
-			imdbId = GSearch.findId(movieObj.getUpdatedfileName(), movieObj.getYear());
-		} else {
-			imdbId = GSearch.findId(movieObj.getUpdatedfileName());
-		}
-		//System.out.println("Imdb id found for the movie : "+movieObj.getMovieName() +" is : "+imdbId);
-		
-		if(!imdbId.isEmpty()) {
-			movieObj.setImdbId(imdbId);
-			return true;
-		}
-			
-		//check for error cases later
-		log.error("Coulnd not find imdb id for movie : " +movieObj.getMovieName());
-		return false;
+		return true;
 		
 	}
 
