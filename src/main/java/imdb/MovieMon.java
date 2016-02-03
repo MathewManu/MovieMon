@@ -22,7 +22,7 @@ public class MovieMon {
 	
 	final static Logger log = Logger.getLogger(MovieMon.class);
 	
-	public static String SELECT_SCANNED_FILES = "SELECT FILELOCATION FROM MOVIE";
+	public static int THREAD_COUNT = 5;
 		
 	public synchronized static void process() {
 		
@@ -47,9 +47,11 @@ public class MovieMon {
 		 * ---> processed.
 		 */
 		
-		ExecutorService eService = Executors.newFixedThreadPool(3);
+		ExecutorService eService = Executors.newFixedThreadPool(THREAD_COUNT);
 		
-		List<String> scannedFileList = getScannedFileList();
+		//TODO: getscannedfilelist should take currently logged in user as input.. 
+		//need to change this function.
+		List<String> scannedFileList = movieDAO.getScannedFileList();
 		List<MovieProcessor> movieProcessors = new ArrayList<MovieProcessor>();
 		
 		for (MovieObject movieObj : allMovieObjects) {
@@ -79,40 +81,20 @@ public class MovieMon {
 					
 			}
 				
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | ExecutionException e) {
 			log.error("Exception : " +e.getMessage());
-		} catch (ExecutionException e) {
-			log.error("Exception : " +e.getMessage());
-		}
+			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
+		} 
 		
-		
-		
+			
 		MovieMonUtils.setScanStatus(ScanStatusEnum.SUCCESS);
-		MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl();
+		//TODO:updateDupMoviesForTheUser() 
 		movieDAO.updateDupMovies();
 		movieDAO.closeConnection();
 		
 		log.debug("--------Finished Processing----------");
 	}
 	
-	private static List<String> getScannedFileList() {
-		
-		List<String> scannedFileList = new ArrayList<String>();
-		ResultSet rs = movieDAO.getResultSetForQuery(SELECT_SCANNED_FILES);
-		
-		try {
-			while(rs.next()) {
-				scannedFileList.add(rs.getString("FILELOCATION"));
-			}
-			rs.close();
-		} catch (SQLException e) {
-			log.error("ResultSet processing ERROR. " + e.getMessage());
-		}
-		
-		return scannedFileList;
-		
-	}
-
 	public static boolean updateMovieNamesFromRootDir(String srcDirectory) {
 
 		Path srcDir = Paths.get(srcDirectory);

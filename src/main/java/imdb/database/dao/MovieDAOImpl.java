@@ -33,6 +33,8 @@ public class MovieDAOImpl implements MovieMonDAO {
 	
 	private static String INSERT_INTO_USER_MOVIES = "INSERT INTO USER_MOVIES (USERID, MOVIE_ID) VALUES (?, ?);";
 	
+	public static String SELECT_SCANNED_FILES = "SELECT FILELOCATION FROM MOVIE";
+	
 	@Override
 	public boolean insert(MovieDBResult movieDto) {
 
@@ -222,7 +224,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 		ResultSet rs = null;
 		try {
 			rs = conn.createStatement().executeQuery(query);
-			//conn.close();
 
 		} catch (Exception e) {
 			log.error("Exception while running query" + query + " Exception : " + e.getMessage());
@@ -235,7 +236,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 		ResultSet rs = null;
 		try {
 			rs = pst.executeQuery();
-			//conn.close();
 
 		} catch (Exception e) {
 			log.error("Exception : " + e.getMessage());
@@ -250,6 +250,25 @@ public class MovieDAOImpl implements MovieMonDAO {
 		log.info("inserting into user_movies table.. userid : " +userID + " movieID : " +movieID);
 		//System.out.println("Trying to update .. " +insertStmt);
 		return performQuery(pst);
+		
+	}
+	
+	//TODO: user input
+	public List<String> getScannedFileList() {
+		
+		List<String> scannedFileList = new ArrayList<String>();
+		ResultSet rs = getResultSetForQuery(SELECT_SCANNED_FILES);
+		
+		try {
+			while(rs.next()) {
+				scannedFileList.add(rs.getString("FILELOCATION"));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			log.error("ResultSet processing ERROR. " + e.getMessage());
+		}
+		
+		return scannedFileList;
 		
 	}
 	
