@@ -1,5 +1,6 @@
 package imdb.rest;
 
+import imdb.constants.MovieSortParams;
 import imdb.MovieMon;
 import imdb.database.model.MovieDBResult;
 import imdb.install.DBReset;
@@ -11,6 +12,7 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.security.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -30,7 +32,10 @@ import org.glassfish.jersey.media.sse.*;
 @Path("/movies")
 public class RestController {
 
+	
 	final static Logger logger = Logger.getLogger(RestController.class);
+	private MovieSorter movieSorter = new MovieSorter();
+
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -126,6 +131,25 @@ public class RestController {
 		DBReset.deleteAndConstructDb();
 	}
 	
+	//sorting
+		@GET
+		@Path("sortedmovies")
+		@Produces(MediaType.APPLICATION_JSON)
+		public List<MovieDBResult> sortMoviesByName(@QueryParam("action") String action, @QueryParam("sortParam") String sortParam, @QueryParam("sortType") String ascOrDesc ) {
+			
+			logger.info(String.format("Query Parameters : action = %s, sortParam = %s, sortType = %s ", action, sortParam, ascOrDesc));
+			List<MovieDBResult> results = new ArrayList<MovieDBResult>();
+			
+			// cannot think of any other actions other than sort! Will move sort into an enum if and when required!
+			if (action.equals("sort")) {
+				if (sortParam.equals(MovieSortParams.NAME.getStringValue())) {
+					results =  movieSorter.sortMovieByName(ascOrDesc);
+				} else if (sortParam.equals(MovieSortParams.RATINGS.getStringValue())) {		
+					results =  movieSorter.sortMovieByRating(ascOrDesc);
+				} 
+			}
+			return results;
+		}
 
 }
 
