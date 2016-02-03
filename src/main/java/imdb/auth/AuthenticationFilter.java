@@ -11,7 +11,6 @@ import javax.ws.rs.ext.Provider;
 import org.apache.log4j.*;
 import org.glassfish.jersey.internal.util.Base64;
 
-@PreMatching
 @Provider 
 public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequestFilter {
 
@@ -20,8 +19,7 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
 	private static final String AUTHORIZATION_PROPERTY = "Authorization";
     private static final String AUTHENTICATION_SCHEME = "Basic";
     
-	private static final Response ACCESS_DENIED = Response.status(Response.Status.FORBIDDEN)
-			.entity("You cannot access this resource").build();
+    private static final Response ACCESS_DENIED = Response.status(Response.Status.FORBIDDEN).build();
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -35,6 +33,7 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
 		if (authorization == null || authorization.isEmpty()) {
 			requestContext.abortWith(ACCESS_DENIED);
 			return;
+
 		}
 		// Get encoded username and password
 		final String encodedUserPass = authorization.get(0).replaceFirst(AUTHENTICATION_SCHEME + " ", "");

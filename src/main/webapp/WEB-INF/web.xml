@@ -11,7 +11,7 @@
 
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>imdb;imdb.auth;imdb.rest</param-value>
+			<param-value>imdb</param-value>
 		</init-param>
 
 		<init-param>
