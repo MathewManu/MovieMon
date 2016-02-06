@@ -35,7 +35,7 @@ var showScanButton = function () {
         
 	$('#firstTimeMsg').append(msg);
 }
-var getAllMovies = function() {
+/*var getAllMovies = function() {
 		$.getJSON(rootURL, function(json) {
 			if(json.length) {
 				allMovies = json;
@@ -45,7 +45,36 @@ var getAllMovies = function() {
 			 showScanButton();
 			}
 		});
-	}
+	}*/
+
+var getAllMovies = function () {
+	$.ajax({
+		type: "GET",
+		url: rootURL,
+		datatype: 'json',
+		//async: false,
+		headers: {
+		    "Authorization": "Basic " + btoa("gues" + ":" + "guest")
+		  },
+		//data:  data,
+		success : function(data) {
+			if(data.length) {
+				allMovies = data;
+				showPosters();
+			}
+			else {
+				showScanButton();
+			}
+		},
+		beforeSend: setHeader  
+	});
+}
+
+function setHeader(xhr) {
+  xhr.setRequestHeader('Authorization', 'Basic Z3Vlc3Q6Z3Vlc3Q=');
+}
+
+
 var getMovie = function() {
 		var movieName = $('#searchTitle').val();
 

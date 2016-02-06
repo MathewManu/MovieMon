@@ -36,8 +36,15 @@ $(document).ready(function(){
 	$("#cancel-button").click(function(){
         	$("#confirmationMsgmodel").modal("hide");		
     });
+	
+	$("#login").click(function(){
+		openLoginPopup();
+	});
 });
 
+  function openLoginPopup() {
+	  $("#loginModal").modal("show");
+  }
 
   function openScanDirectoryPopup() {
 	$("#myModal").modal("show");	
