@@ -5,24 +5,26 @@ var allMovies;
 
 var showPosters = function() {
 
-				$.each(allMovies, function(index, el) {
-					var textToInsert = '';
-					textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="thumbnail"><img src="moviemon/posters/' + el.poster + '"  width="300" height="426">';
-					textToInsert += '<div class="caption">';
-				
+	$.each(allMovies, function(index, el) {
+		var textToInsert = '';
+		
+		textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="300" height="426">';
+		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-3x bookmark" title="Add to watchlist"></span></a>';
+		
+		textToInsert += '<div class="caption">';
+		textToInsert += '<span class="glyphicon glyphicon-star gi-1x gold"><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
+		
+		//textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-plus gi-2x"></span></a>';
+		//textToInsert += '<a href="#" >' + '<span class="glyphicon glyphicon-heart gi-3x"></span></a>';
+		
+		textToInsert += '<h3>' + el.title  + '<span id="year"> (<a href="">' + el.year +'</a>)</span>' +'</h3>';
+		textToInsert += '<div class="infoText">' + el.genre +'<span class="pipe">' + ' | ' + '</span>' +el.runTime +'</div>';
+	//	textToInsert += '<h5><small>Director : ' + el.director + '</small></h5>';
+	//	textToInsert += '<h6><small>' + el.plot + '</small></h6>';
+		textToInsert +=  '</div></div></div>';
+		$('#poster').append(textToInsert);
 
-					textToInsert += '<div class="imdbratingcircle">' +el.imdbRating + '</div>';
-					textToInsert += '<p>' + el.title + '</p>';
-					textToInsert += '<button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#' 
-
-+el.title +'">More</button>';
-					textToInsert += '<div id="' +el.title + '" class="collapse">';
-					textToInsert += el.title +' ' + el.year +' ' + el.imdbRating +' ' +el.genre;
-					textToInsert +=  '</div></div></div></div>';
-					
-					$('#poster').append(textToInsert);
-			
-				});
+	});
 
 
 }
