@@ -4,6 +4,7 @@ import imdb.constants.MovieSortParams;
 import imdb.MovieMon;
 import imdb.database.model.MovieDBResult;
 import imdb.install.DBReset;
+import imdb.rest.favorites.FavoriteManager;
 import imdb.utils.MovieMonUtils;
 import imdb.utils.ScanStatusEnum;
 
@@ -35,6 +36,7 @@ public class RestController {
 	
 	final static Logger logger = Logger.getLogger(RestController.class);
 	private MovieSorter movieSorter = new MovieSorter();
+	private FavoriteManager FavoriteManager = new FavoriteManager();
 
 	
 	@GET
@@ -150,7 +152,12 @@ public class RestController {
 			}
 			return results;
 		}
-
+		
+		@POST
+		@Path("favorites/{id}")
+		public void addFavorites(@PathParam("id") String id, @Context SecurityContext securityContext) {
+			FavoriteManager.addFavorite(Integer.parseInt(id), securityContext.getUserPrincipal().getName());
+		}
 }
 
 

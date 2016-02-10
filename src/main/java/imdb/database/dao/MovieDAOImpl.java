@@ -33,8 +33,13 @@ public class MovieDAOImpl implements MovieMonDAO {
 	
 	private static String INSERT_INTO_USER_MOVIES = "INSERT INTO USER_MOVIES (USERID, MOVIE_ID) VALUES (?, ?);";
 	
+	private static String INSERT_INTO_FAVORITES = "INSERT INTO FAVORITES (MOVIE_ID, USER_ID) VALUES (?, ?);";
+	
 	public static String SELECT_SCANNED_FILES = "SELECT FILELOCATION FROM MOVIE";
 	
+	public static String SELECT_USER_ID = "SELECT ID FROM USERS WHERE USERNAME = ?";
+	
+
 	@Override
 	public boolean insert(MovieDBResult movieDto) {
 
@@ -251,6 +256,28 @@ public class MovieDAOImpl implements MovieMonDAO {
 		//System.out.println("Trying to update .. " +insertStmt);
 		return performQuery(pst);
 		
+	}
+	
+	public boolean insertIntoFavorites(int movieId, int userId) {
+		
+		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_FAVORITES, Arrays.asList(movieId, userId));
+		log.info("inserting into user_movies table.. userid : " + movieId + " movieID : " + userId);
+		return performQuery(pst);
+		
+	}
+	
+	public int getUserIdForName(String userName) {
+		PreparedStatement pst = prepareStatementFromArgs(SELECT_USER_ID, Arrays.asList(userName));
+		ResultSet rs = getResultSetForPst(pst);
+		int user_id = 0;
+		try {
+			if(rs.next()) {
+				user_id = rs.getInt("ID");
+			}
+		} catch (SQLException e) {
+			log.error("Execption : " + e.getMessage());
+		}
+		return user_id;
 	}
 	
 	//TODO: user input
