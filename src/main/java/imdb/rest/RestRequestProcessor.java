@@ -127,6 +127,7 @@ public class RestRequestProcessor {
 	private static MovieDBResult processRow(ResultSet rs) throws SQLException {
 		MovieDBResult movie = new MovieDBResult();
 		
+		movie.setId(rs.getInt("ID"));
 		movie.setFileName(rs.getString("FILENAME"));
 		movie.setMovieAbsPath(rs.getString("FILELOCATION"));
 		movie.setTitle(rs.getString("TITLE"));

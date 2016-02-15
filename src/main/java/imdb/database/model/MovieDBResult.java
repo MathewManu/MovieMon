@@ -7,7 +7,7 @@ public class MovieDBResult {
 	
 	private String fileName;
 	private String movieAbsPath;
-	
+	private int id ;
 	private String title;
 	private int year;
 	private String imdbRating;
@@ -19,6 +19,7 @@ public class MovieDBResult {
 	private String plot;	
 	private String language;
 	private String poster;
+	
 	
 	public String getFileName() {
 		return fileName;
@@ -97,6 +98,12 @@ public class MovieDBResult {
 	}
 	public void setActors(String actors) {
 		this.actors = actors;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 
 

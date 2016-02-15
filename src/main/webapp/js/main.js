@@ -9,10 +9,10 @@ var showPosters = function() {
 		var textToInsert = '';
 		
 		textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="300" height="426">';
-		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-3x bookmark" title="Add to watchlist"></span></a>';
+		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-3x bookmark" title="Add to watchlist" data-wl-id=' + el.id +'></span></a>';
 		
 		textToInsert += '<div class="caption">';
-		textToInsert += '<span class="glyphicon glyphicon-star gi-1x gold"><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
+		textToInsert += '<span class="glyphicon glyphicon-star gi-1x gold" data-fav-id=' + el.id +'><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
 		
 		//textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-plus gi-2x"></span></a>';
 		//textToInsert += '<a href="#" >' + '<span class="glyphicon glyphicon-heart gi-3x"></span></a>';
