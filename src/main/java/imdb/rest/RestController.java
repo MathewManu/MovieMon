@@ -33,11 +33,9 @@ import org.glassfish.jersey.media.sse.*;
 @Path("/movies")
 public class RestController {
 
-	
 	final static Logger logger = Logger.getLogger(RestController.class);
 	private MovieSorter movieSorter = new MovieSorter();
 	private FavoriteManager FavoriteManager = new FavoriteManager();
-
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -155,8 +153,11 @@ public class RestController {
 		
 		@POST
 		@Path("favorites/{id}")
-		public void addFavorites(@PathParam("id") String id, @Context SecurityContext securityContext) {
-			FavoriteManager.addFavorite(Integer.parseInt(id), securityContext.getUserPrincipal().getName());
+		public Response addFavorites(@PathParam("id") String id, @Context SecurityContext securityContext) {
+			if (FavoriteManager.addFavorite(Integer.parseInt(id), securityContext.getUserPrincipal().getName())) {
+				return  Response.status(Response.Status.OK).build();
+			}
+			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 }
 

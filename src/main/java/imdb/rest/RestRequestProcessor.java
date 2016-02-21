@@ -3,15 +3,19 @@ package imdb.rest;
 import java.sql.*;
 import java.util.*;
 
+import imdb.auth.AuthenticationUtils;
+import imdb.constants.MovieDaoImplSelector;
 import imdb.database.dao.*;
 import imdb.database.model.*;
+import imdb.exceptions.NoRowFoundException;
 
 public class RestRequestProcessor {
 
-	private static MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl();
-	
+	//I need this specific dao here , as I am querying for user favorites.
+	private static MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl(MovieDaoImplSelector.USER_SPECIFIC_FEATURES_MOVIE_SELECTOR);
+
 	private static String SELECT_ALL = "SELECT * FROM MOVIE";
-	
+
 	/*
 	 * this fun processes the query params & form sql query. call impl &
 	 * processes the resultSet. can process rating, year query params now.
@@ -22,22 +26,22 @@ public class RestRequestProcessor {
 
 		ArrayList<String> queryParamList = new ArrayList<String>();
 		StringBuilder querySb = new StringBuilder(SELECT_ALL);
-		
+
 		if (!rating.isEmpty()) {
 			queryParamList.add(getQueryConditionWithRating(rating));
 		}
 		if (!year.isEmpty()) {
 			queryParamList.add(getQueryConditionWithYear(year));
 		}
-		
+
 		String query = updateSelectStmntWithConditions(querySb, queryParamList).toString();
-	
+
 		return processResultSet(movieDAO.getResultSetForQuery(query));
 
 	}
 
 	private static List<MovieDBResult> processResultSet(ResultSet rs) {
-		
+
 		List<MovieDBResult> movieList = new ArrayList<MovieDBResult>();
 		try {
 			while (rs.next()) {
@@ -75,7 +79,7 @@ public class RestRequestProcessor {
 	public static List<MovieDBResult> searchMovie(String searchQuery) {
 
 		String query = String.format("%s%s%s", "SELECT * FROM MOVIE WHERE TITLE = '", searchQuery, "';");
-		
+
 		return processResultSet(movieDAO.getResultSetForQuery(query));
 
 	}
@@ -126,7 +130,7 @@ public class RestRequestProcessor {
 	 */
 	private static MovieDBResult processRow(ResultSet rs) throws SQLException {
 		MovieDBResult movie = new MovieDBResult();
-		
+
 		movie.setId(rs.getInt("ID"));
 		movie.setFileName(rs.getString("FILENAME"));
 		movie.setMovieAbsPath(rs.getString("FILELOCATION"));
@@ -141,7 +145,18 @@ public class RestRequestProcessor {
 		movie.setActors(rs.getString("ACTORS"));
 		movie.setRunTime(rs.getString("RUNTIME"));
 		movie.setLanguage(rs.getString("LANGUAGE"));
-		
+		String loggedInUserName;
+		if ((loggedInUserName = AuthenticationUtils.getCurrentlyLoggedinUser()) != null) {
+			try {
+				int favId = ((MovieDAOImplForUserSpecificFeatures) movieDAO).isMovieFavoritedByUser(String.valueOf(movie.getId()), String.valueOf(movieDAO.getUserIdForName(loggedInUserName)));
+				if (favId != -1) {
+					movie.setFavorite(true);
+				}
+			} catch (NoRowFoundException e) {
+				movie.setFavorite(false);
+			}
+		}
+
 		return movie;
 	}
 

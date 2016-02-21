@@ -19,6 +19,9 @@ public class MovieDBResult {
 	private String plot;	
 	private String language;
 	private String poster;
+	private boolean isFavorite;
+	private boolean isInWatchList;
+	private boolean isAlreadyWatched;
 	
 	
 	public String getFileName() {
@@ -104,6 +107,24 @@ public class MovieDBResult {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public boolean isFavorite() {
+		return isFavorite;
+	}
+	public void setFavorite(boolean isFavorite) {
+		this.isFavorite = isFavorite;
+	}
+	public boolean isInWatchList() {
+		return isInWatchList;
+	}
+	public void setInWatchList(boolean isInWatchList) {
+		this.isInWatchList = isInWatchList;
+	}
+	public boolean isAlreadyWatched() {
+		return isAlreadyWatched;
+	}
+	public void setAlreadyWatched(boolean isAlreadyWatched) {
+		this.isAlreadyWatched = isAlreadyWatched;
 	}
 
 

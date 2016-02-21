@@ -1,5 +1,7 @@
 package imdb.database.dao;
 
+import imdb.constants.MovieDaoImplSelector;
+
 /*
  * @author mon
  * 
@@ -9,7 +11,15 @@ package imdb.database.dao;
  */
 public class MovieMonDaoFactory {
 	//singleton ?
-	public static MovieDAOImpl getMovieDAOImpl() {
-		return (new MovieDAOImpl());
+	public static MovieDAOImpl getMovieDAOImpl(String... args) {
+
+		if (args.length == 0) {
+			return new MovieDAOImpl();
+		}
+		if(args[0].equals(MovieDaoImplSelector.USER_SPECIFIC_FEATURES_MOVIE_SELECTOR)) {
+			return new MovieDAOImplForUserSpecificFeatures();
+		} else {
+			return (new MovieDAOImpl());
+		}
 	}
 }

@@ -86,6 +86,7 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
 			}
 		});
 		
+		AuthenticationUtils.setCurrentlyLoggedInUser(username);
 	}
 
 	private boolean isUserAllowed(String username, String password) {

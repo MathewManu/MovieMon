@@ -73,7 +73,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 	
 	}
 
-	private PreparedStatement prepareStatementFromArgs(String statement, List<? extends Object> args) {
+	protected PreparedStatement prepareStatementFromArgs(String statement, List<? extends Object> args) {
 
 		Connection conn = createConnection();
 		PreparedStatement pstmt = null;
