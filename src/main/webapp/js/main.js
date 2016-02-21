@@ -3,6 +3,9 @@
 var rootURL = "http://localhost:8080/moviemon/movies";
 var allMovies;
 
+var unFavoriteIcon = "glyphicon glyphicon-star gi-1x none"
+var favoriteIcon = "glyphicon glyphicon-star gi-1x gold"
+
 var showPosters = function() {
 
 	$.each(allMovies, function(index, el) {
@@ -12,7 +15,7 @@ var showPosters = function() {
 		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-3x bookmark" title="Add to watchlist" data-wl-id=' + el.id +'></span></a>';
 		
 		textToInsert += '<div class="caption">';
-		textToInsert += '<span class="glyphicon glyphicon-star gi-1x gold" data-fav-id=' + el.id +'><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
+		textToInsert += '<span class= "' + unFavoriteIcon + '" onclick="tryFavoriting(this , '+ el.id + ')" data-fav-id=' + el.id +'><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
 		
 		//textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-plus gi-2x"></span></a>';
 		//textToInsert += '<a href="#" >' + '<span class="glyphicon glyphicon-heart gi-3x"></span></a>';
@@ -28,6 +31,34 @@ var showPosters = function() {
 
 
 }
+
+function tryFavoriting(param, id) {
+	if (param.className == "glyphicon glyphicon-star gi-1x gold" ) {
+		
+   
+	 
+	} else {
+		param.className = "glyphicon glyphicon-star gi-1x none";
+		
+		$.ajax({
+		url:  "http://localhost:8080/moviemon/movies/favorites/" + id,
+		type: 'post',
+		
+		headers: {
+		    "Authorization": "Basic " + btoa("guest" + ":" + "guest")
+		  }, 
+		statusCode: {
+		200: function (response) {
+         param.className = "glyphicon glyphicon-star gi-1x gold";
+		}
+		} 
+		});
+
+		
+	}
+	
+}
+
 var showScanButton = function () {
 	var msg = '';
 	msg += '<h1>MovieMon</h1>';

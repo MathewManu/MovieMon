@@ -261,7 +261,7 @@ public class MovieDAOImpl implements MovieMonDAO {
 	public boolean insertIntoFavorites(int movieId, int userId) {
 		
 		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_FAVORITES, Arrays.asList(movieId, userId));
-		log.info("inserting into user_movies table.. userid : " + movieId + " movieID : " + userId);
+		log.info("inserting into user_movies table.. userid : " + userId + " movieID : " + movieId);
 		return performQuery(pst);
 		
 	}
