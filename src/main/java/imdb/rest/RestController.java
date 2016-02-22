@@ -159,6 +159,15 @@ public class RestController {
 			}
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
+		
+		@DELETE
+		@Path("favorites/{id}")
+		public Response deleteFavorites(@PathParam("id") String id, @Context SecurityContext securityContext) {
+			if (FavoriteManager.deleteFavorite(Integer.parseInt(id), securityContext.getUserPrincipal().getName())) {
+				return  Response.status(Response.Status.OK).build();
+			}
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
 }
 
 

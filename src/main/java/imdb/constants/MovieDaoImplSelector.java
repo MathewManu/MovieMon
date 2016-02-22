@@ -8,6 +8,7 @@ package imdb.constants;
  */
 public class MovieDaoImplSelector {
 
+	//TODO : make these enums.
 	public static final String DEFAULT_MOVIE_SELECTOR = "DEF";
 	public static final String USER_SPECIFIC_FEATURES_MOVIE_SELECTOR = "USERSPECIFICFEATURES";
 	

@@ -40,30 +40,37 @@ var showPosters = function() {
 }
 
 function tryFavoriting(param, id) {
-	if (param.className == "glyphicon glyphicon-star gi-1x gold" ) {
-		
-	
-	 
-	} else {
-		param.className = "glyphicon glyphicon-star gi-1x none";
-		
+	if (param.className == "glyphicon glyphicon-star gi-1x gold") {
+		//Delete request to remove favorites
 		$.ajax({
-		url:  "http://localhost:8080/moviemon/movies/favorites/" + id,
-		type: 'post',
-		
-		headers: {
-		    "Authorization": "Basic " + btoa("guest" + ":" + "guest")
-		  }, 
-		statusCode: {
-		200: function (response) {
-         param.className = "glyphicon glyphicon-star gi-1x gold";
-		}
-		} 
+			url : "http://localhost:8080/moviemon/movies/favorites/" + id,
+			type : 'delete',
+			//adding authorization headers : TODO (Anushya ) Replace with headers method.
+			headers : {
+				"Authorization" : "Basic " + btoa("guest" + ":" + "guest")
+			},
+			statusCode : {
+				200 : function (response) {
+					param.className = "glyphicon glyphicon-star gi-1x none";
+				}
+			}
 		});
-
-		
+	} else {
+		//sending post request to add favorites
+		$.ajax({
+			url : "http://localhost:8080/moviemon/movies/favorites/" + id,
+			type : 'post',
+			//adding authorization headers : TODO (Anushya ) Replace with headers method.
+			headers : {
+				"Authorization" : "Basic " + btoa("guest" + ":" + "guest")
+			},
+			statusCode : {
+				200 : function (response) {
+					param.className = "glyphicon glyphicon-star gi-1x gold";
+				}
+			}
+		});
 	}
-	
 }
 
 var showScanButton = function () {

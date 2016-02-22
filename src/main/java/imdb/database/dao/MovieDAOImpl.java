@@ -33,8 +33,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 	
 	private static String INSERT_INTO_USER_MOVIES = "INSERT INTO USER_MOVIES (USERID, MOVIE_ID) VALUES (?, ?);";
 	
-	private static String INSERT_INTO_FAVORITES = "INSERT INTO FAVORITES (MOVIE_ID, USER_ID) VALUES (?, ?);";
-	
 	public static String SELECT_SCANNED_FILES = "SELECT FILELOCATION FROM MOVIE";
 	
 	public static String SELECT_USER_ID = "SELECT ID FROM USERS WHERE USERNAME = ?";
@@ -254,14 +252,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_USER_MOVIES, Arrays.asList(userID, movieID));
 		log.info("inserting into user_movies table.. userid : " +userID + " movieID : " +movieID);
 		//System.out.println("Trying to update .. " +insertStmt);
-		return performQuery(pst);
-		
-	}
-	
-	public boolean insertIntoFavorites(int movieId, int userId) {
-		
-		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_FAVORITES, Arrays.asList(movieId, userId));
-		log.info("inserting into user_movies table.. userid : " + userId + " movieID : " + movieId);
 		return performQuery(pst);
 		
 	}

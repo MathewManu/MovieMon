@@ -19,12 +19,12 @@ import java.util.Arrays;
 public class MovieDAOImplForUserSpecificFeatures extends MovieDAOImpl {
 
 	private static String IS_MOVIE_FAVORITED = "SELECT ID FROM FAVORITES WHERE MOVIE_ID = ? AND USER_ID = ?";
-
+	private static String INSERT_INTO_FAVORITES = "INSERT INTO FAVORITES (MOVIE_ID, USER_ID) VALUES (?, ?);";
+	private static String DELETE_FROM_FAVORITES = "DELETE FROM FAVORITES WHERE MOVIE_ID = ? AND USER_ID = ?";
 	/*
 	 * Checks if the movie has been favorited by the user. R
 	 */
 	public int isMovieFavoritedByUser(String movieId, String userId) throws NoRowFoundException {
-
 		int favId = -1;
 		PreparedStatement pst = prepareStatementFromArgs(IS_MOVIE_FAVORITED, Arrays.asList(movieId, userId));
 		ResultSet rs = getResultSetForPst(pst);
@@ -36,9 +36,19 @@ public class MovieDAOImplForUserSpecificFeatures extends MovieDAOImpl {
 		} catch (SQLException e) {
 			log.error("Execption : " + e.getMessage());
 		}
-		
 		throw new NoRowFoundException("No movie with id " + movieId + "favorited by user :" +userId);
 	}
 
+	public boolean insertIntoFavorites(int movieId, int userId) {
+		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_FAVORITES, Arrays.asList(movieId, userId));
+		log.info("inserting into favorites table.. userid : " + userId + " movieID : " + movieId);
+		return performQuery(pst);
+	}
+
+	public boolean deleteFromFavorites(int movieId, int userId) {
+		PreparedStatement pst = prepareStatementFromArgs(DELETE_FROM_FAVORITES, Arrays.asList(movieId, userId));
+		log.info("Deleting from favorites table.. userid : " + userId + " movieID : " + movieId);
+		return performQuery(pst);
+	}
 
 }
