@@ -21,7 +21,8 @@ function postAjaxCall(url, requestParam, idToBeUpdated) {
   success: function(result){
 	openScanDirectoryErrorPopup(result);
     return result;
-  }
+  },
+  beforeSend: setHeader
 });
 }
 
@@ -31,7 +32,8 @@ $.ajax({
     type: 'DELETE',
     success: function(result) {
         // What to do? Nothing for now 
-    }
+    },
+	beforeSend: setHeader
 });
 
 }

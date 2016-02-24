@@ -1,36 +1,50 @@
 //refer http://www.smashingmagazine.com/2012/02/beginners-guide-jquery-based-json-api-clients/#the-full-code
-//var rootURL = "http://192.168.0.101:8080/moviemon/movies";
 var rootURL = "http://localhost:8080/moviemon/movies";
+var loginURL = "http://localhost:8080/moviemon/authentication/signin"
+var favURL = "http://localhost:8080/moviemon/movies/favorites/"
+
 var allMovies;
 
-var unFavoriteIcon = "glyphicon glyphicon-star gi-1x none"
+var unFavoriteIcon = "glyphicon glyphicon-star-empty gi-1x none"
 var favoriteIcon = "glyphicon glyphicon-star gi-1x gold"
+	
+var token = "authToken"
 
 
 var showPosters = function() {
 
 	$.each(allMovies, function(index, el) {
+		
 		var textToInsert = '';
 		
-		textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="300" height="426">';
-		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-3x bookmark" title="Add to watchlist" data-wl-id=' + el.id +'></span></a>';
+		var genreString = '';
+		var genreLinks = '';
+		var genreList = el.genre.split(",");
+		for(i=0;i<genreList.length; i++)
+		{
+					genreString += '<a href="#">' + genreList[i] + '</a>' + ', '
+		}
+		genreLinks = genreString.substring(0,genreString.lastIndexOf(",")); //to remove the last extra comma. [ action, drama, ]
 		
-		textToInsert += '<div class="caption">';
 		var favIconToBeUsed;
 		if(el.favorite == true) {
 			favIconToBeUsed = favoriteIcon;
 		} else {
 			favIconToBeUsed = unFavoriteIcon;
 		}
-		textToInsert += '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , '+ el.id + ')" data-fav-id=' + el.id +'><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
+		
+		textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="300" height="426">';
+		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-3x bookmark" title="Add to watchlist" data-wl-id=' + el.id +'></span></a>';
+		textToInsert += '<div class="caption">';
+		
+		
+		textToInsert += '<a href="#">' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , '+ el.id + ')" data-fav-id=' + el.id +'></a><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
 		
 		//textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-plus gi-2x"></span></a>';
-		//textToInsert += '<a href="#" >' + '<span class="glyphicon glyphicon-heart gi-3x"></span></a>';
 		
 		textToInsert += '<h3>' + el.title  + '<span id="year"> (<a href="">' + el.year +'</a>)</span>' +'</h3>';
-		textToInsert += '<div class="infoText">' + el.genre +'<span class="pipe">' + ' | ' + '</span>' +el.runTime +'</div>';
-	//	textToInsert += '<h5><small>Director : ' + el.director + '</small></h5>';
-	//	textToInsert += '<h6><small>' + el.plot + '</small></h6>';
+		textToInsert += '<div class="infoText">' + genreLinks +'<span class="pipe">' + ' | ' + '</span>' +el.runTime +'</div>';
+		
 		textToInsert +=  '</div></div></div>';
 		$('#poster').append(textToInsert);
 
@@ -43,32 +57,26 @@ function tryFavoriting(param, id) {
 	if (param.className == "glyphicon glyphicon-star gi-1x gold") {
 		//Delete request to remove favorites
 		$.ajax({
-			url : "http://localhost:8080/moviemon/movies/favorites/" + id,
+			url : favURL + id,
 			type : 'delete',
-			//adding authorization headers : TODO (Anushya ) Replace with headers method.
-			headers : {
-				"Authorization" : "Basic " + btoa("guest" + ":" + "guest")
-			},
 			statusCode : {
 				200 : function (response) {
 					param.className = "glyphicon glyphicon-star gi-1x none";
 				}
-			}
+			},
+			beforeSend: setHeader 
 		});
 	} else {
 		//sending post request to add favorites
 		$.ajax({
-			url : "http://localhost:8080/moviemon/movies/favorites/" + id,
-			type : 'post',
-			//adding authorization headers : TODO (Anushya ) Replace with headers method.
-			headers : {
-				"Authorization" : "Basic " + btoa("guest" + ":" + "guest")
-			},
+			url : favURL + id,
+			type : "POST",
 			statusCode : {
 				200 : function (response) {
 					param.className = "glyphicon glyphicon-star gi-1x gold";
 				}
-			}
+			},
+			beforeSend: setHeader 
 		});
 	}
 }
@@ -82,17 +90,7 @@ var showScanButton = function () {
         
 	$('#firstTimeMsg').append(msg);
 }
-/*var getAllMovies = function() {
-		$.getJSON(rootURL, function(json) {
-			if(json.length) {
-				allMovies = json;
-				showPosters();
-			}	
-			else {
-			 showScanButton();
-			}
-		});
-	}*/
+
 
 var getAllMovies = function () {
 	$.ajax({
@@ -100,9 +98,6 @@ var getAllMovies = function () {
 		url: rootURL,
 		datatype: 'json',
 		//async: false,
-		headers: {
-		    "Authorization": "Basic " + btoa("gues" + ":" + "guest")
-		  },
 		//data:  data,
 		success : function(data) {
 			if(data.length) {
@@ -117,8 +112,53 @@ var getAllMovies = function () {
 	});
 }
 
+//try to authenticate the user.
+//upon success token is returned & it ll be saved in a cookie
+function postLoginAjaxCall(username, password) {
+	
+	var cred = {
+			'username': username,
+			'password': password
+	}
+	
+	$.ajax({
+		type: "POST",
+		url: loginURL,
+		async: false,
+		data : JSON.stringify(cred),
+		contentType: 'application/json',		
+		
+		success : function(data) {
+			    setCookie(token, data);
+		}
+	});
+}
+
+//set the http Authorization request header with token value
+//token value is retrieved from cookie
 function setHeader(xhr) {
-  xhr.setRequestHeader('Authorization', 'Basic Z3Vlc3Q6Z3Vlc3Q=');
+	var bearertoken = getCookie(token);
+	if(bearertoken) {
+		var bearerHeader = 'Bearer '+ bearertoken; 
+		xhr.setRequestHeader('Authorization', bearerHeader);
+	}
+}
+
+var setCookie = function(cname, cvalue) {
+    var d = new Date();
+    d.setTime(d.getTime() + (1*24*60*60*1000));
+    var expiry = "expires="+d.toUTCString();
+    document.cookie = cname +"=" + cvalue +";"+expiry;
+}
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
 }
 
 
@@ -150,16 +190,8 @@ var getMovie = function() {
 	
 	
 $(document).ready(function(){
-/*
-   $('#term').focus(function(){
-      var full = $("#poster").has("img").length ? true : false;
-      if(full == false){
-         $('#poster').empty();
-      }
-   });*/
-   //load the movies when page loads ...
-   //checkFirstRun();
-	getAllMovies();
+
+   getAllMovies();
 
    $('#searchAll').click(getAllMovies);
    $('#search').click(getMovie);

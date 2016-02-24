@@ -40,10 +40,34 @@ $(document).ready(function(){
 	$("#login").click(function(){
 		openLoginPopup();
 	});
+	
+	//Login box button
+	$("#login-button").click(function() {
+		
+		var username = $("#username").val();
+		var password = $("#password").val();
+		
+		//TODO: (manu) basic form validation
+	
+		if(username != '' && password != '') {
+			closeLoginPopup();
+			var result = postLoginAjaxCall(username, password);
+		}
+		else {
+			//error
+		}
+			
+	});
+	
 });
+
 
   function openLoginPopup() {
 	  $("#loginModal").modal("show");
+  }
+  
+  function closeLoginPopup() {
+	    $("#loginModal").modal("hide");
   }
 
   function openScanDirectoryPopup() {

@@ -2,56 +2,48 @@ package imdb.auth;
 
 import java.io.*;
 import java.security.*;
-import java.util.*;
-
+import javax.annotation.Priority;
+import javax.ws.rs.*;
 import javax.ws.rs.container.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.log4j.*;
-import org.glassfish.jersey.internal.util.Base64;
 
-@Provider 
+@Secured
+@Provider
+@Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequestFilter {
 
 	final static Logger logger = Logger.getLogger(AuthenticationFilter.class);
 	
-	private static final String AUTHORIZATION_PROPERTY = "Authorization";
-    private static final String AUTHENTICATION_SCHEME = "Basic";
-    
     private static final Response ACCESS_DENIED = Response.status(Response.Status.FORBIDDEN).build();
 	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
+		
+		String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-		// get request headers.
-		final MultivaluedMap<String, String> headers = requestContext.getHeaders();
+		if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer")) {
+			//TODO: exception ?
+			// throw new NotAuthorizedException("failed");
+			requestContext.abortWith(ACCESS_DENIED);
+			return;
+		}
+		String token = authorizationHeader.substring("Bearer".length()).trim();
 
-		// fetch authorization header
-		final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
+		try {
+			validateToken(token);
+			// TODO: set username
 
-		if (authorization == null || authorization.isEmpty()) {
+		} catch (Exception e) {
+			logger.debug("exception : token validation failed");
 			requestContext.abortWith(ACCESS_DENIED);
 			return;
 
 		}
-		// Get encoded username and password
-		final String encodedUserPass = authorization.get(0).replaceFirst(AUTHENTICATION_SCHEME + " ", "");
-		// decode username & password
 
-		String usernameAndPassword = new String(Base64.decode(encodedUserPass.getBytes()));
-
-		// Split username and password tokens
-		final StringTokenizer tokenizer = new StringTokenizer(usernameAndPassword, ":");
-		final String username = tokenizer.nextToken();
-		final String password = tokenizer.nextToken();
-
-		logger.debug("Username & password : " + username + " " + password);
-
-		if (!isUserAllowed(username, password)) {
-			requestContext.abortWith(ACCESS_DENIED);
-			return;
-		}
+		final String principalUsername = "guest";
 		
 		requestContext.setSecurityContext(new SecurityContext() {
 					
@@ -61,7 +53,7 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
 
 					@Override
 					public String getName() {
-						return username;
+						return principalUsername;
 					}
 					
 				};
@@ -86,18 +78,13 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
 			}
 		});
 		
-		AuthenticationUtils.setCurrentlyLoggedInUser(username);
+		AuthenticationUtils.setCurrentlyLoggedInUser(principalUsername);
 	}
+	
+	private void validateToken(String token) {
+		logger.debug("validating token .. TODO");
+		// TODO: validation against db
 
-	private boolean isUserAllowed(String username, String password) {
-
-		logger.debug("isUserAllowed method.. " +username +" " +password);
-		//TODO:should check from db for user
-		if (username.equals("guest") && password.equals("guest")) {
-			return true;
-		}
-
-		return false;
 	}
 
 }

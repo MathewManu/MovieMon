@@ -2,6 +2,7 @@ package imdb.rest;
 
 import imdb.constants.MovieSortParams;
 import imdb.MovieMon;
+import imdb.auth.*;
 import imdb.database.model.MovieDBResult;
 import imdb.install.DBReset;
 import imdb.rest.favorites.FavoriteManager;
@@ -38,6 +39,7 @@ public class RestController {
 	private FavoriteManager FavoriteManager = new FavoriteManager();
 	
 	@GET
+	@Secured
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<MovieDBResult> getMovies(
 			@DefaultValue("") @QueryParam("rating") String rating, 
@@ -57,6 +59,7 @@ public class RestController {
 		return RestRequestProcessor.searchMovie(searchQuery);
 	}
 
+	@Secured
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	public  String doScan(final String requString) {		
@@ -126,6 +129,7 @@ public class RestController {
 		
 	}
 	
+	@Secured
 	@DELETE
 	public void deleteAllMovies() {
 		DBReset.deleteAndConstructDb();
@@ -151,6 +155,7 @@ public class RestController {
 			return results;
 		}
 		
+		@Secured
 		@POST
 		@Path("favorites/{id}")
 		public Response addFavorites(@PathParam("id") String id, @Context SecurityContext securityContext) {
@@ -159,7 +164,8 @@ public class RestController {
 			}
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
-		
+
+		@Secured
 		@DELETE
 		@Path("favorites/{id}")
 		public Response deleteFavorites(@PathParam("id") String id, @Context SecurityContext securityContext) {
@@ -169,8 +175,3 @@ public class RestController {
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
 }
-
-
-   
-
-	
