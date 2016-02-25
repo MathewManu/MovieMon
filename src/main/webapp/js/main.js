@@ -54,14 +54,14 @@ var showPosters = function() {
 }
 
 function tryFavoriting(param, id) {
-	if (param.className == "glyphicon glyphicon-star gi-1x gold") {
+	if (param.className == favoriteIcon) {
 		//Delete request to remove favorites
 		$.ajax({
 			url : favURL + id,
 			type : 'delete',
 			statusCode : {
 				200 : function (response) {
-					param.className = "glyphicon glyphicon-star gi-1x none";
+					param.className = unFavoriteIcon;
 				}
 			},
 			beforeSend: setHeader 
@@ -73,7 +73,7 @@ function tryFavoriting(param, id) {
 			type : "POST",
 			statusCode : {
 				200 : function (response) {
-					param.className = "glyphicon glyphicon-star gi-1x gold";
+					param.className = favoriteIcon;
 				}
 			},
 			beforeSend: setHeader 
