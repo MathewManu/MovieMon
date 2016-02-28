@@ -90,9 +90,9 @@ public class MovieProcessor implements Callable<Boolean> {
 				+ movieObj.getYear());
 
 		if (movieObj.getYear() != 9999) {
-			imdbId = GSearch.findId(movieObj.getUpdatedfileName(), movieObj.getYear());
+			imdbId = DDGSearch.findId(movieObj.getUpdatedfileName(), movieObj.getYear());
 		} else {
-			imdbId = GSearch.findId(movieObj.getUpdatedfileName());
+			imdbId = DDGSearch.findId(movieObj.getUpdatedfileName());
 		}
 
 		if (!imdbId.isEmpty()) {
@@ -118,6 +118,7 @@ public class MovieProcessor implements Callable<Boolean> {
 	/*
 	 * return movieDto which should go to DB
 	 */
+	//TODO : (manu) change with builder .with
 	private MovieDBResult getMovieDto(MovieObject movieObj) {
 		MovieDBResult movieDto = new MovieDBResult();
 		

@@ -23,7 +23,7 @@ public class MovieNameResolver {
 	private void init() {
 		//TODO: should get updated dynamically 
 		String arr[] = new String[] { "DvdRip", "aXXo", "xVid", "YIFY",
-				"torrent", "BRRip", "AAC", "HQ", "720p", "h264", "bluray", "x264", "1080p","480p" };
+				"torrent", "BRRip", "HDRIP", "ViP3R", "AAC", "HQ", "720p", "h264", "bluray", "x264", "1080p","480p", "torentz", "www.torentz.3xforum.ro.avi"  };
 
 		for (String word : arr) {
 			rxs.add(Pattern.compile(word, Pattern.CASE_INSENSITIVE));

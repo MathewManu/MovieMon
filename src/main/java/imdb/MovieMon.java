@@ -27,6 +27,7 @@ public class MovieMon {
 	public synchronized static void process() {
 		
 		MovieMonUtils.setScanStatus(ScanStatusEnum.INPROGRES);
+		long startTime = System.currentTimeMillis();
 
 		if (false == updateMovieNamesFromRootDir(srcDirectory)) {
 			log.error("Could not find any movies at path : "+srcDirectory);
@@ -92,7 +93,10 @@ public class MovieMon {
 		movieDAO.updateDupMovies();
 		movieDAO.closeConnection();
 		
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
 		log.debug("--------Finished Processing----------");
+		log.debug("Elapsed time ... >>>>>>> : " + totalTime  +" >>>> sec : " +totalTime/1000);
 	}
 	
 	public static boolean updateMovieNamesFromRootDir(String srcDirectory) {

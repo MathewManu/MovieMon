@@ -34,12 +34,17 @@ public class SimpleFileWalk extends SimpleFileVisitor<Path>{
 			throws IOException {
 
 		String fileName = file.getFileName().toString();
-
+		
 		if (attr.isRegularFile()) {
 
-			int lastIndexOfDot = fileName.lastIndexOf(".");
-			if (lastIndexOfDot == -1
-					|| !MovieFormat.isValidFormat(fileName.substring(lastIndexOfDot + 1))) {
+			long fsize = attr.size()/(1024*1024); // size in MB
+			int lastIndexOfDot = fileName.lastIndexOf("."); // filename must
+															// have extension
+			String fileExt = fileName.substring(lastIndexOfDot + 1);
+
+			// assumes min of 100MB size for a movie. Helps to skip sample files.
+			
+			if (fsize <= 100 || lastIndexOfDot == -1 || !MovieFormat.isValidFormat(fileExt)) {
 				log.debug("====Skiping the file : " + fileName);
 				return FileVisitResult.CONTINUE;
 

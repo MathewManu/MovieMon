@@ -5,7 +5,16 @@ import imdb.utils.*;
 public enum MovieFormat {
 	MP4("mp4"),
 	AVI("avi"),
-	MKV("mkv");
+	MKV("mkv"),
+	M4V("m4v"),
+	DIVX("divx"),
+	RMVB("rmvb"),
+	VOB("vob"),
+	DAT("dat"),
+	WMV("wmv"),
+	FLV("flv");
+	//3GPP("3gpp");
+	//TODO: (manu) should change to a list ?????
 	
 	private String format;
 	
