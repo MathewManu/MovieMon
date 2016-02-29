@@ -8,6 +8,8 @@ import org.apache.log4j.*;
 public class MovieNameResolver {
 	
 	final static Logger log = Logger.getLogger(MovieNameResolver.class);
+	//Global map which is a collection of gibberish strings
+	public static List<String> globalGibberishStrings = new ArrayList<String>();
 	
 	public MovieNameResolver() {
 		init();
@@ -21,6 +23,7 @@ public class MovieNameResolver {
 	}
 	
 	private void init() {
+		
 		//TODO: should get updated dynamically 
 		String arr[] = new String[] { "DvdRip", "aXXo", "xVid", "YIFY",
 				"torrent", "BRRip", "HDRIP", "ViP3R", "AAC", "HQ", "720p", "h264", "bluray", "x264", "1080p","480p", "torentz", "www.torentz.3xforum.ro.avi"  };
@@ -28,6 +31,7 @@ public class MovieNameResolver {
 		for (String word : arr) {
 			rxs.add(Pattern.compile(word, Pattern.CASE_INSENSITIVE));
 		}
+		
 	}
 	
 	public boolean process(MovieObject movieObj) {

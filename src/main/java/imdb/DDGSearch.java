@@ -1,5 +1,7 @@
 package imdb;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.util.regex.*;
 
@@ -19,7 +21,7 @@ import org.jsoup.select.*;
  * for more details.
  */
 public class DDGSearch {
-	
+
 	final static Logger log = Logger.getLogger(DDGSearch.class);
 
 	public static String findId(String getupdatedfileName, int year) {
@@ -34,46 +36,68 @@ public class DDGSearch {
 
 	public static String searchID(String searchQuery) {
 
-		String baseAddr = "http://duckduckgo.com/html/?q=";
 		String search = searchQuery + " imdb";
-		String charset = "UTF-8";
-
-		Document doc;
-
-		try {
-
-			Connection connection = Jsoup.connect(
-					baseAddr + URLEncoder.encode(search, charset)).userAgent(
-					"Mozilla");
-			// if (connection.response().statusCode() == 200) {
-			doc = connection.get();
+		try {		
+			Document doc = searchForMovie(search);
+			if (doc == null) {
+				Thread.sleep(500);
+				//searching for the second time : If this fails, the movie will be scanned later in failed movies scan
+				doc = searchForMovie(search);
+			}			
+			if (doc == null) {
+				//No more retries plz. I am a failed movie!
+				return null;
+			}
+			
 			
 			Elements links = doc.select("a[href]");
-			
+
 			if(links.size() == 0) {
 				log.error("\n\t**************ERROR*************\n");
 				log.error("\t\tcould not find links from duckduck search results.. \n\n");
 			}
+			log.debug("DuckDuckGo Search for String :" + search);
 			for (Element link : links) {
-				log.debug("DuckDuckGo Search !");
+
 				String url = link.attr("href");
-		
+
 				Pattern p = Pattern.compile("(www.imdb.com/title/)(tt\\d+)");
 				Matcher m = p.matcher(url);
 				if (m.find()) {
-					
-					log.debug("Search Query is : " +search);
+
 					log.debug("Matched URL from DDG is : " +url);
-					
 					return m.group(2); //imdb id
 				}
 			}
 
 		} catch (Exception ex) {
-			System.out.println("ERROR : " + ex.getMessage());
+			log.error("ERROR : " + ex.getMessage());
+			
 		}
-	
+		log.error("Could not find the movie : " +search);
 		return "";
 
 	}
+
+	/*
+	 * Synchronized method which is responsible for searching for the search string 
+	 * in duckduckgo.
+	 */
+	private static synchronized Document searchForMovie(String search) {
+		String baseAddr = "http://duckduckgo.com/html/?q=";
+		String charset = "UTF-8";
+
+		Connection connection;
+		try {
+			connection = Jsoup.connect(
+					baseAddr + URLEncoder.encode(search, charset)).userAgent(
+							"Mozilla");
+			return connection.get();
+		} catch (IOException e) {
+			log.error("UnsupportedEncodingException for String : " +search);
+		}
+		return null;
+	}
+
+
 }
