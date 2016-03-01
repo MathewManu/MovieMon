@@ -9,8 +9,8 @@ public class MovieNameResolver {
 	
 	final static Logger log = Logger.getLogger(MovieNameResolver.class);
 	//Global map which is a collection of gibberish strings
-	public static List<String> globalGibberishStrings = new ArrayList<String>();
-	
+	public static Map<String, Integer> gibberishMap= new HashMap<String, Integer>();
+	public static Set<String> globalGibberishSet;
 	public MovieNameResolver() {
 		init();
 	}
@@ -27,7 +27,7 @@ public class MovieNameResolver {
 		//TODO: should get updated dynamically 
 		String arr[] = new String[] { "DvdRip", "aXXo", "xVid", "YIFY",
 				"torrent", "BRRip", "HDRIP", "ViP3R", "AAC", "HQ", "720p", "h264", "bluray", "x264", "1080p","480p", "torentz", "www.torentz.3xforum.ro.avi"  };
-
+		Collections.addAll(globalGibberishSet, arr);
 		for (String word : arr) {
 			rxs.add(Pattern.compile(word, Pattern.CASE_INSENSITIVE));
 		}
