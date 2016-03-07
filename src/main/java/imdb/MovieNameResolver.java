@@ -10,7 +10,7 @@ public class MovieNameResolver {
 	final static Logger log = Logger.getLogger(MovieNameResolver.class);
 	//Global map which is a collection of gibberish strings
 	public static Map<String, Integer> gibberishMap= new HashMap<String, Integer>();
-	public static Set<String> globalGibberishSet;
+	public static Set<String> globalGibberishSet = new HashSet<String>();
 	public MovieNameResolver() {
 		init();
 	}
@@ -89,7 +89,8 @@ public class MovieNameResolver {
 			}
 			else {
 				//remove year from the filename
-				movieObj.setUpdatedfileName(m.replaceFirst(""));
+				// replace mulitple occurances of spaces with single one
+				movieObj.setUpdatedfileName(m.replaceFirst("").replaceAll("\\s+", " "));
 			}
 			
 

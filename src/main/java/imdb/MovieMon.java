@@ -22,7 +22,7 @@ public class MovieMon {
 	
 	final static Logger log = Logger.getLogger(MovieMon.class);
 	
-	public static int THREAD_COUNT = 5;
+	public static int THREAD_COUNT = 2;
 		
 	public synchronized static void process() {
 		
@@ -95,6 +95,12 @@ public class MovieMon {
 		
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
+		
+		for(Map.Entry<String, Integer> entry : MovieNameResolver.gibberishMap.entrySet()) {
+			log.debug(">>>>> key : " + entry.getKey() +" : " + entry.getValue());
+		}
+		
+		
 		log.debug("--------Finished Processing----------");
 		log.debug("Elapsed time ... >>>>>>> : " + totalTime  +" >>>> sec : " +totalTime/1000);
 	}
