@@ -11,6 +11,7 @@ public class MovieNameutils {
 	
 	final static Logger log = Logger.getLogger(MovieNameutils.class);
 
+	//all tokens in the gibberish map will be compared with the movie title strings in a case insensitive way 
 	public static void updateGlobalGibberishMap(String fileName, String movieTitle) {
 		log.debug(">>>>>inside GlobalGiberishMap update function " + fileName + " title : " + movieTitle);
 		if (!fileName.equals(movieTitle)) {

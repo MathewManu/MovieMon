@@ -16,7 +16,7 @@ public class OmdbApiConnector implements BaseApiConnector {
 	private static final String USER_AGENT = "Mozilla/5.0";
 	private static final String OMDB_PATH = "http://www.omdbapi.com/?";
 	
-	public void updateMovieObjectsWithApiData(MovieObject movieObject) {
+	public synchronized void updateMovieObjectsWithApiData(MovieObject movieObject) {
 
 		try {
 				String iURL = String.format("%s%s%s", OMDB_PATH, "i=", movieObject.getImdbId());

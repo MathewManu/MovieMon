@@ -1,16 +1,19 @@
 package imdb;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.*;
+
+import javax.print.attribute.HashAttributeSet;
 
 import org.apache.log4j.*;
 
 public class MovieNameResolver {
 	
 	final static Logger log = Logger.getLogger(MovieNameResolver.class);
-	//Global map which is a collection of gibberish strings
-	public static Map<String, Integer> gibberishMap= new HashMap<String, Integer>();
-	public static Set<String> globalGibberishSet = new HashSet<String>();
+	//Global map which is a collection of gibberish strings: Synchronized
+	public static Map<String, Integer> gibberishMap= new ConcurrentHashMap<String, Integer>();
+	public static Set<String> globalGibberishSet =  Collections.synchronizedSet(new HashSet<String>());
 	public MovieNameResolver() {
 		init();
 	}

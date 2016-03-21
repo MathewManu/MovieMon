@@ -18,6 +18,8 @@ public class MovieProcessor implements Callable<Boolean> {
 	
 	private static BaseApiConnector apiConnector = new OmdbApiConnector();
 	
+	private DDGSearch ddgSearch = new DDGSearch();
+	
 	private static MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl();
 
 	private MovieObject movieObj;
@@ -90,9 +92,9 @@ public class MovieProcessor implements Callable<Boolean> {
 				+ movieObj.getYear());
 
 		if (movieObj.getYear() != 9999) {
-			imdbId = DDGSearch.findId(movieObj.getUpdatedfileName(), movieObj.getYear());
+			imdbId = ddgSearch.findId(movieObj.getUpdatedfileName(), movieObj.getYear());
 		} else {
-			imdbId = DDGSearch.findId(movieObj.getUpdatedfileName());
+			imdbId = ddgSearch.findId(movieObj.getUpdatedfileName());
 		}
 
 		if (!imdbId.isEmpty()) {
