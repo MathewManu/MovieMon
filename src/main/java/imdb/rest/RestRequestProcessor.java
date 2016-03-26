@@ -40,7 +40,7 @@ public class RestRequestProcessor {
 
 	}
 
-	private static List<MovieDBResult> processResultSet(ResultSet rs) {
+	public static List<MovieDBResult> processResultSet(ResultSet rs) {
 
 		List<MovieDBResult> movieList = new ArrayList<MovieDBResult>();
 		try {

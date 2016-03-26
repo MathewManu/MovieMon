@@ -1,7 +1,9 @@
 //refer http://www.smashingmagazine.com/2012/02/beginners-guide-jquery-based-json-api-clients/#the-full-code
-var rootURL = "http://localhost:8080/moviemon/movies";
-var loginURL = "http://localhost:8080/moviemon/authentication/signin"
-var favURL = "http://localhost:8080/moviemon/movies/favorites/"
+var IP = "localhost"
+//var IP = "192.168.0.102"	//replace ip with localip If u wanna test from tab/mobile
+var rootURL = "http://" +IP +":8080/moviemon/movies";
+var loginURL = "http://" +IP +":8080/moviemon/authentication/signin"
+var favURL = "http://" +IP +":8080/moviemon/movies/favorites/"
 
 var allMovies;
 
@@ -61,7 +63,10 @@ var showPosters = function() {
         //if(count % 5 == 0) {
 		//	$('#watched_Movies').append(textToInsert);
 		//}
-		
+		//testing purpose
+		if(count == 50) {
+			return false;
+		}
 
 	});
 
@@ -117,6 +122,27 @@ var getAllMovies = function () {
 		success : function(data) {
 			if(data.length) {
 				allMovies = data;
+				document.getElementById("all_Movies").innerHTML = "";
+				showPosters();
+			}
+			else {
+				showScanButton();
+			}
+		},
+		beforeSend: setHeader  
+	});
+}
+var getFavMovies = function () {
+	$.ajax({
+		type: "GET",
+		url: favURL,
+		datatype: 'json',
+		//async: false,
+		//data:  data,
+		success : function(data) {
+			if(data.length) {
+				allMovies = data;
+				document.getElementById("all_Movies").innerHTML = "";
 				showPosters();
 			}
 			else {
@@ -148,26 +174,7 @@ function postLoginAjaxCall(username, password) {
 		}
 	});
 }
-	//trying for favbutton --> move to correct file 
-	function getFavoriteMovies() {
-	
-	$.ajax({
-		type: "GET",
-		url: rootURL,
-		async: false,
-		success : function(data) {
-			if(data.length) {
-			//	allMovies = data;
-				showPosters();
-			}
-			else {
-			//	showScanButton();
-			}
-		},
 
-		beforeSend: setHeader  
-	});
-}
 
 //set the http Authorization request header with token value
 //token value is retrieved from cookie
@@ -197,7 +204,7 @@ function getCookie(cname) {
 }
 
 
-var getMovie = function() {
+/*var getMovie = function() {
 		var movieName = $('#searchTitle').val();
 
 		if(movieName == '') {
@@ -221,7 +228,7 @@ var getMovie = function() {
 			});
 		}
 		return false;
-	}	
+	}	*/
 	
 	
 $(document).ready(function(){

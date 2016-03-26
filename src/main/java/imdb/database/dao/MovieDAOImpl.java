@@ -11,7 +11,7 @@ import imdb.utils.*;
 
 public class MovieDAOImpl implements MovieMonDAO {
 	
-	final static Logger log = Logger.getLogger(OmdbApiConnector.class);
+	final static Logger log = Logger.getLogger(MovieDAOImpl.class);
 	//@Inject
 	//private Connection conn;
 	private static Connection conn;

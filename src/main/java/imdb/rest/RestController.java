@@ -174,4 +174,11 @@ public class RestController {
 			}
 			return Response.status(Response.Status.BAD_REQUEST).build();
 		}
+		@Secured
+		@GET
+		@Path("favorites")
+		@Produces(MediaType.APPLICATION_JSON)
+		public List<MovieDBResult> getAllFavorites(@Context SecurityContext securityContext) {
+			return FavoriteManager.getAllFavorites(securityContext.getUserPrincipal().getName());
+		}
 }
