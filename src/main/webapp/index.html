@@ -6,22 +6,28 @@
   <title>MovieMon !</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+  <!--<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"> -->
 
   <link rel="stylesheet" href="css/main.css">   
+  <link rel="stylesheet" href="css/sidebar.css">    
   <script src="js/main.js"> </script>
   <script src="js/restcalls.js"></script>
   <script src="js/indexfileActions.js"> </script>
-    
+  <script src="js/sidebar.js"></script> 
+  
+
   </head>
 
-  <body>
+  <body data-spy="scroll">
 
  
-  <nav class="navbar-test navbar">
+  <nav class="navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -60,45 +66,99 @@
 
       </ul>
     </div>
-  </div>
+ </div>
 </nav>
 
 
-<header class="intro">
 
-<div class="intro-body">
+
+<div class="container-fluid">
+ 
+<div class="col-xs-12" style="height:50px;"></div>
    
+   <div class="row">
+   
+     <!-- <div class="col-sm-2 col-md-3 col-lg-2" style="background-color:white;"> -->
+       <!-- <div class="col-xs-12" style="height:50px;"></div> -->
        
-      <div class = "row">
-        <div class = "col-md-12 text-center" id="firstTimeMsg">
-    <!--     <h1>MovieMon</h1>
-         <p>You seem to be running for the first time.</p>
-     <p>In order to update offline database with all the movie details, Please click scan now </p>
-         <br>
-         <br>
-         <a class="btn btn-lg btn-default" href="#">Scan now !</a>
+       <!-- should change these to Buttons -->
+        <div class="col-xs-2 bs-docs-sidebar poster">       
+                <ul class="nav nav-stacked fixed sidebar_font" id="sidebar">
+                     
+                    <!--
+                        <li>
+                                <a href="#fav_Movies">Favorites</a>
+                        </li>
+                        <li>
+                                <a href="#recent_section">Recently Added</a>
+                        </li>  -->
+                     
+                        <li>
+                                <button id="AllMoviesBtn" type="button" class="btn btn-link block">All Movies</button>
+                        </li>
+
+                        <li>
+                               <button id="favMoviesBtn" type="button" class="btn btn-link block">Favorites</button> 
+                        </li>
+                        
+                        <li>
+                               <button id="RecentMoviesBtn" type="button" class="btn btn-link block">Recently Added</button> 
+                        </li>
+                    
+                        <li>
+                               <button id="RecommMoviesBtn" type="button" class="btn btn-link block">Recommends</button> 
+                        </li>
+                        <li>
+                               <button id="WatchedMoviesBtn" type="button" class="btn btn-link block">Watched Movies</button> 
+                        </li>
+
+                </ul>
+
+                <!--
+                <ul class="nav nav-stacked fixed genre_section" id="genre_list">
+                    <li><a href="">Action</a></li>
+                    <li><a href="">Crime</a></li>
+                    <li><a href="">Drama</a></li>
+                    <li><a href="">Romance</a></li>
+                </ul> -->
+            
+        </div>
+
+ <div class="col-xs-9">
+    <!--<div class="col-sm-10 col-md-9 col-lg-10" style="background-color:white;"> -->
+       
+        <div class="col-xs-12 poster_section" id="allmovies_section">
+            <div class="col-xs-12" style="height:50px;"></div>
+            <section id="all_Movies">
+            </section>
+        </div>
+         
+        <!--  //use these section if required 
+        <div class="col-xs-12" id="fav_section">
+          <div class="col-xs-12" style="height:50px;"></div>
+             <section id="fav_Movies">
+             </section>
+          </div>
+
+           <div class="col-xs-12 " id="recent_section">
+            <div class="col-xs-12" style="height:50px;"></div>
+             <section id="recent_Movies">
+            </section>
+          </div>
+
+        <div class="col-xs-12 " id="watched_movies_section">
+            <div class="col-xs-12" style="height:50px;"></div>
+            
+            <section id="watched_Movies">
+            </section>
         </div> -->
         
-      </div>
-
-     </div>
-
-   
-  </div>
-</header>
-
-<div class="container">
  
-   <section id="fetch">
-    <!--  <button id="searchAll">All Movies</button> -->
-      <br>
-    <!--  <input type="text" placeholder="Enter a movie title" id="searchTitle" /> 
-      <button id="search">Search</button> -->
-   </section>
+    </div>
 
-   <div class="row">
-   <section id="poster">
-   </section> 
+
+
+
    </div>
 
 

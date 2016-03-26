@@ -13,7 +13,9 @@ var token = "authToken"
 
 var showPosters = function() {
 
+		var count = 0;
 	$.each(allMovies, function(index, el) {
+		
 		
 		var textToInsert = '';
 		
@@ -32,9 +34,11 @@ var showPosters = function() {
 		} else {
 			favIconToBeUsed = unFavoriteIcon;
 		}
+		count++;
 		
-		textToInsert += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="300" height="426">';
-		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-3x bookmark" title="Add to watchlist" data-wl-id=' + el.id +'></span></a>';
+		textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="220" height="315">';
+		
+		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-1x bookmark" title="Add to watchlist" data-wl-id=' + el.id +'></span></a>';
 		textToInsert += '<div class="caption">';
 		
 		
@@ -46,7 +50,18 @@ var showPosters = function() {
 		textToInsert += '<div class="infoText">' + genreLinks +'<span class="pipe">' + ' | ' + '</span>' +el.runTime +'</div>';
 		
 		textToInsert +=  '</div></div></div>';
-		$('#poster').append(textToInsert);
+		
+	
+	//	if(el.favorite == true) {
+	//		$('#fav_section').append(textToInsert);
+	//	}
+	
+		$('#all_Movies').append(textToInsert);
+		
+        //if(count % 5 == 0) {
+		//	$('#watched_Movies').append(textToInsert);
+		//}
+		
 
 	});
 
@@ -133,6 +148,26 @@ function postLoginAjaxCall(username, password) {
 		}
 	});
 }
+	//trying for favbutton --> move to correct file 
+	function getFavoriteMovies() {
+	
+	$.ajax({
+		type: "GET",
+		url: rootURL,
+		async: false,
+		success : function(data) {
+			if(data.length) {
+			//	allMovies = data;
+				showPosters();
+			}
+			else {
+			//	showScanButton();
+			}
+		},
+
+		beforeSend: setHeader  
+	});
+}
 
 //set the http Authorization request header with token value
 //token value is retrieved from cookie
@@ -191,14 +226,14 @@ var getMovie = function() {
 	
 $(document).ready(function(){
 
-   getAllMovies();
+   //getAllMovies();
 
-   $('#searchAll').click(getAllMovies);
+  /* $('#searchAll').click(getAllMovies);
    $('#search').click(getMovie);
    $('#searchTitle').keyup(function(event) {
    		if(event.keyCode == 13) {
    			getMovie();
    		}
-   });
+   });*/
 
 });

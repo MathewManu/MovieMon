@@ -36,7 +36,7 @@ public class AuthenticationController {
 	}
 
 	private String generateToken(String username) {
-	
+		
 		Random random = new SecureRandom();
 		String token = new BigInteger(130, random).toString(32);
 		return token;

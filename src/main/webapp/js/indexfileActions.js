@@ -58,6 +58,12 @@ $(document).ready(function(){
 		}
 			
 	});
+
+	$("#favMoviesBtn").click(function() {
+		//change to a method which takes a url probably
+		getAllMovies();
+	});
+
 	
 });
 
