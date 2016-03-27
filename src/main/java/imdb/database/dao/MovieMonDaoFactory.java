@@ -18,7 +18,11 @@ public class MovieMonDaoFactory {
 		}
 		if(args[0].equals(MovieDaoImplSelector.USER_SPECIFIC_FEATURES_MOVIE_SELECTOR)) {
 			return new MovieDAOImplForUserSpecificFeatures();
-		} else {
+		} else if(args[0].equals(MovieDaoImplSelector.WATCHLIST)) {
+			return new MovieDAOImplForWatchList();
+		}
+		
+		else {
 			return (new MovieDAOImpl());
 		}
 	}

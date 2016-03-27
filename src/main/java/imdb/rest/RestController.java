@@ -5,7 +5,7 @@ import imdb.MovieMon;
 import imdb.auth.*;
 import imdb.database.model.MovieDBResult;
 import imdb.install.DBReset;
-import imdb.rest.favorites.FavoriteManager;
+import imdb.rest.favorites.*;
 import imdb.utils.MovieMonUtils;
 import imdb.utils.ScanStatusEnum;
 
@@ -37,6 +37,7 @@ public class RestController {
 	final static Logger logger = Logger.getLogger(RestController.class);
 	private MovieSorter movieSorter = new MovieSorter();
 	private FavoriteManager FavoriteManager = new FavoriteManager();
+	private WatchListManager watchListManager = new WatchListManager();
 	
 	@GET
 	@Secured
@@ -154,7 +155,9 @@ public class RestController {
 			}
 			return results;
 		}
-		
+		/*
+		 * Favorites section 
+		 */
 		@Secured
 		@POST
 		@Path("favorites/{id}")
@@ -181,4 +184,35 @@ public class RestController {
 		public List<MovieDBResult> getAllFavorites(@Context SecurityContext securityContext) {
 			return FavoriteManager.getAllFavorites(securityContext.getUserPrincipal().getName());
 		}
+		
+		/*
+		 * watchlist section
+		 */
+		@Secured
+		@POST
+		@Path("watchlist/{id}")
+		public Response addToWatchList(@PathParam("id") String id, @Context SecurityContext securityContext) {
+			if (watchListManager.addToWatchList(Integer.parseInt(id), securityContext.getUserPrincipal().getName())) {
+				return  Response.status(Response.Status.OK).build();
+			}
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+
+		@Secured
+		@DELETE
+		@Path("watchlist/{id}")
+		public Response deleteFromWatchList(@PathParam("id") String id, @Context SecurityContext securityContext) {
+			if (watchListManager.deleteFromWatchList(Integer.parseInt(id), securityContext.getUserPrincipal().getName())) {
+				return  Response.status(Response.Status.OK).build();
+			}
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+		@Secured
+		@GET
+		@Path("watchlist")
+		@Produces(MediaType.APPLICATION_JSON)
+		public List<MovieDBResult> getWatchListForTheUser(@Context SecurityContext securityContext) {
+			return watchListManager.getWatchList(securityContext.getUserPrincipal().getName());
+		}
+		
 }

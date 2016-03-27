@@ -4,6 +4,7 @@ var IP = "localhost"
 var rootURL = "http://" +IP +":8080/moviemon/movies";
 var loginURL = "http://" +IP +":8080/moviemon/authentication/signin"
 var favURL = "http://" +IP +":8080/moviemon/movies/favorites/"
+var watchListURL = "http://" +IP +":8080/moviemon/movies/watchlist/"
 
 var allMovies;
 
@@ -40,11 +41,11 @@ var showPosters = function() {
 		
 		textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="220" height="315">';
 		
-		textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-bookmark gi-1x bookmark" title="Add to watchlist" data-wl-id=' + el.id +'></span></a>';
+		textToInsert += '<a>' + '<span class="glyphicon glyphicon-bookmark gi-1x bookmark"' +'" onclick="tryWatchList(this , ' +el.id + ')"'   + 'title="Add to watchlist" data-wl-id=' + el.id +'></span></a>';
 		textToInsert += '<div class="caption">';
 		
 		
-		textToInsert += '<a href="#">' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , '+ el.id + ')" data-fav-id=' + el.id +'></a><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
+		textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , '+ el.id + ')" data-fav-id=' + el.id +'></a><span class="rating">' +' ' +el.imdbRating  +'<span class="ten">/10</span>' +'</span></span>';
 		
 		//textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-plus gi-2x"></span></a>';
 		
@@ -100,6 +101,34 @@ function tryFavoriting(param, id) {
 		});
 	}
 }
+//uncomment once watchlist field is sent in rest response !
+function tryWatchList(param, id) {
+	/*if (param.className == favoriteIcon) {
+		//Delete request to remove favorites
+		$.ajax({
+			url : watchListURL + id,
+			type : 'delete',
+			statusCode : {
+				200 : function (response) {
+					param.className = unFavoriteIcon;
+				}
+			},
+			beforeSend: setHeader 
+		});
+	} else { */
+		//sending post request to add to watchlist
+		$.ajax({
+			url : watchListURL + id,
+			type : "POST",
+			statusCode : {
+				200 : function (response) {
+				//	param.className = favoriteIcon;
+				}
+			},
+			beforeSend: setHeader 
+		});
+	//}
+}
 
 var showScanButton = function () {
 	var msg = '';
@@ -153,6 +182,26 @@ var getFavMovies = function () {
 	});
 }
 
+var getWatchListMovies = function () {
+	$.ajax({
+		type: "GET",
+		url: watchListURL,
+		datatype: 'json',
+		//async: false,
+		//data:  data,
+		success : function(data) {
+			if(data.length) {
+				allMovies = data;
+				document.getElementById("all_Movies").innerHTML = "";
+				showPosters();
+			}
+			else {
+				showScanButton();
+			}
+		},
+		beforeSend: setHeader  
+	});
+}
 //try to authenticate the user.
 //upon success token is returned & it ll be saved in a cookie
 function postLoginAjaxCall(username, password) {

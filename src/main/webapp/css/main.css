@@ -49,7 +49,7 @@ body {
 }
 
 .infoText {
-    font-size: 9px;
+    font-size: 10px;
     font-family:verdana;
     color: #708090;
 }
@@ -121,6 +121,5 @@ body {
     background-color: white;
     padding: 0 10px;
     font-family: 'Quicksand', sans-serif;
-    
-   
+
 }

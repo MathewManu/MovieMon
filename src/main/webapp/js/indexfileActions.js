@@ -72,7 +72,15 @@ $(document).ready(function(){
 	$("#AllMoviesBtn").click(function() {
 		getAllMovies();
 	});
-
+	
+	$("#WatchListMoviesBtn").click(function() {
+		getWatchListMovies();
+	});
+	
+	 //removes the focus after the button is selected in the sidebar.
+    $(".btn").mouseup(function(){
+    $(this).blur();
+    });
 	
 });
 
