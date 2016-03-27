@@ -1,3 +1,7 @@
+body {
+    color: rgba(0,0,0,.5);
+}
+
 
 .nav a {
   color: #5a5a5a;
@@ -98,4 +102,25 @@
       color:white !important;
       text-align: center;
       font-size: 30px;
+}
+
+
+/*guest login button styles */
+
+#guest_login_or {
+    width: 80%;
+    text-align: center;
+    height: 25px;
+    border-bottom: 1px solid  rgba(0,0,0,.1);;
+    margin-bottom: 40px;
+    margin-top: 15px;
+    
+}
+#guest_login_or_span {
+    font-size: 30px;
+    background-color: white;
+    padding: 0 10px;
+    font-family: 'Quicksand', sans-serif;
+    
+   
 }

@@ -58,6 +58,11 @@ $(document).ready(function(){
 		}
 			
 	});
+    $("#guest-login-button").click(function() {
+    
+        closeLoginPopup();
+        postLoginAjaxCall("guest","guest");
+    });
 
 	$("#favMoviesBtn").click(function() {
 		getFavMovies();
