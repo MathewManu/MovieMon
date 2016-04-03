@@ -119,17 +119,16 @@ body {
     /* z-index: 1;*/
 }
 
-.modal-header,
-h4,
+.modal-header, h4, .close
 {
     background-color: #00C5CD;
-    /*   color:white !important; */
+    color:white !important;
     text-align: center;
     font-size: 30px;
 }
 
-.close {
-    color: grey;
+.close_login {
+    color: grey !important;
     position: fixed;
     right: 10px;
     top: 5px;
