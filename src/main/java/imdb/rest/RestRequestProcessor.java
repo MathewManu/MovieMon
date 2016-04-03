@@ -14,7 +14,14 @@ public class RestRequestProcessor {
 	//I need this specific dao here , as I am querying for user favorites.
 	private static MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl(MovieDaoImplSelector.USER_SPECIFIC_FEATURES_MOVIE_SELECTOR);
 
-	private static String SELECT_ALL = "SELECT * FROM MOVIE";
+	
+	//selects all movies, favorites & watchlist
+	//TODO: currently logged in user should be checked
+	private static String SELECT_ALL = "SELECT MOVIE.*, FAVORITES.MOVIE_ID AS ISFAVORITE, WATCHLIST.MOVIE_ID AS ISWATCHLIST"
+			+ " FROM MOVIE"
+			+ " LEFT JOIN FAVORITES ON FAVORITES.MOVIE_ID = MOVIE.ID"
+			+ " LEFT JOIN WATCHLIST ON WATCHLIST.MOVIE_ID = MOVIE.ID";
+			//where user = "loggedinuser"//	
 
 	/*
 	 * this fun processes the query params & form sql query. call impl &
@@ -145,16 +152,30 @@ public class RestRequestProcessor {
 		movie.setActors(rs.getString("ACTORS"));
 		movie.setRunTime(rs.getString("RUNTIME"));
 		movie.setLanguage(rs.getString("LANGUAGE"));
+		
 		String loggedInUserName;
 		if ((loggedInUserName = AuthenticationUtils.getCurrentlyLoggedinUser()) != null) {
-			try {
+			
+			if(rs.getString("ISFAVORITE") != null) {
+				movie.setFavorite(true);
+			}
+			else {
+				movie.setFavorite(false);
+			}
+			if(rs.getString("ISWATCHLIST") != null) {
+				movie.setInWatchList(true);
+			}
+			else {
+				movie.setInWatchList(false);
+			}
+			/*try {
 				int favId = ((MovieDAOImplForUserSpecificFeatures) movieDAO).isMovieFavoritedByUser(String.valueOf(movie.getId()), String.valueOf(movieDAO.getUserIdForName(loggedInUserName)));
 				if (favId != -1) {
 					movie.setFavorite(true);
 				}
 			} catch (NoRowFoundException e) {
 				movie.setFavorite(false);
-			}
+			}*/
 		}
 
 		return movie;

@@ -1,90 +1,92 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-  <meta name="description" content="A responsive movie db">
-  <title>MovieMon !</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-      
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  
-  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
-  <!--<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"> -->
+<head>
+    <meta name="description" content="A responsive movie db">
+    <title>MovieMon !</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="css/main.css">   
-  <link rel="stylesheet" href="css/sidebar.css">    
-  <script src="js/main.js"> </script>
-  <script src="js/restcalls.js"></script>
-  <script src="js/indexfileActions.js"> </script>
-  <script src="js/sidebar.js"></script> 
-  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-  </head>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+    <!--<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"> -->
 
-  <body data-spy="scroll">
-
- 
-  <nav class="navbar-inverse navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span> 
-      </button>
-      <a class="navbar-brand" href="#"></a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a class="page-scroll" href="#poster" id="searchAll">Home</a></li>
-        <li class = "dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Genre<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Rating</a></li>
-            <li><a href="#">Year</a></li>
-            <li><a href="#">Default</a></li>
-          </ul> 
-        </li>
-        <li class = "dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sort<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Rating</a></li>
-            <li><a href="#">Year</a></li>
-            <li><a href="#">Default</a></li>
-          </ul> 
-          </li>
-      <!-- <li><a class="page-scroll" href="#poster" id="searchAll">All Movies</a></li>  -->
-    <li><a  id="scanfromnavbar" >Scan</a></li> 
-    <li><a  id="deleteAll" >Delete All</a></li>
-    <!--p id="demo"></p-->
-
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-search"></span> Search</a></li>
-        <li><a id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-
-      </ul>
-    </div>
- </div>
-</nav>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <script src="js/main.js">
+    </script>
+    <script src="js/restcalls.js"></script>
+    <script src="js/indexfileActions.js">
+    </script>
+    <script src="js/sidebar.js"></script>
 
 
+</head>
+
+<body data-spy="scroll">
 
 
-<div class="container-fluid">
- 
-<div class="col-xs-12" style="height:50px;"></div>
-   
-   <div class="row">
-   
-     <!-- <div class="col-sm-2 col-md-3 col-lg-2" style="background-color:white;"> -->
-       <!-- <div class="col-xs-12" style="height:50px;"></div> -->
-       
-       <!-- should change these to Buttons -->
-        <div class="col-xs-2 bs-docs-sidebar poster">       
+    <nav class="navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a class="page-scroll" href="#poster" id="searchAll">Home</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Genre<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rating</a></li>
+                            <li><a href="#">Year</a></li>
+                            <li><a href="#">Default</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Sort<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rating</a></li>
+                            <li><a href="#">Year</a></li>
+                            <li><a href="#">Default</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li><a class="page-scroll" href="#poster" id="searchAll">All Movies</a></li>  -->
+                    <li><a id="scanfromnavbar">Scan</a></li>
+                    <li><a id="deleteAll">Delete All</a></li>
+                    <!--p id="demo"></p-->
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+                    <li><a id="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <div class="container-fluid">
+
+        <div class="col-xs-12" style="height:50px;"></div>
+
+        <div class="row">
+
+            <!-- <div class="col-sm-2 col-md-3 col-lg-2" style="background-color:white;"> -->
+            <!-- <div class="col-xs-12" style="height:50px;"></div> -->
+
+            <!-- should change these to Buttons -->
+            <div class="col-xs-2 bs-docs-sidebar poster">
                 <ul class="nav nav-stacked fixed sidebar_font" id="sidebar">
-                     
+
                     <!--
                         <li>
                                 <a href="#fav_Movies">Favorites</a>
@@ -92,28 +94,28 @@
                         <li>
                                 <a href="#recent_section">Recently Added</a>
                         </li>  -->
-                     
-                        <li>
-                                <button id="AllMoviesBtn" type="button" class="btn btn-link block">All Movies</button>
-                        </li>
 
-                        <li>
-                               <button id="favMoviesBtn" type="button" class="btn btn-link block">Favorites</button> 
-                        </li>
-                        
-                        <li>
-                               <button id="RecentMoviesBtn" type="button" class="btn btn-link block">Recently Added</button> 
-                        </li>
-                    
-                        <li>
-                               <button id="RecommMoviesBtn" type="button" class="btn btn-link block">Recommends</button> 
-                        </li>
-                        <li>
-                               <button id="WatchListMoviesBtn" type="button" class="btn btn-link block">WatchList</button> 
-                        </li>
-                        <li>
-                               <button id="WatchedMoviesBtn" type="button" class="btn btn-link block">Watched Movies</button> 
-                        </li>
+                    <li>
+                        <button id="AllMoviesBtn" type="button" class="btn btn-link block">All Movies</button>
+                    </li>
+
+                    <li>
+                        <button id="favMoviesBtn" type="button" class="btn btn-link block">Favorites</button>
+                    </li>
+
+                    <li>
+                        <button id="RecentMoviesBtn" type="button" class="btn btn-link block">Recently Added</button>
+                    </li>
+
+                    <li>
+                        <button id="RecommMoviesBtn" type="button" class="btn btn-link block">Recommends</button>
+                    </li>
+                    <li>
+                        <button id="WatchListMoviesBtn" type="button" class="btn btn-link block">WatchList</button>
+                    </li>
+                    <li>
+                        <button id="WatchedMoviesBtn" type="button" class="btn btn-link block">Watched Movies</button>
+                    </li>
 
                 </ul>
 
@@ -124,19 +126,19 @@
                     <li><a href="">Drama</a></li>
                     <li><a href="">Romance</a></li>
                 </ul> -->
-            
-        </div>
 
- <div class="col-xs-9">
-    <!--<div class="col-sm-10 col-md-9 col-lg-10" style="background-color:white;"> -->
-       
-        <div class="col-xs-12 poster_section" id="allmovies_section">
-            <div class="col-xs-12" style="height:50px;"></div>
-            <section id="all_Movies">
-            </section>
-        </div>
-         
-        <!--  //use these section if required 
+            </div>
+
+            <div class="col-xs-9">
+                <!--<div class="col-sm-10 col-md-9 col-lg-10" style="background-color:white;"> -->
+
+                <div class="col-xs-12 poster_section" id="allmovies_section">
+                    <div class="col-xs-12" style="height:50px;"></div>
+                    <section id="all_Movies">
+                    </section>
+                </div>
+
+                <!--  //use these section if required 
         <div class="col-xs-12" id="fav_section">
           <div class="col-xs-12" style="height:50px;"></div>
              <section id="fav_Movies">
@@ -155,156 +157,152 @@
             <section id="watched_Movies">
             </section>
         </div> -->
-        
- 
-    </div>
 
 
-
-
-   </div>
-
-
-   <footer>
-
-   </footer>
-
-</div>
-<!-- login alert box -->
-<div class="modal fade" id="loginModal" role="dialog">
-    <div class="modal-dialog modal-md">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header" style="padding:35px 50px;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
-        </div>
-
-         <div class="modal-body" style="padding:40px 50px;">
-          
-          <form class="form-horizontal" role="form">
-            <div class="form-group">
-               <label for="email" class="control-label col-sm-2" >Username</label>
-         <div class="col-sm-10">
-         <input type="text" class="form-control" id="username" placeholder="Enter username">
-        </div>
             </div>
-
-      <div class="form-group">
-        <label  for="pwd" class="control-label col-sm-2">Password:</label>
-        <div class="col-sm-10">          
-        <input type="password" class="form-control" id="password" placeholder="Enter password">
-        </div>
-      </div>
-      <!-- <div class="form-group">        
-        <div class="col-sm-offset-2 col-sm-10">
-        <div class="checkbox">
-          <label><input type="checkbox"> Remember me</label>
-        </div>
-        </div>  
-      </div>-->
-      <div class="form-group">        
-        <div class="col-sm-offset-2 col-sm-10">
-        <button id="login-button" type="submit" class="btn btn-success btn-block">Submit</button>
-        </div>
-          <div class="col-sm-offset-2 col-sm-10" id="guest_login_or">
-            <span id="guest_login_or_span">
-              Or
-              </span>
-              
-          </div>
-          
-          <div class="col-sm-offset-2 col-sm-10">
-        <button id="guest-login-button" type="submit" class="btn btn-default btn-block">Continue as Guest</button>
-        </div>
-          
-      </div>
-    
-          </form>    
         </div>
 
-         <!--  <div class="modal-footer">
-          <button id="guest-login" type="submit" class="btn btn-danger btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Continue as Guest</button>
-          <p>New User ? <a href="#"> Sign Up</a></p>
-          <p>Request  <a href="#">Access ?</a></p>
-        </div>  -->
-      </div>
+        <footer>
+
+        </footer>
+
     </div>
-</div>      
+    <!-- login alert box -->
+    <div class="modal fade" id="loginModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="padding:40px 50px;">
 
-<!-- end login alert box -->
+                    <div class="row">
+                        <div id="login_banner">
 
-<!-- scan inout alert box -->
- <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div id="modalHeader" class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"><span class="glyphicon glyphicon-film"></span>      Movies Directory</h4>
-      <h4 class="modal-title"></h4>
+                            <img src="movies1.jpg" width="220px" height="345px" id="login_banner_image">
+
+                            <div id="login_banner_title">
+                                <span>Movies offline!</span>
+                            </div>
+
+                            <div id="login_banner_bullets">
+                                <ul>
+                                    <li> Add movies to favorites</li>
+                                    <li> Maintain your watchlist</li>
+                                    <li> Personalized Suggestions</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-offset-5 col-sm-7">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <button id="guest-login-button" type="submit" class="btn btn-primary btn-block">Continue as Guest</button>
+                                    </div>
+                                    <div class="col-sm-10" id="guest_login_or">
+                                        <span id="guest_login_or_span">OR</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" id="username" placeholder="Username">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button id="login-button" type="submit" class="btn btn-success btn-block">Login</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div id="modalbody" class="modal-body">
-        <form role="form">
-        <div class="form-group">
-          <label for="usr">Directory to be scanned :</label>
-          <input type="text" class="form-control" id="dirUserInputId">
-        </div>
-      </form>
-        </div>
-        <div id="modalfooter" class="modal-footer">
-          <button id="scan-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon-search"></span>SCAN</button>
-        </div>
-      </div>
     </div>
-  </div>
-<!-- end scan alert input-->
 
-<!-- Error  box Empty. Dnamically Add error message when and where needed !-->
-<!-- Added as subsequent hide and show of modals were having an issue : https://github.com/twbs/bootstrap/issues/3902-->
- <div class="modal fade" id="errorMsgmodel" role="dialog">
-    <div class="modal-dialog" id="errorMsgModal">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div id="errorMsgModalHeader" class="modal-header">
-          <!--button type="button" class="close">&times;</button-->
-          <h4 class="modal-title"><span class="glyphicon glyphicon-info-sign"> </span> SCAN STATUS :  </h4>
-      <h4 class="modal-title"></h4>
-        </div>
-        <div id="errorMsgModalBody" class="modal-body">
-        </div>
-        <div id="errorMsg" class="modal-footer">
-          <button id="ok-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon-info-sign"></span>OK</button>
-        </div>
-      </div>
-    </div>
-  </div>
-<!--alert ends-->
+    <!-- end login alert box -->
 
-<!-- Confirmation dialogue-->
- <div class="modal fade" id="confirmationMsgmodel" role="dialog">
-    <div class="modal-dialog" id="errorMsgModal">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div id="confirmationMsgModalHeader" class="modal-header">
-          <!--button type="button" class="close">&times;</button-->
-          <h4 class="modal-title"><span class="glyphicon glyphicon-info-sign"> </span> Confirm :  </h4>
-      <h4 class="modal-title"></h4>
+    <!-- scan inout alert box -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div id="modalHeader" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-film"></span>      Movies Directory</h4>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div id="modalbody" class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="usr">Directory to be scanned :</label>
+                            <input type="text" class="form-control" id="dirUserInputId">
+                        </div>
+                    </form>
+                </div>
+                <div id="modalfooter" class="modal-footer">
+                    <button id="scan-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon-search"></span>SCAN</button>
+                </div>
+            </div>
         </div>
-        <div id="confirmationMsgModalBody" class="modal-body">
-        </div>
-        <div id="confirmationMsg" class="modal-footer">
-          <button id="confirm-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon glyphicon-ok"></span></button>
-      <button id="cancel-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon  glyphicon-remove"></span></button>
-        </div>
-      </div>
     </div>
-  </div>
-  
-  <!-- Confirmation dialogue ends-->
-  </body>
+    <!-- end scan alert input-->
+
+    <!-- Error  box Empty. Dnamically Add error message when and where needed !-->
+    <!-- Added as subsequent hide and show of modals were having an issue : https://github.com/twbs/bootstrap/issues/3902-->
+    <div class="modal fade" id="errorMsgmodel" role="dialog">
+        <div class="modal-dialog" id="errorMsgModal">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div id="errorMsgModalHeader" class="modal-header">
+                    <!--button type="button" class="close">&times;</button-->
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-info-sign"> </span> SCAN STATUS :  </h4>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div id="errorMsgModalBody" class="modal-body">
+                </div>
+                <div id="errorMsg" class="modal-footer">
+                    <button id="ok-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon-info-sign"></span>OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--alert ends-->
+
+    <!-- Confirmation dialogue-->
+    <div class="modal fade" id="confirmationMsgmodel" role="dialog">
+        <div class="modal-dialog" id="errorMsgModal">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div id="confirmationMsgModalHeader" class="modal-header">
+                    <!--button type="button" class="close">&times;</button-->
+                    <h4 class="modal-title"><span class="glyphicon glyphicon-info-sign"> </span> Confirm :  </h4>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div id="confirmationMsgModalBody" class="modal-body">
+                </div>
+                <div id="confirmationMsg" class="modal-footer">
+                    <button id="confirm-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon glyphicon glyphicon-ok"></span></button>
+                    <button id="cancel-button" class="btn-info btn-lg" data-backdrop="true" data-dismiss="modal"><span class="glyphicon  glyphicon-remove"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation dialogue ends-->
+</body>
 
 </html>

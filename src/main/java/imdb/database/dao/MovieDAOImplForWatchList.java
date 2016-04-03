@@ -9,14 +9,14 @@ public class MovieDAOImplForWatchList extends MovieDAOImpl {
 	
 	final static Logger log = Logger.getLogger(MovieDAOImplForWatchList.class);
 	
-	private static String SELECT_WATCHLIST = "SELECT MOVIE.* FROM MOVIE INNER JOIN WATCHLIST ON WATCHLIST.MOVIE_ID = MOVIE.ID AND WATCHLIST.USER_ID = ?;";
+	private static String SELECT_WATCHLIST = "SELECT MOVIE.*, FAVORITES.MOVIE_ID AS ISFAVORITE, WATCHLIST.MOVIE_ID AS ISWATCHLIST"
+			+ " FROM MOVIE"
+			+ " INNER JOIN WATCHLIST ON WATCHLIST.MOVIE_ID = MOVIE.ID AND WATCHLIST.USER_ID = ?"
+			+ " LEFT JOIN FAVORITES ON MOVIE.ID = FAVORITES.MOVIE_ID";
+	
 	private static String INSERT_INTO_WATCHLIST = "INSERT INTO WATCHLIST (USER_ID, MOVIE_ID) VALUES (?, ?);";
 	private static String DELETE_FROM_WATCHLIST = "DELETE FROM WATCHLIST WHERE USER_ID = ? AND MOVIE_ID = ?";
 
-	/*
-	 * iswatchlist function needs to be added.
-	 */
-	
 	public boolean insertIntoWatchList(int userId, int movieId) {
 		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_WATCHLIST, Arrays.asList(userId, movieId));
 		log.info("inserting into watchlist table.. userid : " + userId + " movieID : " + movieId);

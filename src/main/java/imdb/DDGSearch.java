@@ -66,7 +66,7 @@ public class DDGSearch {
 			for (Element link : links) {
 
 				String url = link.attr("href");
-				log.info("urls : " + url);
+			//	log.info("urls : " + url);
 				Pattern p = Pattern.compile("(www.imdb.com/title/)(tt\\d+)");
 				Matcher m = p.matcher(url);
 				if (m.find()) {

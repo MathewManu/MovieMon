@@ -1,64 +1,74 @@
-
 .fixed {
-  position: fixed;
+    position: fixed;
 }
 
 .block {
     display: block;
 }
 
+
 /* download and put font in local directory */
+
 .sidebar_font {
-  font-family: 'Quicksand', sans-serif;
-  /*font-family: 'Josefin Slab', serif;*/
+    font-family: 'Quicksand', sans-serif;
+    /*font-family: 'Josefin Slab', serif;*/
 }
- 
+
 .bs-docs-sidebar {
-  margin-top: 48px;
-  margin-bottom: 20px;
-  padding-left: 30px;
-  
+    margin-top: 48px;
+    margin-bottom: 20px;
+    padding-left: 30px;
 }
- /*sidebar buttons*/
- .bs-docs-sidebar .nav>li>button {
+
+
+/*sidebar buttons*/
+
+.bs-docs-sidebar .nav>li>button {
     color: #999;
-    padding : 4px 20px;
+    padding: 4px 20px;
     font-size: 13px;
     font-weight: 400;
- }
- 
- /* all links */
+}
+
+
+/* all links */
+
 .bs-docs-sidebar .nav>li>button {
     /*add trasnparent border */
     border-left: 2px solid transparent;
 }
 
- .bs-docs-sidebar .nav>active>button,
- .bs-docs-sidebar .nav>li>button:hover,
- .bs-docs-sidebar .nav>li>button:focus {
+.bs-docs-sidebar .nav>active>button,
+.bs-docs-sidebar .nav>li>button:hover,
+.bs-docs-sidebar .nav>li>button:focus {
     color: #563d7c;
     text-decoration: none;
     background-color: transparent;
     border-left: 2px solid #563d7c;
- }
- /* all active links */
-.bs-docs-sidebar .nav>.active>button, 
+}
+
+
+/* all active links */
+
+.bs-docs-sidebar .nav>.active>button,
 .bs-docs-sidebar .nav>.active:hover>button,
 .bs-docs-sidebar .nav>.active:focus>button {
     font-weight: 700;
 }
 
+
 /*poster is related really related to sidebar .. */
+
 .poster_section {
-  margin-top: -50px;
-  padding-top: 50px;
+    margin-top: -50px;
+    padding-top: 50px;
 }
+
 .poster {
-  margin-right: -35px;
+    margin-right: -35px;
 }
 
 .genre_section {
-  margin-top: 300px;
-  font-size: 10px;
-
+    margin-top: 300px;
+    font-size: 10px;
 }

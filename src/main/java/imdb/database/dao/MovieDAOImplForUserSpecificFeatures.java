@@ -26,10 +26,15 @@ public class MovieDAOImplForUserSpecificFeatures extends MovieDAOImpl {
 	private static String INSERT_INTO_FAVORITES = "INSERT INTO FAVORITES (MOVIE_ID, USER_ID) VALUES (?, ?);";
 	private static String DELETE_FROM_FAVORITES = "DELETE FROM FAVORITES WHERE MOVIE_ID = ? AND USER_ID = ?";
 	
-	private static String SELECT_ALL_FAVS = "SELECT MOVIE.* FROM MOVIE INNER JOIN FAVORITES ON FAVORITES.MOVIE_ID = MOVIE.ID AND FAVORITES.USER_ID = ?;";
+	private static String SELECT_ALL_FAVS = "SELECT MOVIE.*, FAVORITES.MOVIE_ID AS ISFAVORITE, WATCHLIST.MOVIE_ID AS ISWATCHLIST"
+			+ " FROM MOVIE"
+			+ " INNER JOIN FAVORITES ON FAVORITES.MOVIE_ID = MOVIE.ID AND FAVORITES.USER_ID = ?"
+			+ " LEFT JOIN WATCHLIST ON MOVIE.ID = WATCHLIST.MOVIE_ID";
+	
 	/*
 	 * Checks if the movie has been favorited by the user. R
 	 */
+	//TODO: not using this function anymore !
 	public int isMovieFavoritedByUser(String movieId, String userId) throws NoRowFoundException {
 		int favId = -1;
 		PreparedStatement pst = prepareStatementFromArgs(IS_MOVIE_FAVORITED, Arrays.asList(movieId, userId));

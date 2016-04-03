@@ -1,48 +1,48 @@
 body {
-    color: rgba(0,0,0,.5);
+    color: rgba(0, 0, 0, .5);
 }
-
 
 .nav a {
-  color: #5a5a5a;
-  #color: white;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 14px 10px;
-  text-transform: uppercase;
+    color: #5a5a5a;
+    #color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 14px 10px;
+    text-transform: uppercase;
 }
-.thumbnail{
-   width: 240px;
+
+.thumbnail {
+    width: 240px;
     height: 450px;
-  
     overflow: auto;
 }
+
 .thumbnail img {
-
-  padding : 2px 2px;
+    padding: 2px 2px;
 }
 
-.fade
-{
-        opacity:.85;
-}
-.fade:hover
-{
-        opacity:1;
+.fade {
+    opacity: .85;
 }
 
-.caption p{
-  font-weight: bold;
+.fade:hover {
+    opacity: 1;
 }
-.caption h3{
-    font: 19px Arial,sans-serif;
+
+.caption p {
+    font-weight: bold;
+}
+
+.caption h3 {
+    font: 19px Arial, sans-serif;
     margin: 0;
     padding-bottom: 3px;
-    padding-top : 8px;
+    padding-top: 8px;
     color: #404040;
 }
+
 .caption h3 span#year {
-    color :silver;
+    color: silver;
     font-size: 16px;
     font-family: Arial;
     line-height: 100%;
@@ -50,76 +50,141 @@ body {
 
 .infoText {
     font-size: 10px;
-    font-family:verdana;
+    font-family: verdana;
     color: #708090;
 }
-.gi-5x { font-size : 5em;}
-.gi-4x { font-size : 4em;}
-.gi-3x { font-size : 2.5em;}
-.gi-2x { font-size : 2em;}
-.gi-1x { font-size : 1.4em;}
 
-.gold  {color: #e6c200;}
+.gi-5x {
+    font-size: 5em;
+}
+
+.gi-4x {
+    font-size: 4em;
+}
+
+.gi-3x {
+    font-size: 2.5em;
+}
+
+.gi-2x {
+    font-size: 2em;
+}
+
+.gi-1x {
+    font-size: 1.4em;
+}
+
+.gold {
+    color: #e6c200;
+}
 
 .rating {
-    color : #1a1600; 
-    font-family : sans-serif;
-    font-size : 20px;
+    color: #1a1600;
+    font-family: sans-serif;
+    font-size: 20px;
 }
 
 .ten {
-    font-size : 11px;
+    font-size: 11px;
     color: silver;
-    font-family :verdana;
+    font-family: verdana;
 }
+
 .bookmark {
-    position : absolute;
-  /*  color: rgba(39, 97, 147, 0.63);*/
+    position: absolute;
+    /*  color: rgba(39, 97, 147, 0.63);*/
     opacity: .8;
-    
+}
+
+.bookmark-none {
+    position: absolute;
+    color: #84909A;
 }
 
 .nav li {
-  display: inline;
-}
-.intro-body {
- /*background-image: url('https://uni-plovdiv.bg/uploads/site/filiali/smolian/jpg/abstract_minimalistic_white_www.wallmay.net_14.jpg');*/
- 
-  height: 100%;
-  width: 100%;
-  position: fixed;
- 
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  /* background: -moz-linear-gradient(to bottom,rgba(190,190,190,0),rgba(190,190,190,1)); */
-  background: linear-gradient(to bottom, rgba(0,0,0,.03), rgba(0,0,0,.15)); /*Standard*/
-  /* z-index: 1;*/
+    display: inline;
 }
 
-.modal-header, h4, .close {
-      background-color: #00C5CD;
-      color:white !important;
-      text-align: center;
-      font-size: 30px;
+.intro-body {
+    /*background-image: url('https://uni-plovdiv.bg/uploads/site/filiali/smolian/jpg/abstract_minimalistic_white_www.wallmay.net_14.jpg');*/
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* background: -moz-linear-gradient(to bottom,rgba(190,190,190,0),rgba(190,190,190,1)); */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, .03), rgba(0, 0, 0, .15));
+    /*Standard*/
+    /* z-index: 1;*/
+}
+
+.modal-header,
+h4,
+{
+    background-color: #00C5CD;
+    /*   color:white !important; */
+    text-align: center;
+    font-size: 30px;
+}
+
+.close {
+    color: grey;
+    position: fixed;
+    right: 10px;
+    top: 5px;
 }
 
 
 /*guest login button styles */
 
-#guest_login_or {
-    width: 80%;
-    text-align: center;
-    height: 25px;
-    border-bottom: 1px solid  rgba(0,0,0,.1);;
-    margin-bottom: 40px;
-    margin-top: 15px;
-    
-}
-#guest_login_or_span {
-    font-size: 30px;
-    background-color: white;
-    padding: 0 10px;
-    font-family: 'Quicksand', sans-serif;
 
+/*OR div*/
+
+#guest_login_or {
+    width: 100%;
+    text-align: center;
+    height: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    margin-bottom: 30px;
+    margin-top: 18px;
+}
+
+#guest_login_or_span {
+    color: dimgrey;
+    font-size: 20px;
+    background-color: white;
+    padding: 0 30px;
+    font-family: 'Quicksand', sans-serif;
+    font-stretch: ultra-condensed;
+}
+
+#login_banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#login_banner_image {
+    opacity: .15;
+}
+
+#login_banner_title {
+    position: absolute;
+    z-index: 1;
+    top: 50px;
+    left: 30px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
+
+#login_banner_bullets {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    color: black;
 }
