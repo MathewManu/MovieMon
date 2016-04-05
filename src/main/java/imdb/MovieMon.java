@@ -90,10 +90,9 @@ public class MovieMon {
 			
 		MovieMonUtils.setScanStatus(ScanStatusEnum.SUCCESS);
 		
-		//Adding a new thread to process failed movies :
+		//TODO : Adding a new thread to process failed movies :
 		
 		Runnable failedmovieProcessorThread = () -> {
-			// add a n
 		};
 		
 		//TODO:updateDupMoviesForTheUser() 

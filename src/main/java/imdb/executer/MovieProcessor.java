@@ -103,7 +103,7 @@ public class MovieProcessor implements Callable<Boolean> {
 
 			// Calling omdb to get all the movie info
 			apiConnector.updateMovieObjectsWithApiData(movieObj);
-			MovieNameutils.updateGlobalGibberishMap(movieObj.getUpdatedfileName(), movieObj.getMovieObjFromApi().getTitle());
+			GibberishWordsUtils.updateGlobalGibberishMap(movieObj.getUpdatedfileName(), movieObj.getMovieObjFromApi().getTitle());
 			return true;
 		}
 		log.error("Coulnd not find IMDB Id for movie : " + movieObj.getMovieName() + " : Search Name : "
