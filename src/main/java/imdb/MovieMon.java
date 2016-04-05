@@ -102,9 +102,9 @@ public class MovieMon {
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
 		
-		for(Map.Entry<String, Integer> entry : MovieNameResolver.gibberishMap.entrySet()) {
+		/*for(Map.Entry<String, Integer> entry : MovieNameResolver.gibberishMap.entrySet()) {
 			log.debug(">>>>> key : " + entry.getKey() +" : " + entry.getValue());
-		}
+		}*/
 		
 		
 		log.debug("--------Finished Processing----------");
