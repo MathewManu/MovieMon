@@ -96,15 +96,15 @@ public class RestRequestProcessor {
 		int index = year.indexOf("-");
 
 		if (index == -1) {
-			query = String.format("%s%s%s", " YEAR = '", year, "'");
+			query = String.format("%s%s%s", " MOVIE.YEAR = '", year, "'");
 		} else {
 			String minYear = year.substring(0, index);
 			String maxYear = year.substring(index + 1);
 
 			if (maxYear.isEmpty()) {
-				query = String.format("%s%s%s", " YEAR >= '", minYear, "'");
+				query = String.format("%s%s%s", " MOVIE.YEAR >= '", minYear, "'");
 			} else {
-				query = String.format("%s%s%s%s%s", " YEAR BETWEEN '", minYear, "' AND '", maxYear, "'");
+				query = String.format("%s%s%s%s%s", " MOVIE.YEAR BETWEEN '", minYear, "' AND '", maxYear, "'");
 			}
 		}
 
@@ -117,15 +117,15 @@ public class RestRequestProcessor {
 		int index = rating.indexOf("-");
 
 		if (index == -1) {
-			query = String.format("%s%s%s", " IMDBRATING <= '", rating, "'");
+			query = String.format("%s%s%s", " MOVIE.IMDBRATING <= '", rating, "'");
 		} else {
 			String minRating = rating.substring(0, index);
 			String maxRating = rating.substring(index + 1);
 
 			if (maxRating.isEmpty()) {
-				query = String.format("%s%s%s", " IMDBRATING >= '", minRating, "'");
+				query = String.format("%s%s%s", " MOVIE.IMDBRATING >= '", minRating, "'");
 			} else {
-				query = String.format("%s%s%s%s%s", " IMDBRATING BETWEEN '", minRating, "' AND '", maxRating, "'");
+				query = String.format("%s%s%s%s%s", " MOVIE.IMDBRATING BETWEEN '", minRating, "' AND '", maxRating, "'");
 			}
 		}
 

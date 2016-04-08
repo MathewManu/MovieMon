@@ -18,18 +18,18 @@ body {
 }
 .caption {
     position: absolute;
-    top: 340px;
+    top: 335px;
 }
 
 .thumbnail img {
-    padding: 2px 2px;
+    padding: 1px 1px;
 }
 
-.fade {
+.fade_tn {
     opacity: 1;
 }
 
-.fade:hover {
+.fade_tn:hover {
     opacity: .85;
 }
 
@@ -48,10 +48,11 @@ body {
 }
 
 .caption h3 span#year {
-    color: silver;
+    /*color: silver;*/
     font-size: 14px;
     font-family: verdana;
     line-height: 100%;
+    cursor: pointer;
 }
 
 .infoText {
@@ -73,7 +74,7 @@ body {
 }
 
 .gi-2x {
-    font-size: 2em;
+    font-size: 1.8em;
 }
 
 .gi-1x {
@@ -197,13 +198,28 @@ body {
 
 
 /*favicon*/
+
 .favIcon {
     padding-left: 112px;
     color: #DC0808;
     vertical-align: baseline;
 }
+
 .favIconEmpty {
     padding-left: 112px;
-   color: #4D5052;
+    color: #4D5052;
     vertical-align: baseline;
 }
+
+
+/* movie thumbnail*/
+
+#poster {
+    height: 320px;
+    overflow: hidden;
+}
+
+#tn {
+    max-width: 230px;
+}
+

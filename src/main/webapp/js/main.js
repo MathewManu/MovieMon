@@ -12,8 +12,8 @@ var unFavoriteIcon = "fa fa-heart-o fa-lg favIconEmpty";
 var favoriteIcon = "fa fa-heart fa-lg favIcon";
 
 
-var wlistSelected = "glyphicon glyphicon-bookmark gi-1x bookmark";
-var wlistUnselected = "glyphicon glyphicon-bookmark gi-1x bookmark-none";
+var wlistSelected = "glyphicon glyphicon-bookmark gi-2x bookmark";
+var wlistUnselected = "glyphicon glyphicon-bookmark gi-2x bookmark-none";
 
 var imdbStarIcon = "glyphicon glyphicon-star gi-1x gold";
 
@@ -56,18 +56,17 @@ var showPosters = function () {
 
         count++; //can be removed, just used to limit the number of movies. testing purpose
 
-        textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail"><img class="fade" src="moviemon/posters/' + el.poster + '"  width="220" height="315">';
+        textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail"><div id="poster"><img id="tn" class="fade_tn" src="moviemon/posters/' + el.poster + '"></div>';
 
         textToInsert += '<a>' + '<span class="' + wlistIcon + '" onclick="tryWatchList(this , ' + el.id + ')"' + 'title="' + wlistTitle + '" data-wl-id=' + el.id + '></span></a>';
 
         textToInsert += '<div class="caption">';
-        
+
         textToInsert += '<a>' + '<span class= "' + imdbStarIcon + '"></a><span class="rating">' + ' ' + el.imdbRating + '<span class="ten">/10</span>' + '</span></span>';
 
-        textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , ' + el.id + ')"' + 'title="' + favTitle + '" data-fav-id=' + el.id + '></span></a>';
-        
+        textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , ' + el.id + ')"' + 'title="' + favTitle + '" data-fav-id=' + el.id + '></span></a>';        
 
-        textToInsert += '<h3>' + el.title + '<span id="year"> (<a href="">' + el.year + '</a>)</span>' + '</h3>';
+        textToInsert += '<h3>' + el.title + ' (<a><span id="year" onclick="filterUsingYear(this, ' + el.year + ')">' + el.year + '</span></a>)' + '</h3>';
         textToInsert += '<div class="infoText">' + genreLinks + '<span class="pipe">' + ' | ' + '</span>' + el.runTime + '</div>';
 
         textToInsert += '</div></div></div>';
@@ -204,7 +203,30 @@ var getAllMovies = function () {
 		},
 		beforeSend: setHeader  
 	});
-}
+};
+//can call getAllMovies with arg//get rid of this function. keeping as of now.
+var filterUsingYear = function (param,year) {
+	
+    var qUrl = rootURL + "?year=" + year;
+    $.ajax({
+		type: "GET",
+		url: qUrl,
+		datatype: 'json',
+		success : function(data) {
+			if(data.length) {
+				allMovies = data;
+				document.getElementById("all_Movies").innerHTML = "";
+				showPosters();
+			}
+			else {
+				document.getElementById("all_Movies").innerHTML = "";
+				//show no movies msg !
+				showScanButton();
+			}
+		},
+		beforeSend: setHeader  
+	});
+};
 var getFavMovies = function () {
 	$.ajax({
 		type: "GET",
