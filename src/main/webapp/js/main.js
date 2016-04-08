@@ -8,12 +8,15 @@ var watchListURL = "http://" + IP + ":8080/moviemon/movies/watchlist/";
 
 var allMovies;
 
-var unFavoriteIcon = "glyphicon glyphicon-star-empty gi-1x none";
-var favoriteIcon = "glyphicon glyphicon-star gi-1x gold";
-	
+var unFavoriteIcon = "fa fa-heart-o fa-lg favIconEmpty";
+var favoriteIcon = "fa fa-heart fa-lg favIcon";
+
+
 var wlistSelected = "glyphicon glyphicon-bookmark gi-1x bookmark";
 var wlistUnselected = "glyphicon glyphicon-bookmark gi-1x bookmark-none";
-	
+
+var imdbStarIcon = "glyphicon glyphicon-star gi-1x gold";
+
 var token = "authToken";
 
 
@@ -31,30 +34,38 @@ var showPosters = function () {
         }
         genreLinks = genreString.substring(0, genreString.lastIndexOf(",")); //to remove the last extra comma. [ action, drama, ]
 
-        var favIconToBeUsed;
+        var favIconToBeUsed
+        var favTitle;
         if (el.favorite === true) {
             favIconToBeUsed = favoriteIcon;
+            favTitle = "Remove from favorites";
         } else {
             favIconToBeUsed = unFavoriteIcon;
+            favTitle = "Favorite this movie";
         }
+       
         var wlistIcon;
+        var wlistTitle;
         if (el.inWatchList === true) {
             wlistIcon = wlistSelected;
+            wlistTitle = "Add to watchlist";
         } else {
             wlistIcon = wlistUnselected;
+            wlistTitle = "Remove from watchlist";
         }
 
         count++; //can be removed, just used to limit the number of movies. testing purpose
 
-        textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="220" height="315">';
+        textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail"><img class="fade" src="moviemon/posters/' + el.poster + '"  width="220" height="315">';
 
-        textToInsert += '<a>' + '<span class="' + wlistIcon + '" onclick="tryWatchList(this , ' + el.id + ')"' + 'title="Add to watchlist" data-wl-id=' + el.id + '></span></a>';
+        textToInsert += '<a>' + '<span class="' + wlistIcon + '" onclick="tryWatchList(this , ' + el.id + ')"' + 'title="' + wlistTitle + '" data-wl-id=' + el.id + '></span></a>';
 
         textToInsert += '<div class="caption">';
+        
+        textToInsert += '<a>' + '<span class= "' + imdbStarIcon + '"></a><span class="rating">' + ' ' + el.imdbRating + '<span class="ten">/10</span>' + '</span></span>';
 
-        textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , ' + el.id + ')" data-fav-id=' + el.id + '></a><span class="rating">' + ' ' + el.imdbRating + '<span class="ten">/10</span>' + '</span></span>';
-
-        //textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-plus gi-2x"></span></a>';
+        textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , ' + el.id + ')"' + 'title="' + favTitle + '" data-fav-id=' + el.id + '></span></a>';
+        
 
         textToInsert += '<h3>' + el.title + '<span id="year"> (<a href="">' + el.year + '</a>)</span>' + '</h3>';
         textToInsert += '<div class="infoText">' + genreLinks + '<span class="pipe">' + ' | ' + '</span>' + el.runTime + '</div>';

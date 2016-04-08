@@ -16,17 +16,21 @@ body {
     height: 450px;
     overflow: auto;
 }
+.caption {
+    position: absolute;
+    top: 340px;
+}
 
 .thumbnail img {
     padding: 2px 2px;
 }
 
 .fade {
-    opacity: .85;
+    opacity: 1;
 }
 
 .fade:hover {
-    opacity: 1;
+    opacity: .85;
 }
 
 .caption p {
@@ -34,17 +38,19 @@ body {
 }
 
 .caption h3 {
-    font: 19px Arial, sans-serif;
+   /* font: 17px Arial, sans-serif;*/
+    font-size:15px;
+    font-family: verdana;
     margin: 0;
     padding-bottom: 3px;
     padding-top: 8px;
-    color: #404040;
+    color: #232121;
 }
 
 .caption h3 span#year {
     color: silver;
-    font-size: 16px;
-    font-family: Arial;
+    font-size: 14px;
+    font-family: verdana;
     line-height: 100%;
 }
 
@@ -71,7 +77,7 @@ body {
 }
 
 .gi-1x {
-    font-size: 1.4em;
+    font-size: 1.3em;
 }
 
 .gold {
@@ -80,8 +86,9 @@ body {
 
 .rating {
     color: #1a1600;
-    font-family: sans-serif;
-    font-size: 20px;
+    font-family: verdana;
+    font-size: 18px;
+    
 }
 
 .ten {
@@ -186,4 +193,17 @@ body {
     font-family: 'Open Sans', sans-serif;
     font-size: 11px;
     color: black;
+}
+
+
+/*favicon*/
+.favIcon {
+    padding-left: 112px;
+    color: #DC0808;
+    vertical-align: baseline;
+}
+.favIconEmpty {
+    padding-left: 112px;
+   color: #4D5052;
+    vertical-align: baseline;
 }
