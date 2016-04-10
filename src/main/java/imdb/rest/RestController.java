@@ -42,15 +42,15 @@ public class RestController {
 	@GET
 	@Secured
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<MovieDBResult> getMovies(
-			@DefaultValue("") @QueryParam("rating") String rating, 
-			@DefaultValue("") @QueryParam("year") String year, @Context SecurityContext securityContext) {
-		
+	public List<MovieDBResult> getMovies(@DefaultValue("") @QueryParam("rating") String rating,
+			@DefaultValue("") @QueryParam("year") String year, @DefaultValue("") @QueryParam("genre") String genre,
+			@Context SecurityContext securityContext) {
+
 		Principal principal = securityContext.getUserPrincipal();
 		String username = principal.getName();
 		logger.debug(">>>>>>>> Username is ... " +username);
 		
-		return RestRequestProcessor.getMovies(rating, year);
+		return RestRequestProcessor.getMovies(rating, year, genre);
 	}
 
 	@GET

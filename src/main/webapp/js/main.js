@@ -30,7 +30,7 @@ var showPosters = function () {
             , genreLinks = '';
         var genreList = el.genre.split(",");
         for (i = 0; i < genreList.length; i++) {
-            genreString += '<a href="#">' + genreList[i] + '</a>' + ', ';
+        	 genreString += '<a><span id="genreLink" onclick="filterUsingGenre(this,\'' + genreList[i] +'\')">' + genreList[i] + '</span></a>' + ', ';
         }
         genreLinks = genreString.substring(0, genreString.lastIndexOf(",")); //to remove the last extra comma. [ action, drama, ]
 
@@ -48,10 +48,10 @@ var showPosters = function () {
         var wlistTitle;
         if (el.inWatchList === true) {
             wlistIcon = wlistSelected;
-            wlistTitle = "Add to watchlist";
+            wlistTitle = "Remove from watchlist";
         } else {
             wlistIcon = wlistUnselected;
-            wlistTitle = "Remove from watchlist";
+            wlistTitle = "Add to watchlist";
         }
 
         count++; //can be removed, just used to limit the number of movies. testing purpose
@@ -208,6 +208,30 @@ var getAllMovies = function () {
 var filterUsingYear = function (param,year) {
 	
     var qUrl = rootURL + "?year=" + year;
+    $.ajax({
+		type: "GET",
+		url: qUrl,
+		datatype: 'json',
+		success : function(data) {
+			if(data.length) {
+				allMovies = data;
+				document.getElementById("all_Movies").innerHTML = "";
+				showPosters();
+			}
+			else {
+				document.getElementById("all_Movies").innerHTML = "";
+				//show no movies msg !
+				showScanButton();
+			}
+		},
+		beforeSend: setHeader  
+	});
+};
+
+//can call getAllMovies with arg//get rid of this function. keeping as of now.
+var filterUsingGenre = function (param,genre) {
+	
+    var qUrl = rootURL + "?genre=" + genre;
     $.ajax({
 		type: "GET",
 		url: qUrl,

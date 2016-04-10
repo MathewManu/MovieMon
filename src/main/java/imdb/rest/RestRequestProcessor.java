@@ -29,7 +29,7 @@ public class RestRequestProcessor {
 	 * rating eg: 5.6-8.8, 5.6-, 5.6 
 	 * year eg : 2000-2010, 2000-, 2000, -2000
 	 */
-	public static List<MovieDBResult> getMovies(String rating, String year) {
+	public static List<MovieDBResult> getMovies(String rating, String year, String genre) {
 
 		ArrayList<String> queryParamList = new ArrayList<String>();
 		StringBuilder querySb = new StringBuilder(SELECT_ALL);
@@ -40,6 +40,9 @@ public class RestRequestProcessor {
 		if (!year.isEmpty()) {
 			queryParamList.add(getQueryConditionWithYear(year));
 		}
+		if (!genre.isEmpty()) {
+			queryParamList.add(getQueryConditionWithGenre(genre));
+		}
 
 		String query = updateSelectStmntWithConditions(querySb, queryParamList).toString();
 
@@ -47,6 +50,7 @@ public class RestRequestProcessor {
 
 	}
 
+	
 	public static List<MovieDBResult> processResultSet(ResultSet rs) {
 
 		List<MovieDBResult> movieList = new ArrayList<MovieDBResult>();
@@ -130,6 +134,12 @@ public class RestRequestProcessor {
 		}
 
 		return query;
+	}
+	private static String getQueryConditionWithGenre(String genre) {
+		if(genre.charAt(0) == ' ') {
+			genre = genre.substring(1);
+		}
+		return(String.format("%s%s%s", " MOVIE.GENRE LIKE '%",genre,"%'")); 
 	}
 
 	/*

@@ -101,12 +101,13 @@ body {
 .bookmark {
     position: absolute;
     /*  color: rgba(39, 97, 147, 0.63);*/
-    opacity: .8;
+    opacity: .9;
 }
 
 .bookmark-none {
     position: absolute;
     color: #84909A;
+    opacity: .9;
 }
 
 .nav li {
@@ -221,5 +222,8 @@ body {
 
 #tn {
     max-width: 230px;
+}
+#genreLink {
+    cursor: pointer;
 }
 

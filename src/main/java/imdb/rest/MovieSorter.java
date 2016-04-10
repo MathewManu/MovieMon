@@ -56,7 +56,7 @@ public class MovieSorter {
 	}
 
 	private List<MovieDBResult> getUnsortedMovies() {		
-		return RestRequestProcessor.getMovies("", "");
+		return RestRequestProcessor.getMovies("", "", "");
 		
 	}
 }
