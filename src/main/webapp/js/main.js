@@ -12,16 +12,22 @@ var unFavoriteIcon = "fa fa-heart-o fa-lg favIconEmpty";
 var favoriteIcon = "fa fa-heart fa-lg favIcon";
 
 
+
 var wlistSelected = "glyphicon glyphicon-bookmark gi-2x bookmark";
 var wlistUnselected = "glyphicon glyphicon-bookmark gi-2x bookmark-none";
 
-var imdbStarIcon = "glyphicon glyphicon-star gi-1x gold";
 
+var imdbStarIcon = "glyphicon glyphicon-star gi-1x gold";
+	
 var token = "authToken";
 
 
 var showPosters = function () {
-
+	$("#listMovies").remove();
+	$("#posterdiv").children().show();
+	
+	document.getElementById("all_Movies").innerHTML = "";
+	
     var count = 0;
     $.each(allMovies, function (index, el) {
 
@@ -30,58 +36,40 @@ var showPosters = function () {
             , genreLinks = '';
         var genreList = el.genre.split(",");
         for (i = 0; i < genreList.length; i++) {
-        	 genreString += '<a><span id="genreLink" onclick="filterUsingGenre(this,\'' + genreList[i] +'\')">' + genreList[i] + '</span></a>' + ', ';
+            genreString += '<a href="#">' + genreList[i] + '</a>' + ', ';
         }
         genreLinks = genreString.substring(0, genreString.lastIndexOf(",")); //to remove the last extra comma. [ action, drama, ]
 
-        var favIconToBeUsed
-        var favTitle;
+        var favIconToBeUsed;
         if (el.favorite === true) {
             favIconToBeUsed = favoriteIcon;
-            favTitle = "Remove from favorites";
         } else {
             favIconToBeUsed = unFavoriteIcon;
-            favTitle = "Favorite this movie";
         }
-       
         var wlistIcon;
-        var wlistTitle;
         if (el.inWatchList === true) {
             wlistIcon = wlistSelected;
-            wlistTitle = "Remove from watchlist";
         } else {
             wlistIcon = wlistUnselected;
-            wlistTitle = "Add to watchlist";
         }
 
         count++; //can be removed, just used to limit the number of movies. testing purpose
 
-        textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail"><div id="poster"><img id="tn" class="fade_tn" src="moviemon/posters/' + el.poster + '"></div>';
+        textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="220" height="315">';
 
-        textToInsert += '<a>' + '<span class="' + wlistIcon + '" onclick="tryWatchList(this , ' + el.id + ')"' + 'title="' + wlistTitle + '" data-wl-id=' + el.id + '></span></a>';
+        textToInsert += '<a>' + '<span class="' + wlistIcon + '" onclick="tryWatchList(this , ' + el.id + ')"' + 'title="Add to watchlist" data-wl-id=' + el.id + '></span></a>';
 
         textToInsert += '<div class="caption">';
 
-        textToInsert += '<a>' + '<span class= "' + imdbStarIcon + '"></a><span class="rating">' + ' ' + el.imdbRating + '<span class="ten">/10</span>' + '</span></span>';
+        textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , ' + el.id + ')" data-fav-id=' + el.id + '></a><span class="rating">' + ' ' + el.imdbRating + '<span class="ten">/10</span>' + '</span></span>';
 
-        textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , ' + el.id + ')"' + 'title="' + favTitle + '" data-fav-id=' + el.id + '></span></a>';        
+        //textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-plus gi-2x"></span></a>';
 
-        textToInsert += '<h3>' + el.title + ' (<a><span id="year" onclick="filterUsingYear(this, ' + el.year + ')">' + el.year + '</span></a>)' + '</h3>';
+        textToInsert += '<h3>' + el.title + '<span id="year"> (<a href="">' + el.year + '</a>)</span>' + '</h3>';
         textToInsert += '<div class="infoText">' + genreLinks + '<span class="pipe">' + ' | ' + '</span>' + el.runTime + '</div>';
 
         textToInsert += '</div></div></div>';
-
-        //	if(el.favorite == true) {
-        //		$('#fav_section').append(textToInsert);
-        //	}
-
         $('#all_Movies').append(textToInsert);
-
-        //testing purpose
-        // if (count == 50) {
-        //   return false;
-        //    }
-
     });
 
 
@@ -192,7 +180,6 @@ var getAllMovies = function () {
 		success : function(data) {
 			if(data.length) {
 				allMovies = data;
-				document.getElementById("all_Movies").innerHTML = "";
 				showPosters();
 			}
 			else {
@@ -203,54 +190,7 @@ var getAllMovies = function () {
 		},
 		beforeSend: setHeader  
 	});
-};
-//can call getAllMovies with arg//get rid of this function. keeping as of now.
-var filterUsingYear = function (param,year) {
-	
-    var qUrl = rootURL + "?year=" + year;
-    $.ajax({
-		type: "GET",
-		url: qUrl,
-		datatype: 'json',
-		success : function(data) {
-			if(data.length) {
-				allMovies = data;
-				document.getElementById("all_Movies").innerHTML = "";
-				showPosters();
-			}
-			else {
-				document.getElementById("all_Movies").innerHTML = "";
-				//show no movies msg !
-				showScanButton();
-			}
-		},
-		beforeSend: setHeader  
-	});
-};
-
-//can call getAllMovies with arg//get rid of this function. keeping as of now.
-var filterUsingGenre = function (param,genre) {
-	
-    var qUrl = rootURL + "?genre=" + genre;
-    $.ajax({
-		type: "GET",
-		url: qUrl,
-		datatype: 'json',
-		success : function(data) {
-			if(data.length) {
-				allMovies = data;
-				document.getElementById("all_Movies").innerHTML = "";
-				showPosters();
-			}
-			else {
-				document.getElementById("all_Movies").innerHTML = "";
-				//show no movies msg !
-				showScanButton();
-			}
-		},
-		beforeSend: setHeader  
-	});
-};
+}
 var getFavMovies = function () {
 	$.ajax({
 		type: "GET",
@@ -261,8 +201,14 @@ var getFavMovies = function () {
 		success : function(data) {
 			if(data.length) {
 				allMovies = data;
-				document.getElementById("all_Movies").innerHTML = "";
-				showPosters();
+				alert($("#listOrTileId").attr('class'));
+				if ($("#listOrTileId").attr('class') === 'glyphicon glyphicon-th') {
+					alert("Going to show as list");
+					showMoviesAsList(allMovies);
+				} else {
+					alert("Going to show posters");
+					showPosters();
+				}
 			}
 			else {
 				document.getElementById("all_Movies").innerHTML = "";
@@ -317,43 +263,3 @@ function postLoginAjaxCall(username, password) {
 }
 
 
-/*var getMovie = function() {
-		var movieName = $('#searchTitle').val();
-
-		if(movieName == '') {
-			$('#poster').html("<h2 class='loading'>Haa ... Please enter something. </h2>");
-		}
-		else {
-			$('#poster').html("<h2 class='loading'> Details on the way </h2>");
-
-			$.getJSON(rootURL +"/" +movieName, function(json) {
-					if(json != "[]") {
-
-						$('#poster').html('<h2 class="loading"> Found the movie ' + json[0].title +' Rating = ' + json
-
-[0].imdbRating +'! </h2>');
-						console.log(json);
-					}
-					else {
-						cosole.log(json);
-					}
-
-			});
-		}
-		return false;
-	}	*/
-	
-	
-$(document).ready(function(){
-
-   //getAllMovies();
-
-  /* $('#searchAll').click(getAllMovies);
-   $('#search').click(getMovie);
-   $('#searchTitle').keyup(function(event) {
-   		if(event.keyCode == 13) {
-   			getMovie();
-   		}
-   });*/
-
-});
