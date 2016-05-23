@@ -36,36 +36,43 @@ var showPosters = function () {
             , genreLinks = '';
         var genreList = el.genre.split(",");
         for (i = 0; i < genreList.length; i++) {
-            genreString += '<a href="#">' + genreList[i] + '</a>' + ', ';
+        	 genreString += '<a><span id="genreLink" onclick="filterUsingGenre(this,\'' + genreList[i] +'\')">' + genreList[i] + '</span></a>' + ', ';
         }
         genreLinks = genreString.substring(0, genreString.lastIndexOf(",")); //to remove the last extra comma. [ action, drama, ]
 
-        var favIconToBeUsed;
+        var favIconToBeUsed
+        var favTitle;
         if (el.favorite === true) {
             favIconToBeUsed = favoriteIcon;
+            favTitle = "Remove from favorites";
         } else {
             favIconToBeUsed = unFavoriteIcon;
+            favTitle = "Favorite this movie";
         }
+       
         var wlistIcon;
+        var wlistTitle;
         if (el.inWatchList === true) {
             wlistIcon = wlistSelected;
+            wlistTitle = "Remove from watchlist";
         } else {
             wlistIcon = wlistUnselected;
+            wlistTitle = "Add to watchlist";
         }
 
         count++; //can be removed, just used to limit the number of movies. testing purpose
 
-        textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail fade"><img src="moviemon/posters/' + el.poster + '"  width="220" height="315">';
+        textToInsert += '<div class="col-lg-3  col-md-4 col-sm-6 col-xs-12"><div class="thumbnail"><div id="poster"><img id="tn" class="fade_tn" src="moviemon/posters/' + el.poster + '"></div>';
 
-        textToInsert += '<a>' + '<span class="' + wlistIcon + '" onclick="tryWatchList(this , ' + el.id + ')"' + 'title="Add to watchlist" data-wl-id=' + el.id + '></span></a>';
+        textToInsert += '<a>' + '<span class="' + wlistIcon + '" onclick="tryWatchList(this , ' + el.id + ')"' + 'title="' + wlistTitle + '" data-wl-id=' + el.id + '></span></a>';
 
         textToInsert += '<div class="caption">';
 
-        textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , ' + el.id + ')" data-fav-id=' + el.id + '></a><span class="rating">' + ' ' + el.imdbRating + '<span class="ten">/10</span>' + '</span></span>';
+        textToInsert += '<a>' + '<span class= "' + imdbStarIcon + '"></a><span class="rating">' + ' ' + el.imdbRating + '<span class="ten">/10</span>' + '</span></span>';
 
-        //textToInsert += '<a href="#">' + '<span class="glyphicon glyphicon-plus gi-2x"></span></a>';
+        textToInsert += '<a>' + '<span class= "' + favIconToBeUsed + '" onclick="tryFavoriting(this , ' + el.id + ')"' + 'title="' + favTitle + '" data-fav-id=' + el.id + '></span></a>';        
 
-        textToInsert += '<h3>' + el.title + '<span id="year"> (<a href="">' + el.year + '</a>)</span>' + '</h3>';
+        textToInsert += '<h3>' + el.title + ' (<a><span id="year" onclick="filterUsingYear(this, ' + el.year + ')">' + el.year + '</span></a>)' + '</h3>';
         textToInsert += '<div class="infoText">' + genreLinks + '<span class="pipe">' + ' | ' + '</span>' + el.runTime + '</div>';
 
         textToInsert += '</div></div></div>';
@@ -180,6 +187,7 @@ var getAllMovies = function () {
 		success : function(data) {
 			if(data.length) {
 				allMovies = data;
+				document.getElementById("all_Movies").innerHTML = "";
 				showPosters();
 			}
 			else {
@@ -190,7 +198,54 @@ var getAllMovies = function () {
 		},
 		beforeSend: setHeader  
 	});
-}
+};
+//can call getAllMovies with arg//get rid of this function. keeping as of now.
+var filterUsingYear = function (param,year) {
+	
+    var qUrl = rootURL + "?year=" + year;
+    $.ajax({
+		type: "GET",
+		url: qUrl,
+		datatype: 'json',
+		success : function(data) {
+			if(data.length) {
+				allMovies = data;
+				document.getElementById("all_Movies").innerHTML = "";
+				showPosters();
+			}
+			else {
+				document.getElementById("all_Movies").innerHTML = "";
+				//show no movies msg !
+				showScanButton();
+			}
+		},
+		beforeSend: setHeader  
+	});
+};
+
+//can call getAllMovies with arg//get rid of this function. keeping as of now.
+var filterUsingGenre = function (param,genre) {
+	
+    var qUrl = rootURL + "?genre=" + genre;
+    $.ajax({
+		type: "GET",
+		url: qUrl,
+		datatype: 'json',
+		success : function(data) {
+			if(data.length) {
+				allMovies = data;
+				document.getElementById("all_Movies").innerHTML = "";
+				showPosters();
+			}
+			else {
+				document.getElementById("all_Movies").innerHTML = "";
+				//show no movies msg !
+				showScanButton();
+			}
+		},
+		beforeSend: setHeader  
+	});
+};
 var getFavMovies = function () {
 	$.ajax({
 		type: "GET",
