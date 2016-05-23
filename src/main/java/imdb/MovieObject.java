@@ -13,6 +13,8 @@ public class MovieObject {
 	
 	private String movieName;
 	private String updatedfileName;
+	private String titleFromTmdb;
+
 	private String movieAbsPath;
 	private Movie movieObjFromApi;
 
@@ -73,6 +75,13 @@ public class MovieObject {
 
 	public void setMovieObjFromApi(Movie movieObjFromApi) {
 		this.movieObjFromApi = movieObjFromApi;
+	}
+	public String getTitleFromTmdb() {
+		return titleFromTmdb;
+	}
+
+	public void setTitleFromTmdb(String titleFromTmdb) {
+		this.titleFromTmdb = titleFromTmdb;
 	}
 
 

@@ -12,8 +12,7 @@ import imdb.utils.*;
 public class MovieDAOImpl implements MovieMonDAO {
 	
 	final static Logger log = Logger.getLogger(MovieDAOImpl.class);
-	//@Inject
-	//private Connection conn;
+	
 	private static Connection conn;
 	
 	
@@ -205,8 +204,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 	
 		List<? extends Object> hsqlArgs = Arrays.asList(id, imdbId, fileLoc);
 		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_DUPMOVIE_DETAILS, hsqlArgs);
-		
-		//System.out.println("Trying to update .. " +insertStmt);
 		return performQuery(pst);
 
 	}
@@ -251,7 +248,6 @@ public class MovieDAOImpl implements MovieMonDAO {
 		
 		PreparedStatement pst = prepareStatementFromArgs(INSERT_INTO_USER_MOVIES, Arrays.asList(userID, movieID));
 		log.info("inserting into user_movies table.. userid : " +userID + " movieID : " +movieID);
-		//System.out.println("Trying to update .. " +insertStmt);
 		return performQuery(pst);
 		
 	}

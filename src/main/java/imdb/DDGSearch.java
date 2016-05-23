@@ -40,7 +40,7 @@ public class DDGSearch {
 
 	public String searchID(String searchQuery) {
 
-		String search = searchQuery + " imdb";
+		String search = searchQuery + " site:imdb.com";
 		try {
 			Document doc = searchForMovie(search);
 			if (doc == null) {

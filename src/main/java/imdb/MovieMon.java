@@ -13,6 +13,8 @@ import java.util.concurrent.*;
 
 import org.apache.log4j.*;
 
+import com.sun.management.jmx.*;
+
 public class MovieMon {
 
 	private static String srcDirectory;
@@ -37,15 +39,13 @@ public class MovieMon {
 		/*
 		 * New change in call flow. After Filewalk we'll only have movieObjects with resolved names. Following things should happen afterwards
 		 * Iterate over the objects. Each Thread should do
-		 * -> Gsearch for Imdb Id [ Currently this is been done during name resolving. Need to change this ]
-		 * -> omdb query for movie details. 
+		 * -> find movie title from tmdb by removing words from end.
+		 * -> use levenstian distance algo to determine the match. Pick the best one 
+		 * -> use omdb to get the movie details using movie title
+		 * -> update failed movies
 		 * -> insertion into movie table, user_movies, recently_added_movies
 		 * -> thumbnail download
 		 * 
-		 * Other items to do.. 
-		 * ---> to avoid processing the same movie in case of multiple runs, query db for filelocation.. SELECT FileLocation FROM MOVIE
-		 * ---> If the movie that we are going to process is present in this list, Skip.. By this only newly added movies will be
-		 * ---> processed.
 		 */
 		
 		ExecutorService eService = Executors.newFixedThreadPool(THREAD_COUNT);
@@ -84,6 +84,9 @@ public class MovieMon {
 				
 		} catch (InterruptedException | ExecutionException e) {
 			log.error("Exception : " +e.getMessage());
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			log.error(sw.toString());
 			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
 		} 
 		

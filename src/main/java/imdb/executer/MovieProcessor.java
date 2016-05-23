@@ -5,6 +5,7 @@ import java.util.concurrent.*;
 
 import org.apache.log4j.*;
 
+import Tmdb.*;
 import imdb.*;
 import imdb.database.dao.*;
 import imdb.database.model.*;
@@ -15,6 +16,8 @@ public class MovieProcessor implements Callable<Boolean> {
 	final static Logger log = Logger.getLogger(MovieProcessor.class);
 	
 	private static int GUEST_USERID = 1; 
+	
+	private static final String API_KEY = "e1bcddb06091e41faf2e411806012291";
 	
 	private static BaseApiConnector apiConnector = new OmdbApiConnector();
 	
@@ -35,13 +38,12 @@ public class MovieProcessor implements Callable<Boolean> {
 		if(true == getMovieDetailsFromOmdb())
 		{
 			if (movieDAO.insert(getMovieDto(movieObj))) {
-				log.debug("Insert success : " + movieObj.getMovieObjFromApi().getTitle() + " - Path : "
-						+ movieObj.getMovieAbsPath());
+				log.debug("Insert success : " + movieObj.getMovieObjFromApi().getTitle() + " - Path : " + movieObj.getMovieAbsPath());
 				//get last inserted id ..select id from movie where imdbid = movieobj.get AND filelocation = movieobj.getfilelocation()
 				// insert into user_movies table
 				// insert into recenlty_added table
 		
-				int lastInsertId = movieDAO.getLastInsertMovieID(movieObj.getImdbId(), movieObj.getMovieAbsPath());
+				int lastInsertId = movieDAO.getLastInsertMovieID(movieObj.getMovieObjFromApi().getImdbID(), movieObj.getMovieAbsPath());
 				if(lastInsertId != 0) {
 					
 					//TODO: hard coding GUEST userId 1 now...
@@ -86,38 +88,88 @@ public class MovieProcessor implements Callable<Boolean> {
 	 */
 	private boolean getMovieDetailsFromOmdb() {
 
+		log.debug("searching for movie title ..: \" " + movieObj.getUpdatedfileName() + "\" Year : " + movieObj.getYear());
+
+		/*
+		 * if (movieObj.getYear() != 9999) { imdbId =
+		 * ddgSearch.findId(movieObj.getUpdatedfileName(), movieObj.getYear());
+		 * } else { imdbId = ddgSearch.findId(movieObj.getUpdatedfileName()); }
+		 */
+		String titleTmdb = testTmdb.getTitleFromTmdb(API_KEY, movieObj.getUpdatedfileName());
+		if (titleTmdb != null) {
+
+			if (!titleTmdb.isEmpty()) {
+				
+				log.info("Title found for movie : " + movieObj.getMovieName() + " : " + titleTmdb );
+				movieObj.setTitleFromTmdb(titleTmdb);
+				// Calling omdb to get all the movie info
+				apiConnector.updateMovieObjectsWithApiData(movieObj);
+
+				if (movieObj.getMovieObjFromApi().getResponse().equals("True")) {
+
+					// if the parsed year & found year are not the same. Insert movie to failed movie list..
+					if (movieObj.getMovieObjFromApi().getYear() != movieObj.getYear() && movieObj.getYear() != 9999) {
+
+						log.info("SKIP:: Year not matching with parsed year movie : " + movieObj.getMovieName()	+ " Title : " + movieObj.getMovieObjFromApi().getTitle());
+						//movieDAO.insertFailedMovie(movieObj.getMovieAbsPath());
+						//return false;
+
+					}
+					else {
+						// TODO: anushya commenting as of now.
+						// need to update the gibberish words in db & use.
+						// GibberishWordsUtils.updateGlobalGibberishMap(movieObj.getUpdatedfileName(),
+						// movieObj.getMovieObjFromApi().getTitle());
+						return true;
+					}
+
+				} else {
+					log.error("Response false for the movie from omdb : " + movieObj.getMovieName());
+				}
+			}
+		}
+		log.error("Coulnd not find details for movie : " + movieObj.getMovieName() + " : Search Name : " + movieObj.getUpdatedfileName() + " Year : " + movieObj.getYear());
+
+		/*
+		 * update failed movie table
+		 */
+		if (processFailedMovie() == false) {
+			movieDAO.insertFailedMovie(movieObj.getMovieAbsPath());
+			return false;
+		}
+
+		return true;
+	}
+	
+	private boolean processFailedMovie() {
+	
 		String imdbId = "";
-
-		log.debug("searching Online for IMDB ID ...: \" " + movieObj.getUpdatedfileName() + "\"   Year : "
-				+ movieObj.getYear());
-
+		log.info("========failed movie from tmdb.. Trying ddsearch========");
+		log.debug("searching Online for IMDB ID : \" " + movieObj.getUpdatedfileName() + "\" Year : "+ movieObj.getYear());
+		
 		if (movieObj.getYear() != 9999) {
 			imdbId = ddgSearch.findId(movieObj.getUpdatedfileName(), movieObj.getYear());
 		} else {
 			imdbId = ddgSearch.findId(movieObj.getUpdatedfileName());
 		}
-
+		
 		if (!imdbId.isEmpty()) {
-			log.info("Imdb id found for the movie : " + movieObj.getMovieName() + " is : " + imdbId);
+			
+			log.info("Imdb id found for the movie : " + movieObj.getMovieName() + " ID : " + imdbId);
 			movieObj.setImdbId(imdbId);
-
+			
 			// Calling omdb to get all the movie info
 			apiConnector.updateMovieObjectsWithApiData(movieObj);
-			GibberishWordsUtils.updateGlobalGibberishMap(movieObj.getUpdatedfileName(), movieObj.getMovieObjFromApi().getTitle());
-			return true;
+			
+			if (movieObj.getMovieObjFromApi().getResponse().equals("True")) {
+				//GibberishWordsUtils.updateGlobalGibberishMap(movieObj.getUpdatedfileName(), movieObj.getMovieObjFromApi().getTitle());
+				return true;
+			}
+			
 		}
-		log.error("Coulnd not find IMDB Id for movie : " + movieObj.getMovieName() + " : Search Name : "
-				+ movieObj.getUpdatedfileName() + " Year : " + movieObj.getYear());
-		
-		/*
-		 * update failed movie table
-		 */
-		movieDAO.insertFailedMovie(movieObj.getMovieAbsPath());
-		
 		return false;
-
 	}
-	
+
 	/*
 	 * return movieDto which should go to DB
 	 */
@@ -145,7 +197,6 @@ public class MovieProcessor implements Callable<Boolean> {
 		else {
 			movieDto.setPoster("no_thumbnail.jpg");
 		}
-		
 		
 		movieDto.setDirector(movieObj.getMovieObjFromApi().getDirector());
 		movieDto.setActors(movieObj.getMovieObjFromApi().getActors());
