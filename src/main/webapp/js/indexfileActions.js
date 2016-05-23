@@ -1,8 +1,11 @@
+var isListButtonSelected = false; //this global variable is used to track whether the list button is selected or not.
 
 /*Defining button actions */
 $(document).ready(function(){
 	
 	var deleteUrl = "http://localhost:8080/moviemon/movies";
+	//this g.v  is used to track which button is selected from the left side panel, mainly for firing rest calls during listing.
+	var trackLeftClickedButtons = "";
 	//scan from navigation bar button action
     $("#scanfromnavbar").click(function(){
         openScanDirectoryPopup();
@@ -65,17 +68,34 @@ $(document).ready(function(){
     });
 
 	$("#favMoviesBtn").click(function() {
+		setTrackLeftClickedButtons("favMoviesBtn");
 		getFavMovies();
 		
 	});
 	
 	$("#AllMoviesBtn").click(function() {
+		setTrackLeftClickedButtons("AllMoviesBtn");
 		getAllMovies();
 	});
 	
 	$("#WatchListMoviesBtn").click(function() {
+		setTrackLeftClickedButtons("WatchListMoviesBtn");
 		getWatchListMovies();
 	});
+	
+	$("#listOrTileId").click(function(){
+		var listIcon = "glyphicon glyphicon-list";
+		var tileIcon = "glyphicon glyphicon-th";
+			
+		//the fireRestCallsAndDisplay will select the appropriate rest call to fire based on the selected frame, and display in list/tile format.
+		fireRestCallsAndDisplay(getTrackLeftClickedButtons());
+		if ($("#listOrTileId").attr('class') === listIcon) {
+			$("#listOrTileId").attr('class', tileIcon);
+		} else {
+			$("#listOrTileId").attr('class', listIcon);
+		}
+		
+    });
 	
 	 //removes the focus after the button is selected in the sidebar.
     $(".btn").mouseup(function(){
@@ -117,6 +137,8 @@ $(document).ready(function(){
   
   
   
+  
+  
 /*Action by the scan button to post requests */
   function postforscanAndDisplayStatus (folder) {
   
@@ -155,5 +177,21 @@ $(document).ready(function(){
  
   function displayScanProgressMessage(message) {
 	$("#demo").text(message + "...");
+  }
+  
+  function setTrackLeftClickedButtons(buttonId) {
+	  trackLeftClickedButtons = buttonId;
+  }
+  
+  function getTrackLeftClickedButtons() {
+	  return trackLeftClickedButtons ;
+  }
+  
+  function setListButtonValue(val) {
+	  isListButtonSelected = val;
+  }
+  
+  function getListButtonValue() {
+	  return isListButtonSelected;
   }
   
