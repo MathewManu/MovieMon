@@ -2,6 +2,7 @@ package imdb;
 
 import imdb.database.dao.*;
 import imdb.executer.*;
+import imdb.scan.*;
 import imdb.utils.MovieMonUtils;
 import imdb.utils.ScanStatusEnum;
 
@@ -18,7 +19,6 @@ import com.sun.management.jmx.*;
 public class MovieMon {
 
 	private static String srcDirectory;
-	private static List<MovieObject> allMovieObjects;
 	
 	private static MovieDAOImpl movieDAO = MovieMonDaoFactory.getMovieDAOImpl();
 	
@@ -30,8 +30,10 @@ public class MovieMon {
 		
 		MovieMonUtils.setScanStatus(ScanStatusEnum.INPROGRES);
 		long startTime = System.currentTimeMillis();
-
-		if (false == updateMovieNamesFromRootDir(srcDirectory)) {
+		
+		List<MovieObject> movieObjs = new DirectoryScanner().getMovieObjList(srcDirectory);
+		
+		if(movieObjs.isEmpty()) {
 			log.error("Could not find any movies at path : "+srcDirectory);
 			MovieMonUtils.setScanStatus(ScanStatusEnum.FAILED);
 			return;
@@ -51,11 +53,11 @@ public class MovieMon {
 		ExecutorService eService = Executors.newFixedThreadPool(THREAD_COUNT);
 		
 		//TODO: getscannedfilelist should take currently logged in user as input.. 
-		//need to change this function.
+	
 		List<String> scannedFileList = movieDAO.getScannedFileList();
 		List<MovieProcessor> movieProcessors = new ArrayList<MovieProcessor>();
 		
-		for (MovieObject movieObj : allMovieObjects) {
+		for (MovieObject movieObj : movieObjs) {
 			
 			
 			if (scannedFileList.contains(movieObj.getMovieAbsPath())) {
@@ -95,8 +97,8 @@ public class MovieMon {
 		
 		//TODO : Adding a new thread to process failed movies :
 		
-		Runnable failedmovieProcessorThread = () -> {
-		};
+		/*Runnable failedmovieProcessorThread = () -> {
+		};*/
 		
 		//TODO:updateDupMoviesForTheUser() 
 		movieDAO.updateDupMovies();
@@ -114,23 +116,7 @@ public class MovieMon {
 		log.debug("Elapsed time ... >>>>>>> : " + totalTime  +" >>>> sec : " +totalTime/1000);
 	}
 	
-	public static boolean updateMovieNamesFromRootDir(String srcDirectory) {
 
-		Path srcDir = Paths.get(srcDirectory);
-		SimpleFileWalk dirWalk = new SimpleFileWalk();
-
-		log.debug("Scanning the mentioned directory : "+srcDirectory + " for Movies, Please wait...");
-		
-		try {
-			Files.walkFileTree(srcDir, dirWalk);
-		} catch (IOException e) {
-			log.error("walkFileTree exception : " + e.getMessage());
-		}
-		
-		allMovieObjects = dirWalk.getAllMovieObjs();
-		return allMovieObjects.isEmpty() ? false : true;
-		
-	}
 
 	public static String getSrcDirectory() {
 		return srcDirectory;
@@ -139,7 +125,5 @@ public class MovieMon {
 	public static void setSrcDirectory(String srcDirectory) {
 		MovieMon.srcDirectory = srcDirectory;
 	}
-
-
 
 }

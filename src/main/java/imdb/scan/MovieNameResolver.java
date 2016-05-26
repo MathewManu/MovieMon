@@ -1,4 +1,4 @@
-package imdb;
+package imdb.scan;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,6 +7,8 @@ import java.util.regex.*;
 import javax.print.attribute.HashAttributeSet;
 
 import org.apache.log4j.*;
+
+import imdb.*;
 
 public class MovieNameResolver {
 	
