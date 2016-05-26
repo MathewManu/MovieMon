@@ -5,12 +5,21 @@ public class AuthenticationUtils {
 
 	
 	private static String userName = "";
+	private static String token;
+
+	public static String getToken() {
+		return token;
+	}
+
+	public static void setToken(String token) {
+		AuthenticationUtils.token = token;
+	}
 
 	public static  String getCurrentlyLoggedinUser() {
 		return userName;
 	}
 
-	protected static void setCurrentlyLoggedInUser(String username) {
+	public static void setCurrentlyLoggedInUser(String username) {
 		userName = username;
 		
 	}

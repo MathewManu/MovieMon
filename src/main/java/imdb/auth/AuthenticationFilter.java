@@ -10,6 +10,9 @@ import javax.ws.rs.ext.Provider;
 
 import org.apache.log4j.*;
 
+import imdb.exceptions.*;
+import imdb.rest.favorites.*;
+
 @Secured
 @Provider
 @Priority(Priorities.AUTHENTICATION)
@@ -34,8 +37,7 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
 
 		try {
 			validateToken(token);
-			// TODO: set username
-
+			
 		} catch (Exception e) {
 			logger.debug("exception : token validation failed");
 			requestContext.abortWith(ACCESS_DENIED);
@@ -43,7 +45,7 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
 
 		}
 
-		final String principalUsername = "guest";
+		final String principalUsername = AuthenticationUtils.getCurrentlyLoggedinUser();
 		
 		requestContext.setSecurityContext(new SecurityContext() {
 					
@@ -81,10 +83,28 @@ public class AuthenticationFilter implements javax.ws.rs.container.ContainerRequ
 		AuthenticationUtils.setCurrentlyLoggedInUser(principalUsername);
 	}
 	
-	private void validateToken(String token) {
-		logger.debug("validating token .. TODO");
-		// TODO: validation against db
+	/*
+	 * validate token against the token coming from ui
+	 * if saved token is null, try to get data from db using the incoming token from ui
+	 */
+	private void validateToken(String token) throws InvalidTokenException {
 
+		logger.debug("validating token...");
+		if (token == null) {
+			throw new InvalidTokenException("invalid token");
+		}
+		String currentToken = AuthenticationUtils.getToken();
+
+		if (currentToken == null) {
+			logger.info("Saved token is null, Trying to fetch from db");
+
+			UserAuthManager userAuthManager = new UserAuthManager();
+			currentToken = userAuthManager.getUserInfoFromDb(token);
+		}
+		if (null == currentToken || !currentToken.equals(token)) {
+			throw new InvalidTokenException("invalid token");
+		}
+		logger.info("token has been validated");
 	}
 
 }

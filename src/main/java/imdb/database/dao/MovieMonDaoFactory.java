@@ -20,7 +20,10 @@ public class MovieMonDaoFactory {
 			return new MovieDAOImplForUserSpecificFeatures();
 		} else if(args[0].equals(MovieDaoImplSelector.WATCHLIST)) {
 			return new MovieDAOImplForWatchList();
+		} else if(args[0].equals(MovieDaoImplSelector.USERAUTH)) {
+			return new MovieDAOImplAuth();
 		}
+		
 		
 		else {
 			return (new MovieDAOImpl());
