@@ -3,24 +3,28 @@ package Tmdb;
 import org.apache.log4j.*;
 
 
-public class testTmdb {
+public class MovieDetailsTmdb {
 
-	final static Logger log = Logger.getLogger(testTmdb.class);
-	private static final String api_key = "e1bcddb06091e41faf2e411806012291";
-
-	public static void main(String[] args) {
-
-		System.out.println("testing.. : " + getIMDBid(api_key,"The Next Three Days MAXSPEED www 3xforum ro"));
-		
+	final static Logger log = Logger.getLogger(MovieDetailsTmdb.class);
+	
+	private TmdbConnector tmdbConn = new TmdbConnector();
+	
+	private String apiKey;
+	
+	public MovieDetailsTmdb(String apiKey) {
+		setApiKey(apiKey);
 	}
 
-	public static String getIMDBid(String apiKey, String movieName) {
+	private MovieDetailsTmdb() {
+	}
+
+	public String getIMDBid(String movieName) {
 
 		if (apiKey == null || apiKey.isEmpty()) {
 			return null;
 		}
 
-		String title = getTitleFromTmdb(apiKey, movieName);
+		String title = getTitleFromTmdb(movieName);
 
 		if (title != null) {
 			log.info("Title is .. " + title);
@@ -31,7 +35,7 @@ public class testTmdb {
 
 	}
 
-	public static String getTitleFromTmdb(String apiKey, String movieName) {
+	public String getTitleFromTmdb(String movieName) {
 
 		log.info(" Querying tmdb for movie : " + movieName);
 
@@ -39,9 +43,10 @@ public class testTmdb {
 		
 		while (!mName.isEmpty()) {
 			
-			SearchResponse response = TmdbConnector.SearchMovie(apiKey, mName);
+			SearchResponse response = tmdbConn.SearchMovie(getApiKey(), mName);
 			
 			if(response == null ) {
+				log.error("Response null from tmdb for movie : " + mName);
 				return null;
 			}
 			if (response.getTotal_results() == 0) {
@@ -65,7 +70,7 @@ public class testTmdb {
 		return null;
 	}
 
-	private static String findBestMatchTitle(SearchResponse response, String movieName) {
+	private String findBestMatchTitle(SearchResponse response, String movieName) {
 
 		double match = 0.0;
 		double ldMatch;
@@ -86,7 +91,7 @@ public class testTmdb {
 					continue;
 				}
 				
-				if (ldMatch > match && rs.getPopularity() > poplr) {
+				if (ldMatch >= match && rs.getPopularity() > poplr) {
 					title = rs.getTitle();
 					match = ldMatch;
 					poplr = rs.getPopularity();
@@ -97,6 +102,14 @@ public class testTmdb {
 		log.info("LDistace==== returing .. : " + title);
 		return title;
 
+	}
+
+	public String getApiKey() {
+		return apiKey;
+	}
+
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
 	}
 	
 }

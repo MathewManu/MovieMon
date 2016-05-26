@@ -90,12 +90,9 @@ public class MovieProcessor implements Callable<Boolean> {
 
 		log.debug("searching for movie title ..: \" " + movieObj.getUpdatedfileName() + "\" Year : " + movieObj.getYear());
 
-		/*
-		 * if (movieObj.getYear() != 9999) { imdbId =
-		 * ddgSearch.findId(movieObj.getUpdatedfileName(), movieObj.getYear());
-		 * } else { imdbId = ddgSearch.findId(movieObj.getUpdatedfileName()); }
-		 */
-		String titleTmdb = testTmdb.getTitleFromTmdb(API_KEY, movieObj.getUpdatedfileName());
+		MovieDetailsTmdb tmdb = new MovieDetailsTmdb(API_KEY);
+		String titleTmdb = tmdb.getTitleFromTmdb(movieObj.getUpdatedfileName());
+		
 		if (titleTmdb != null) {
 
 			if (!titleTmdb.isEmpty()) {

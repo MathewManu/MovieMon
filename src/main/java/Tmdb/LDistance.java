@@ -2,7 +2,10 @@ package Tmdb;
 
 public class LDistance {
 
-	public static int LD(String sA, String tA) {
+	/*
+	 * Returns the Levenshtein distance b/w 2 strings
+	 */
+	private static int LD(String sA, String tA) {
 		
 		String s = sA.toLowerCase();
 		String t = tA.toLowerCase();
@@ -41,7 +44,6 @@ public class LDistance {
 
 		}
 
-		// printM(d);
 		return d[s_l][t_l];
 
 	}
